@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="css/logowanie.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <title>Przekazywanie uprawnieñ</title>
 </head>
@@ -11,7 +12,7 @@
     <h4>Aktywny u¿ytkownik: user@test.com</h4>
     <div class="main">
         <div class="left">
-            <h3>Aktualne uprawnienia</h3>
+            <h3 class="header">Aktualne uprawnienia</h3>
             <div class="checkbox">
                 <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
             </div>
@@ -29,7 +30,7 @@
             </div>
         </div>
         <div class="right">
-            <h3>Przeka¿ uprawnienia</h3>
+            <h3 class="header">Przeka¿ uprawnienia</h3>
             <div class="checkbox">
                 <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
             </div>
@@ -47,6 +48,14 @@
             </div>
             <br>
             <label class="right">U¿ytkownik</label>
+            <div class="form-group">
+                <select class="form-control list right" id="sel1">
+                    <option>user2@test.com</option>
+                    <option>user3@test.com</option>
+                    <option>user4@test.com</option>
+                    <option>user5@test.com</option>
+                </select>
+            </div>
         </div>
     </div>
 
