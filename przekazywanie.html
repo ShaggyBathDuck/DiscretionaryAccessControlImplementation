@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/logowanie.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <title>Przekazywanie uprawnień</title>
+</head>
+<body>
+<div class="container przekazywanie">
+    <h2>Moduł przekazywania uprawnień</h2>
+    <h4>Aktywny użytkownik: user@test.com</h4>
+    <h4><button type="submit" class="btn btn-sm">Wyloguj</button></h4>
+    <div class="main przekazywanie">
+        <div class="left">
+            <h3 class="header">Aktualne uprawnienia</h3>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>DELETE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>UPDATE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>SELECT</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>INSERT</label>
+            </div>
+        </div>
+        <div class="right">
+            <h3 class="header">Przekaż uprawnienia</h3>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>DELETE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>UPDATE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>SELECT</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>INSERT</label>
+            </div>
+            <br>
+            <label class="right">Użytkownik</label>
+            <div class="form-group">
+                <select class="form-control list right" id="sel1">
+                    <option>user2@test.com</option>
+                    <option>user3@test.com</option>
+                    <option>user4@test.com</option>
+                    <option>user5@test.com</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-default right">Zatwierdź</button>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

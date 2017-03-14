@@ -1,5 +1,5 @@
 /* Below line is used for online Google font */
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+@import url(http://fonts.googleapis.com/css?family=Amiko&subset=latin);
 h2{
 	text-align: center;
 	font-size: 24px;
@@ -7,11 +7,25 @@ h2{
 hr{
 	margin-bottom: 30px;
 }
-div.container{
-	width: 960px;
+div.container.dashboard {
+	width: 1000px;
 	height: 610px;
 	margin:50px auto;
-	font-family: 'Droid Serif', serif;
+	font-family: 'Amiko', sans-serif;
+	position:relative;
+}
+div.container.logowanie {
+	width: 1000px;
+	height: 610px;
+	margin:50px auto;
+	font-family: 'Amiko', sans-serif;
+	position:relative;
+}
+div.container.przekazywanie {
+	width: 1000px;
+	height: 610px;
+	margin:50px auto;
+	font-family: 'Amiko', sans-serif;
 	position:relative;
 }
 div.main{
@@ -24,6 +38,12 @@ div.main{
 	box-shadow: 0 0 1px;
 	border-radius: 2px;
 	font-size: 13px;
+}
+div.main.dashboard{
+	width: 1000px;
+}
+div.main.przekazywanie{
+	width: 800px;
 }
 input[type=text],[type=password] {
 	width: 97.7%;
@@ -55,5 +75,39 @@ label{
 	text-shadow: 0px 1px 0px #13506D;
 }
 #login:hover{
-background: linear-gradient(#36caf0 5%, #22abe9 100%);
+	background: linear-gradient(#36caf0 5%, #22abe9 100%);
+}
+h4{
+	text-align: right;
+	margin-left:auto;
+	margin-right: auto;
+	font-size: 15px;
+}
+.left {
+    float: left;
+    width: 50%;
+}
+
+.right {
+    margin-left: 30%;
+}
+h3.header{
+	font-size: 20px;
+}
+select.list{
+	width: 40%;
+}
+th{
+	background-color:darkgrey;
+}
+tr{
+	background-color: azure;
+}
+ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+.btn-space {
+	margin: 5px;
 }
