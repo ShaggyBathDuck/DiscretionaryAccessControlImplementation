@@ -15,7 +15,7 @@ div.container{
 	position:relative;
 }
 div.main{
-	width: 740px;
+	width: 320px;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 10px 55px 40px;
@@ -24,6 +24,9 @@ div.main{
 	box-shadow: 0 0 1px;
 	border-radius: 2px;
 	font-size: 13px;
+}
+div.main.privileges{
+	width: 720px;
 }
 input[type=text],[type=password] {
 	width: 97.7%;
