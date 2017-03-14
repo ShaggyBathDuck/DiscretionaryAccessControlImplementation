@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="css/logowanie.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <title>Przekazywanie uprawnieñ</title>
 </head>
 <body>
@@ -9,23 +10,46 @@
     <h2>Modu³ przekazywania uprawnieñ</h2>
     <h4>Aktywny u¿ytkownik: user@test.com</h4>
     <div class="main">
-        <h3>Aktualne uprawnienia</h3>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">ALL PRIVILEGES</label>
+        <div class="left">
+            <h3>Aktualne uprawnienia</h3>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>DELETE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>UPDATE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>SELECT</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked disabled>INSERT</label>
+            </div>
         </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">DELETE</label>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">UPDATE</label>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">SELECT</label>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox" value="">INSERT</label>
+        <div class="right">
+            <h3>Przeka¿ uprawnienia</h3>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" disabled>DELETE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>UPDATE</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>SELECT</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value="" checked>INSERT</label>
+            </div>
+            <br>
+            <label class="right">U¿ytkownik</label>
         </div>
     </div>
+
 </div>
 </body>
 </html>
