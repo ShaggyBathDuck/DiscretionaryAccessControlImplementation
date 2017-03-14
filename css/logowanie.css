@@ -7,8 +7,15 @@ h2{
 hr{
 	margin-bottom: 30px;
 }
-div.container{
-	width: 960px;
+div.container.dashboard {
+	width: 1000px;
+	height: 610px;
+	margin:50px auto;
+	font-family: 'Amiko', sans-serif;
+	position:relative;
+}
+div.container.przekazywanie {
+	width: 1000px;
 	height: 610px;
 	margin:50px auto;
 	font-family: 'Amiko', sans-serif;
@@ -25,8 +32,11 @@ div.main{
 	border-radius: 2px;
 	font-size: 13px;
 }
-div.main.privileges{
-	width: 720px;
+div.main.dashboard{
+	width: 1000px;
+}
+div.main.przekazywanie{
+	width: 800px;
 }
 input[type=text],[type=password] {
 	width: 97.7%;
@@ -63,7 +73,7 @@ label{
 h4{
 	text-align: right;
 	margin-left:auto;
-	margin-right: 12%;
+	margin-right: auto;
 	font-size: 15px;
 }
 .left {
@@ -79,4 +89,18 @@ h3.header{
 }
 select.list{
 	width: 40%;
+}
+th{
+	background-color:darkgrey;
+}
+tr{
+	background-color: azure;
+}
+ul {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+.btn-space {
+	margin: 5px;
 }
