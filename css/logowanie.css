@@ -1,5 +1,5 @@
 /* Below line is used for online Google font */
-@import url(http://fonts.googleapis.com/css?family=Droid+Serif);
+@import url(http://fonts.googleapis.com/css?family=Amiko&subset=latin);
 h2{
 	text-align: center;
 	font-size: 24px;
@@ -11,11 +11,11 @@ div.container{
 	width: 960px;
 	height: 610px;
 	margin:50px auto;
-	font-family: 'Droid Serif', serif;
+	font-family: 'Amiko', sans-serif;
 	position:relative;
 }
 div.main{
-	width: 320px;
+	width: 540px;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 10px 55px 40px;
