@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/logowanie.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+</head>
+<body>
+
+
+<div class="container dashboard">
+    <h2>Modu³ zarz¹dzania zawartoœci¹</h2>
+    <h4>Aktywny u¿ytkownik: user@test.com</h4>
+    <h4>
+        <button type="submit" class="btn btn-sm">Wyloguj</button>
+    </h4>
+    <div class="panel panel-default main dashboard">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <ul>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">dostawcy</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">zakup</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">poz_zakupu</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">opis_towaru</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">magazyn</button></li>
+                        <li><button type="button" class="btn btn-sm btn-primary btn-block btn-space">klienci</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">sprzedaz</button></li>
+                        <li><button type="button" class="btn btn-sm btn-block btn-space">lista_poz_sprzedazy</button></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <table id="example" class="table table-condensed table-bordered table-hover" cellspacing="0"
+                           width="70%">
+                        <thead>
+                        <tr>
+                            <th>nip_klienta</th>
+                            <th>nazwa</th>
+                            <th>ulica</th>
+                            <th>nr_domu</th>
+                            <th>nr_lokalu</th>
+                            <th>kod_pocztowy</th>
+                            <th>miasto</th>
+                            <th>telefon</th>
+                            <th>rabat</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>975-798-75-09</td>
+                            <td>Piotr Przyk³adowy</td>
+                            <td>Wiosenna</td>
+                            <td>3</td>
+                            <td>0</td>
+                            <td>80-524</td>
+                            <td>Gdañsk</td>
+                            <td>987785342</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>678-745-73-09</td>
+                            <td>Jakub Przyk³adowy</td>
+                            <td>Letnia</td>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>80-574</td>
+                            <td>Gdañsk</td>
+                            <td>876785342</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>425-678-12-06</td>
+                            <td>Stefan Przyk³adowy</td>
+                            <td>Jesienna</td>
+                            <td>6</td>
+                            <td>90</td>
+                            <td>80-550</td>
+                            <td>Gdañsk</td>
+                            <td>887155342</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>678-169-01-16</td>
+                            <td>Wiktor Przyk³adowy</td>
+                            <td>Zimowa</td>
+                            <td>76</td>
+                            <td>12</td>
+                            <td>80-560</td>
+                            <td>Gdañsk</td>
+                            <td>824501094</td>
+                            <td>0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-sm">Dodaj wiersz</button>
+                    <button type="button" class="btn btn-sm">Edytuj wiersz</button>
+                    <button type="button" class="btn btn-sm">Usuñ wiersz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /#page-content-wrapper -->
+
+</body>
+</html>
