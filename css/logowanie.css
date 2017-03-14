@@ -14,6 +14,13 @@ div.container.dashboard {
 	font-family: 'Amiko', sans-serif;
 	position:relative;
 }
+div.container.logowanie {
+	width: 1000px;
+	height: 610px;
+	margin:50px auto;
+	font-family: 'Amiko', sans-serif;
+	position:relative;
+}
 div.container.przekazywanie {
 	width: 1000px;
 	height: 610px;
