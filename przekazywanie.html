@@ -4,67 +4,97 @@
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <title>Przekazywanie uprawnie�</title>
+    <title>Przekazywanie uprawnie�</title>
 </head>
-<body>
-<div class="container przekazywanie">
+<div class="container dashboard">
     <h2>Moduł przekazywania uprawnień</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
-
     <h4>
         <button type="submit" class="btn btn-sm">Zarządzaj danymi</button>
         <button type="submit" class="btn btn-sm">Wyloguj</button>
     </h4>
-    <div class="main przekazywanie">
-        <div class="left">
-            <h3 class="header">Aktualne uprawnienia</h3>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" disabled>DELETE</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked disabled>UPDATE</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked disabled>SELECT</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked disabled>INSERT</label>
-            </div>
-        </div>
-        <div class="right">
-            <h3 class="header">Przekaż uprawnienia</h3>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" disabled>DELETE</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked>UPDATE</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked>SELECT</label>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="" checked>INSERT</label>
-            </div>
-            <br>
-            <label class="right">Użytkownik</label>
-            <div class="form-group">
-                <select class="form-control list right" id="sel1">
-                    <option>user2@test.com</option>
-                    <option>user3@test.com</option>
-                    <option>user4@test.com</option>
-                    <option>user5@test.com</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-default right">Zatwierdź</button>
-        </div>
-    </div>
+    <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px" >
+        <div class="row">
+            <div class="col-md-2 " style="height: 570px; background-color:rgba(34,171,233,0.2); padding-top: 10px" >
 
+                <H4 style="text-align: center">Hurtownia</H4>
+                <hr>
+                <ul>
+                    <li><button type="button" class="btn btn-sq btn-block btn-space">Dostawcy</button></li>
+                    <li><button type="button" class="btn btn-sq btn-block btn-space">Zakupy</button></li>
+                    <li><button type="button" class="btn btn-sq btn-block disabled btn-space">Towary</button></li>
+                    <li><button type="button" class="btn btn-sq btn-block disabled btn-space">Stan magazynu</button></li>
+                    <li><button type="button" class="btn btn-sq btn-primary btn-block btn-space">Klienci</button></li>
+                    <li><button type="button" class="btn btn-sq btn-block  btn-space">Sprzedaże</button></li>
+                </ul>
+            </div>
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-8">
+                <div class="left">
+                    <h3 class="header">Aktualne uprawnienia</h3>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" disabled>DELETE</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked disabled>UPDATE</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked disabled>SELECT</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked disabled>INSERT</label>
+                    </div>
+                </div>
+                <div class="right">
+                    <h3 class="header">Przekaż uprawnienia</h3>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" disabled>DELETE</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked>UPDATE</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked>SELECT</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="" checked>INSERT</label>
+                    </div>
+                    <br>
+                    <label class="right">Tryb przekazywania</label>
+                    <div class="form-group">
+                        <select class="form-control list right" id="zDelegacja">
+                            <option>Z delegacją</option>
+                            <option>Bez delegacji</option>
+                        </select>
+                    </div>
+                    <br>
+
+                    <label class="right">Użytkownik</label>
+                    <div class="form-group">
+                        <select class="form-control list right" id="sel1">
+                            <option>user2@test.com</option>
+                            <option>user3@test.com</option>
+                            <option>user4@test.com</option>
+                            <option>user5@test.com</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-default right">Zatwierdź</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<!-- /#page-content-wrapper -->
+
 </body>
 </html>
