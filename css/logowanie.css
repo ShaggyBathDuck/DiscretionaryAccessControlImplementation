@@ -8,8 +8,8 @@ hr{
 	margin-bottom: 30px;
 }
 div.container.dashboard {
-	width: 1000px;
-	height: 610px;
+	width: 1200px;
+	height: 800px;
 	margin:50px auto;
 	font-family: 'Amiko', sans-serif;
 	position:relative;
@@ -22,7 +22,7 @@ div.container.logowanie {
 	position:relative;
 }
 div.container.przekazywanie {
-	width: 1000px;
+	width: 830px;
 	height: 610px;
 	margin:50px auto;
 	font-family: 'Amiko', sans-serif;
@@ -35,12 +35,17 @@ div.main{
 	padding: 10px 55px 40px;
 	background-color: rgba(187, 255, 184, 0.65);
 	border: 15px solid white;
-	box-shadow: 0 0 1px;
+	box-shadow: 0 0 10px;
 	border-radius: 2px;
 	font-size: 13px;
 }
 div.main.dashboard{
-	width: 1000px;
+	width: 1200px;
+	height: 600px;
+	padding: 5px;
+}
+div.main.dashboard.container{
+	height: 600px;
 }
 div.main.przekazywanie{
 	width: 800px;
@@ -110,4 +115,31 @@ ul {
 }
 .btn-space {
 	margin: 5px;
+}
+.gradient{
+	background-color: rgba(34, 171, 233, 0.65);
+
+
+}
+
+.btn-sq {
+	width: 150px !important;
+	height: 50px !important;
+	font-size: 13px;
+}
+
+.table-fixed thead {
+	width: 97%;
+}
+.table-fixed tbody {
+	height: 230px;
+	overflow-y: auto;
+	width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+	display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+	float: left;
+	border-bottom-width: 0;
 }
