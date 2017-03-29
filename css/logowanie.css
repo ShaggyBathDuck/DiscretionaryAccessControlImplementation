@@ -64,7 +64,7 @@ input[type=text],[type=password] {
 label{
 	color: #464646;
 	text-shadow: 0 1px 0 #fff;
-	font-size: 14px;
+	font-size: 18px;
 	font-weight: bold;
 }
 #login {
@@ -113,6 +113,14 @@ ul {
 	margin: 0;
 	list-style-type: none;
 }
+
+ul.list-group{
+    font-size: 16px;
+    font-style: oblique;
+    text-align: center;
+}
+
+
 .btn-space {
 	margin: 5px;
 }

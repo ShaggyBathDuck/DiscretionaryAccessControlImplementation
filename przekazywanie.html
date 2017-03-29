@@ -4,13 +4,14 @@
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <title>Przekazywanie uprawnie�</title>
+    <title>Przekazywanie uprawnień</title>
 </head>
 <div class="container dashboard">
     <h2>Moduł przekazywania uprawnień</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
     <h4>
-        <button type="submit" class="btn btn-sm">Zarządzaj danymi</button>
+        <button type="submit" class="btn btn-sm">
+            <a href="dashboard.html">Zarządzaj danymi</a></button>
         <button type="submit" class="btn btn-sm">Wyloguj</button>
     </h4>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px" >
@@ -35,22 +36,13 @@
             </div>
             <div class="col-md-8">
                 <div class="left">
-                    <h3 class="header">Aktualne uprawnienia</h3>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" disabled>ALL PRIVILEGES</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" disabled>DELETE</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" checked disabled>UPDATE</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" checked disabled>SELECT</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="" checked disabled>INSERT</label>
-                    </div>
+                    <h3 class="header">Aktualne uprawnienia:</h3>
+                    <ul class="list-group col-md-7">
+                        <li class="list-group-item">DELETE</li>
+                        <li class="list-group-item active ">UPDATE</li>
+                        <li class="list-group-item active">SELECT</li>
+                        <li class="list-group-item active">INSERT</li>
+                    </ul>
                 </div>
                 <div class="right">
                     <h3 class="header">Przekaż uprawnienia</h3>
@@ -70,14 +62,13 @@
                         <label><input type="checkbox" value="" checked>INSERT</label>
                     </div>
                     <br>
-                    <label class="right">Tryb przekazywania</label>
+                    <label>Tryb przekazywania</label>
                     <div class="form-group">
                         <select class="form-control list right" id="zDelegacja">
                             <option>Z delegacją</option>
                             <option>Bez delegacji</option>
                         </select>
                     </div>
-                    <br>
 
                     <label class="right">Użytkownik</label>
                     <div class="form-group">
