@@ -52,7 +52,7 @@ CREATE TABLE TowaryMagazyn (
 	cenaSprzedazy DECIMAL NOT NULL,
 	lokalizacja VARCHAR(50) NOT NULL,
 	IDZakupu INT NOT NULL,
-	ilosæ INTEGER NULL,
+	ilosï¿½ INTEGER NULL,
 	PRIMARY KEY(ID),
 	foreign key (IDTowaru) references Towary(ID),
 	foreign key (IDZakupu) references Zakupy(ID)
@@ -101,7 +101,7 @@ CREATE TABLE Uzytkownicy(
 
 create table PrzekazywanieUprawnien(
 	dawca int NOT NULL,
-	biorca int not null,
+	przejmujacy int not null,
 	klienci int not null,
 	zakupy int not null,
 	pozycjeZakupow int not null,
