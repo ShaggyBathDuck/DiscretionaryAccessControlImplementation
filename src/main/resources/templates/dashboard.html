@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/logowanie.css"/>
@@ -40,65 +40,33 @@
             <div class="col-md-8">
                 <h4 style="text-align: left">Dane klientów</h4>
                 <div>
+                    <!--/*--><!--@thymesVar id="allCustomers" type="List<com.bsk.domain.Customer>"--><!--*/-->
                     <table id="example" class="table table-condensed table-bordered table-hover content-editable" cellspacing="10"
                            width="70%">
                         <thead>
                             <tr>
                                 <th>nip_klienta</th>
                                 <th>nazwa</th>
+                                <th>telefon</th>
                                 <th>ulica</th>
                                 <th>nr_domu</th>
                                 <th>nr_lokalu</th>
-                                <th>miasto</th>
-                                <th>telefon</th>
-                                <th>rabat</th>
                                 <th>kod_pocztowy</th>
+                                <th>miasto</th>
+                                <th>rabat</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>975-798-75-09</td>
-                            <td>Piotr Przykładowy</td>
-                            <td>Wiosenna</td>
-                            <td>3</td>
-                            <td>0</td>
-                            <td>80-524</td>
-                            <td>Gdańsk</td>
-                            <td>987785342</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>678-745-73-09</td>
-                            <td>Jakub Przykładowy</td>
-                            <td>Letnia</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>80-574</td>
-                            <td>Gdańsk</td>
-                            <td>876785342</td>
-                            <td>0</td>
-                        </tr>
-                        <tr class="active">
-                            <td>425-678-12-06</td>
-                            <td>Stefan Przykładowy</td>
-                            <td>Jesienna</td>
-                            <td>6</td>
-                            <td>90</td>
-                            <td>80-550</td>
-                            <td>Gdańsk</td>
-                            <td>887155342</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>678-169-01-16</td>
-                            <td>Wiktor Przykładowy</td>
-                            <td>Zimowa</td>
-                            <td>76</td>
-                            <td>12</td>
-                            <td>80-560</td>
-                            <td>Gdańsk</td>
-                            <td>824501094</td>
-                            <td>0</td>
+                        <tr th:each="customer : ${allCustomers}">
+                            <td th:text="${customer.getNip()}"></td>
+                            <td th:text="${customer.getName()}"></td>
+                            <td th:text="${customer.getPhoneNumber()}"></td>
+                            <td th:text="${customer.getStreet()}"></td>
+                            <td th:text="${customer.getHouseNumber()}"></td>
+                            <td th:text="${customer.getFlatNumber()}"></td>
+                            <td th:text="${customer.getPostalCode()}"></td>
+                            <td th:text="${customer.getCity()}"></td>
+                            <td th:text="${customer.getDiscount()}"></td>
                         </tr>
                         </tbody>
                     </table>
