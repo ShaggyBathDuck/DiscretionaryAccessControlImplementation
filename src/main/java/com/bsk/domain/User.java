@@ -1,8 +1,6 @@
 package com.bsk.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,11 +11,11 @@ import javax.persistence.*;
 public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
-    Integer id;
+    private Integer id;
     @Column(name = "login")
-    String login;
+    private String login;
     @Column(name = "haslo")
-    String password;
+    private String password;
     @Column(name="email")
-    String email;
+    private String email;
 }

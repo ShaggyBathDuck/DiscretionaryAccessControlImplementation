@@ -1,33 +1,24 @@
 package com.bsk.controllers;
 
 
+import com.bsk.services.UserService;
 import com.bsk.domain.User;
-import com.bsk.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping(value = "/users")
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping("/user/create")
+    @PostMapping("/create")
     public String createUser(@RequestBody User user){
-        userRepository.save(user);
+        userService.createUser(user);
         return "redirect:/users";
-    }
-
-    @GetMapping("/users")
-    public @ResponseBody List<User> getUsers(){
-        return userRepository.findAll();
     }
 }
