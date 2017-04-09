@@ -18,4 +18,12 @@ public class CustomerService {
     public List<Customer> getCustomers(){
         return customerRepository.findAll();
     }
+
+    public void add(Customer customer){
+        customerRepository.save(customer);
+    }
+
+    public void remove(String nip){
+        customerRepository.delete(nip);
+    }
 }
