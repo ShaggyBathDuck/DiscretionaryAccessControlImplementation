@@ -41,7 +41,7 @@
                 <h4 style="text-align: left">Dane klientów</h4>
                 <div>
                     <!--/*--><!--@thymesVar id="allCustomers" type="List<com.bsk.domain.Customer>"--><!--*/-->
-                    <table id="example" class="table table-condensed table-bordered table-hover content-editable" cellspacing="10"
+                    <table id="example" class="table table-condensed table-bordered table-hover" cellspacing="10"
                            width="70%">
                         <thead>
                             <tr>
@@ -67,13 +67,30 @@
                             <td th:text="${customer.getPostalCode()}"></td>
                             <td th:text="${customer.getCity()}"></td>
                             <td th:text="${customer.getDiscount()}"></td>
+                            <td><form action="#" th:action="@{'/dashboard/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
+                                <input type="hidden" name="_method" value="delete" />
+                                <button type="submit" id="submitButton" class="btn btn-sm">Usuń wiersz</button>
+                            </form></td>
                         </tr>
+                        <form action="#" th:action="@{/dashboard/add}" method="post">
+                            <tr>
+                                <td><input class="tdinput" type="text" th:name="nip"/></td>
+                                <td><input class="tdinput" type="text" th:name="name"/></td>
+                                <td><input class="tdinput" type="text" th:name="phoneNumber"/></td>
+                                <td><input class="tdinput" type="text" th:name="street"/></td>
+                                <td><input class="tdinput" type="text" th:name="houseNumber"/></td>
+                                <td><input class="tdinput" type="text" th:name="flatNumber"/></td>
+                                <td><input class="tdinput" type="text" th:name="postalCode"/></td>
+                                <td><input class="tdinput" type="text" th:name="city"/></td>
+                                <td><input class="tdinput" type="text" th:name="discount"/></td>
+                            </tr>
+                            <tr>
+                                <td><button type="submit" name="addRow" class="btn btn-sm">Dodaj wiersz</button></td>
+                            </tr>
+                        </form>
                         </tbody>
                     </table>
                 </div>
-                <button type="button" class="btn btn-sm ">Dodaj wiersz</button>
-                <button type="button" class="btn btn-sm">Edytuj wiersz</button>
-                <button type="button" class="btn btn-sm disabled">Usuń wiersz</button>
             </div>
         </div>
 
