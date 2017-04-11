@@ -1,0 +1,36 @@
+<table xmlns:th="http://www.thymeleaf.org" id="example" class="table table-condensed table-bordered table-hover"
+       cellspacing="10" width="70%" th:fragment="dataTable(entitiesInfo, activeTabName)">
+    <thead>
+    <tr>
+        <th th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInDb()}"
+            th:text="${columnName}"></th>
+    </tr>
+    </thead>
+    <tbody th:with="columnNamesHb=${T(com.bsk.domain.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
+                               listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'}">
+    <tr th:each=" element: ${__${listName}__}">
+        <td th:each="columnName: ${columnNamesHb}"
+            th:with="getterName=${'element.get'+columnName+'()'}"
+            th:text="${__${getterName}__}" contenteditable="true"></td>
+        <td>
+            <form action="#" th:with="primaryKeyGetter=${'element.get'+columnNamesHb[0]+'()'}"
+                  th:action="@{'/__${listName}__/delete/{id}'(id=${__${primaryKeyGetter}__})}"
+                  th:method="delete">
+                <button type="submit" id="submitButton" class="btn btn-sm">Usuń</button>
+            </form>
+        </td>
+    </tr>
+    <form action="#" th:action="@{'/__${listName}__/create'}" method="post">
+        <tr>
+            <td th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb()}">
+                <input type="text" th:name="${columnName}"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" name="createRow" class="btn btn-sm">Dodaj wiersz</button>
+            </td>
+        </tr>
+    </form>
+    </tbody>
+</table>

@@ -4,16 +4,22 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function changeTable() {
+            $.ajax({})
+        }
+    </script>
 </head>
 <body>
 
 <!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
-<div class="container dashboard" th:with="activeTabName=${entitiesInfo.firstEntry().getKey()}">
+<div class="container dashboard" th:with="activeTabName=${entitiesInfo.lastEntry().getKey()}">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
     <h4>
         <button type="submit" class="btn btn-sm">
-            <a href="offering.html">Przekaż uprawnienia</a>
+            <a th:href="@{/offering}">Przekaż uprawnienia</a>
         </button>
         <button type="submit" class="btn btn-sm">Wyloguj</button>
     </h4>
@@ -25,7 +31,10 @@
                 <hr/>
                 <ul th:each="entry : ${entitiesInfo}">
                     <li>
-                        <button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"></button>
+                        <button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"
+                                th:classappend="${activeTabName == entry.key}?'btn-primary'" onclick="changeTable()">
+
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -33,44 +42,12 @@
 
             </div>
             <div class="col-md-8">
-                <h4 style="text-align: left">Dane klientów</h4>
+                <h4 style="text-align: left">Dane w tabeli</h4>
                 <div>
                     <!--/*--><!--@thymesVar id="customers" type="List<com.bsk.domain.Customer>"--><!--*/-->
-                    <table id="example" class="table table-condensed table-bordered table-hover" cellspacing="10"
-                           width="70%">
-                        <thead>
-                        <tr>
-                            <th th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInDb()}"
-                                th:text="${columnName}"></th>
-                        </tr>
-                        </thead>
-                        <tbody th:with="columnNamesHb=${T(com.bsk.domain.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
-                               listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'}">
-                        <tr th:each=" element: ${__${listName}__}">
-                            <td th:each="columnName: ${columnNamesHb}"
-                                th:with="getterName=${'element.get'+columnName+'()'}"
-                                th:text="${__${getterName}__}" contenteditable="true"></td>
-                            <td>
-                                <form action="#" th:with="primaryKeyGetter=${'element.get'+columnNamesHb[0]+'()'}"
-                                      th:action="@{'/__${listName}__/delete/{id}'(id=${__${primaryKeyGetter}__})}"
-                                      th:method="delete">
-                                    <button type="submit" id="submitButton" class="btn btn-sm">Usuń</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <form action="#" th:action="@{'/__${listName}__/create'}" method="post">
-                            <tr>
-                                <td th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb()}">
-                                    <input type="text" th:name="${columnName}"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button type="submit" name="createRow" class="btn btn-sm">Dodaj wiersz</button>
-                                </td>
-                            </tr>
-                        </form>
-                        </tbody>
+                    <table id="toReplace" th:replace="fragments/table::dataTable(entitiesInfo=${entitiesInfo},
+                            activeTabName=${activeTabName})">
+
                     </table>
                 </div>
             </div>
