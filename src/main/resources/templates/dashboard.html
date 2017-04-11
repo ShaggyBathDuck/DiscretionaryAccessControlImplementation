@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
-<body>
+<body >
 
-
-<div class="container dashboard">
+<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
+<div class="container dashboard" th:with="activeTab=${entitiesInfo.firstEntry().getKey()}">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
     <h4>
@@ -23,9 +23,8 @@
 
                 <H4 style="text-align: center">Hurtownia</H4>
                 <hr/>
-                <!--/*--><!--@thymesVar id="tables" type="Map<String, List<String>>"--><!--*/-->
-                <ul th:each="table : ${tables}">
-                    <li><button type="button" class="btn btn-sq btn-block btn-space" th:text="${table.key}"></button></li>
+                <ul th:each="entry : ${entitiesInfo}">
+                    <li><button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"></button></li>
                 </ul>
             </div>
             <div class="col-md-1">
@@ -39,15 +38,7 @@
                            width="70%">
                         <thead>
                             <tr>
-                                <th>nip_klienta</th>
-                                <th>nazwa</th>
-                                <th>telefon</th>
-                                <th>ulica</th>
-                                <th>nr_domu</th>
-                                <th>nr_lokalu</th>
-                                <th>kod_pocztowy</th>
-                                <th>miasto</th>
-                                <th>rabat</th>
+                                <th th:each="columnName : ${entitiesInfo.get('__${activeTab}__').getColumnNamesInDb()}" th:text="${columnName}">nip_klienta</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,7 +55,6 @@
                             <td><form action="#" th:action="@{'/customers/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
                                 <button type="submit" id="submitButton" class="btn btn-sm">Usuń</button>
                             </form></td>
-
                         </tr>
                         <form action="#" th:action="@{/customers/ad}" method="post">
                             <tr>

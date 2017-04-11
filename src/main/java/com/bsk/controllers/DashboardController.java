@@ -2,6 +2,7 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.Customer;
+import com.bsk.domain.EntityInfo;
 import com.bsk.services.CustomerService;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
@@ -12,10 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class DashboardController {
@@ -40,21 +38,32 @@ public class DashboardController {
         return customerService.getCustomers();
     }
 
-    @ModelAttribute("tables")
+    @ModelAttribute("entitiesInfo")
     @ResponseBody
-    public Map<String, List<String>> getTables() {
+    public TreeMap<String, EntityInfo> getTables() {
+        TreeMap<String, EntityInfo> entitiesInfo = new TreeMap<>();
         Session session = entityManager.unwrap(Session.class);
         Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
-        Map<String, List<String>> tableNames = new HashMap<>();
         for (ClassMetadata classMetadata : hibernateMetadata.values()) {
             AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            int propertiesCounter = ((AbstractEntityPersister) classMetadata).getPropertyNames().length;
-            List<String> columnNames = new ArrayList<>();
-            for (int i=0; i<propertiesCounter; i++){
-                columnNames.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+            int propertiesCounter = classMetadata.getPropertyNames().length;
+            ArrayList<String> columnNamesInDb = new ArrayList<>();
+            columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
+            for (int i = 0; i < propertiesCounter; i++) {
+                columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
             }
-            tableNames.put(aep.getTableName(), columnNames);
+            EntityInfo entityInfo = new EntityInfo();
+            entityInfo.setTableNameInDb(aep.getTableName());
+            entityInfo.setColumnNamesInDb(columnNamesInDb);
+            ArrayList<String> columnNamesInHb = new ArrayList<>();
+            columnNamesInHb.add(classMetadata.getIdentifierPropertyName());
+            columnNamesInHb.addAll(Arrays.asList(classMetadata.getPropertyNames()));
+            String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.')+1);
+            entityInfo.setTableNameInHb(entityName);
+            entityInfo.setColumnNamesInHb(columnNamesInHb);
+            entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
         }
-        return tableNames;
+        return entitiesInfo;
     }
+
 }
