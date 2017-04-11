@@ -23,8 +23,9 @@
 
                 <H4 style="text-align: center">Hurtownia</H4>
                 <hr/>
-                <ul th:each="table :${tables}">
-                    <li><button type="button" class="btn btn-sq btn-block btn-space" th:text="${table}"></button></li>
+                <!--/*--><!--@thymesVar id="tables" type="Map<String, List<String>>"--><!--*/-->
+                <ul th:each="table : ${tables}">
+                    <li><button type="button" class="btn btn-sq btn-block btn-space" th:text="${table.key}"></button></li>
                 </ul>
             </div>
             <div class="col-md-1">
@@ -51,20 +52,21 @@
                         </thead>
                         <tbody>
                         <tr th:each="customer : ${allCustomers}">
-                            <td th:text="${customer.getNip()}"></td>
-                            <td th:text="${customer.getName()}"></td>
-                            <td th:text="${customer.getPhoneNumber()}"></td>
-                            <td th:text="${customer.getStreet()}"></td>
-                            <td th:text="${customer.getHouseNumber()}"></td>
-                            <td th:text="${customer.getFlatNumber()}"></td>
-                            <td th:text="${customer.getPostalCode()}"></td>
-                            <td th:text="${customer.getCity()}"></td>
-                            <td th:text="${customer.getDiscount()}"></td>
+                            <td th:text="${customer.getNip()}" contenteditable="true"></td>
+                            <td th:text="${customer.getName()}" contenteditable="true"></td>
+                            <td th:text="${customer.getPhoneNumber()}" contenteditable="true"></td>
+                            <td th:text="${customer.getStreet()}" contenteditable="true"></td>
+                            <td th:text="${customer.getHouseNumber()}" contenteditable="true"></td>
+                            <td th:text="${customer.getFlatNumber()}" contenteditable="true"></td>
+                            <td th:text="${customer.getPostalCode()}" contenteditable="true"></td>
+                            <td th:text="${customer.getCity()}" contenteditable="true"></td>
+                            <td th:text="${customer.getDiscount()}" contenteditable="true"></td>
                             <td><form action="#" th:action="@{'/customers/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
-                                <button type="submit" id="submitButton" class="btn btn-sm">Usuń wiersz</button>
+                                <button type="submit" id="submitButton" class="btn btn-sm">Usuń</button>
                             </form></td>
+
                         </tr>
-                        <form action="#" th:action="@{/customers/add}" method="post">
+                        <form action="#" th:action="@{/customers/ad}" method="post">
                             <tr>
                                 <td><input class="tdinput" type="text" th:name="nip"/></td>
                                 <td><input class="tdinput" type="text" th:name="name"/></td>
@@ -77,7 +79,7 @@
                                 <td><input class="tdinput" type="text" th:name="discount"/></td>
                             </tr>
                             <tr>
-                                <td><button type="submit" name="addRow" class="btn btn-sm">Dodaj wiersz</button></td>
+                                <td><button type="button" name="addRow" class="btn btn-sm">Dodaj wiersz</button></td>
                             </tr>
                         </form>
                         </tbody>

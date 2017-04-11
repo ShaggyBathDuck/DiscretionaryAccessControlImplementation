@@ -26,4 +26,7 @@ public class CustomerService {
     public void remove(String nip){
         customerRepository.delete(nip);
     }
+
+    public void update(String nip, Customer customer) {
+    }
 }
