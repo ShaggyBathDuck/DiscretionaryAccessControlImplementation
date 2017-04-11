@@ -5,16 +5,11 @@
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        function changeTable() {
-            $.ajax({})
-        }
-    </script>
 </head>
-<body>
+<body th:with="activeTabName=${entitiesInfo.lastEntry().getKey()}">
 
 <!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
-<div class="container dashboard" th:with="activeTabName=${entitiesInfo.lastEntry().getKey()}">
+<div class="container dashboard">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
     <h4>
@@ -32,7 +27,8 @@
                 <ul th:each="entry : ${entitiesInfo}">
                     <li>
                         <button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"
-                                th:classappend="${activeTabName == entry.key}?'btn-primary'" onclick="changeTable()">
+                                th:classappend="${activeTabName == entry.key}?'btn-primary'"
+                                th:onclick="|changeTable('${entry.key}')|">
 
                         </button>
                     </li>
@@ -43,20 +39,21 @@
             </div>
             <div class="col-md-8">
                 <h4 style="text-align: left">Dane w tabeli</h4>
-                <div>
-                    <!--/*--><!--@thymesVar id="customers" type="List<com.bsk.domain.Customer>"--><!--*/-->
-                    <table id="toReplace" th:replace="fragments/table::dataTable(entitiesInfo=${entitiesInfo},
-                            activeTabName=${activeTabName})">
+                <div th:id="tableDiv" id="tableDiv">
 
-                    </table>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
 <!-- /#page-content-wrapper -->
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function changeTable(tableName) {
+        $('#tableDiv').load("/table", {"activeTabName": tableName});
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

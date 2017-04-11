@@ -6,12 +6,15 @@ import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
 import com.bsk.services.CustomerService;
 import com.bsk.services.UserService;
+import javafx.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityManager;
@@ -48,6 +51,20 @@ public class DashboardController {
     @ResponseBody
     public List<User> getUsers() {
         return userService.read();
+    }
+
+    @PostMapping("/table")
+    public String table(Model model, String activeTabName) {
+        TreeMap<String, EntityInfo> entitiesInfo = getTables();
+        Pair<String, TreeMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
+        model.addAttribute("data", data);
+        return "fragments/table :: tableDiv";
+    }
+
+    @PostMapping("/frag1")
+    public String frag1(Model model) {
+        model.addAttribute("add", "hello");
+        return "fragments/frag1 :: common";
     }
 
     @ModelAttribute("entitiesInfo")
