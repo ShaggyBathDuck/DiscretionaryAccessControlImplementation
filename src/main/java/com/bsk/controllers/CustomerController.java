@@ -4,10 +4,7 @@ import com.bsk.domain.Customer;
 import com.bsk.services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller("/customers")
 public class CustomerController {
@@ -32,5 +29,10 @@ public class CustomerController {
         return "redirect:/dashboard";
     }
 
-    //@PutMapping(value = "/")
+    @PutMapping(value = "/customers/update/{nip}")
+    public String update(@PathVariable String nip, @RequestBody Customer customer, Model model){
+        customerService.update(nip, customer);
+        model.addAttribute("allCustomers", customerService.getCustomers());
+        return "redirect:/dashboard";
+    }
 }

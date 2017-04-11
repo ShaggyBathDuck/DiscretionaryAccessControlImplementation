@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +42,18 @@ public class DashboardController {
 
     @ModelAttribute("tables")
     @ResponseBody
-    public List<String> getTables() {
+    public Map<String, List<String>> getTables() {
         Session session = entityManager.unwrap(Session.class);
         Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
-        List<String> tableNames = new ArrayList<>();
+        Map<String, List<String>> tableNames = new HashMap<>();
         for (ClassMetadata classMetadata : hibernateMetadata.values()) {
             AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            tableNames.add(aep.getTableName());
+            int propertiesCounter = ((AbstractEntityPersister) classMetadata).getPropertyNames().length;
+            List<String> columnNames = new ArrayList<>();
+            for (int i=0; i<propertiesCounter; i++){
+                columnNames.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+            }
+            tableNames.put(aep.getTableName(), columnNames);
         }
         return tableNames;
     }
