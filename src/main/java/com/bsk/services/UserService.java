@@ -4,7 +4,6 @@ import com.bsk.domain.User;
 import com.bsk.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
 
@@ -18,11 +17,15 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void createUser(User user) {
+    public void create(User user) {
         userRepository.save(user);
     }
 
-    public List<User> getUsers() {
+    public List<User> read() {
         return userRepository.findAll();
+    }
+
+    public void delete(Integer id) {
+        userRepository.delete(id);
     }
 }

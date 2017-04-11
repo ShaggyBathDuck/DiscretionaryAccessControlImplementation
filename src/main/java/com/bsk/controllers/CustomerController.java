@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller("/customers")
+@Controller()
+@RequestMapping("/customers")
 public class CustomerController {
 
     private CustomerService customerService;
@@ -15,24 +16,24 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping(value = "customers/add")
+    @PostMapping(value = "/create")
     public String add(Customer customer, Model model) {
-        customerService.add(customer);
-        model.addAttribute("allCustomers", customerService.getCustomers());
+        customerService.create(customer);
+        model.addAttribute("customers", customerService.read());
         return "redirect:/dashboard";
     }
 
-    @DeleteMapping(value = "customers/delete/{nip}")
+    @DeleteMapping(value = "/delete/{nip}")
     public String delete(@PathVariable String nip, Model model) {
-        customerService.remove(nip);
-        model.addAttribute("allCustomers", customerService.getCustomers());
+        customerService.delete(nip);
+        model.addAttribute("customers", customerService.read());
         return "redirect:/dashboard";
     }
 
-    @PutMapping(value = "/customers/update/{nip}")
+    @PutMapping(value = "/update/{nip}")
     public String update(@PathVariable String nip, @RequestBody Customer customer, Model model){
         customerService.update(nip, customer);
-        model.addAttribute("allCustomers", customerService.getCustomers());
+        model.addAttribute("customers", customerService.read());
         return "redirect:/dashboard";
     }
 }

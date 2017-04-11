@@ -3,7 +3,9 @@ package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
 import com.bsk.domain.EntityInfo;
+import com.bsk.domain.User;
 import com.bsk.services.CustomerService;
+import com.bsk.services.UserService;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
@@ -20,22 +22,32 @@ public class DashboardController {
 
     private CustomerService customerService;
 
+    private UserService userService;
+
     private EntityManager entityManager;
 
-    public DashboardController(CustomerService customerService, EntityManager entityManager) {
+    public DashboardController(CustomerService customerService, UserService userService, EntityManager entityManager) {
         this.customerService = customerService;
+        this.userService = userService;
         this.entityManager = entityManager;
     }
+
 
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }
 
-    @ModelAttribute("allCustomers")
+    @ModelAttribute("customers")
     @ResponseBody
     public List<Customer> getCustomers() {
-        return customerService.getCustomers();
+        return customerService.read();
+    }
+
+    @ModelAttribute("users")
+    @ResponseBody
+    public List<User> getUsers() {
+        return userService.read();
     }
 
     @ModelAttribute("entitiesInfo")
@@ -53,13 +65,13 @@ public class DashboardController {
                 columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
             }
             EntityInfo entityInfo = new EntityInfo();
-            entityInfo.setTableNameInDb(aep.getTableName());
+            entityInfo.setTableNameInDb(aep.getTableName().toLowerCase());
             entityInfo.setColumnNamesInDb(columnNamesInDb);
             ArrayList<String> columnNamesInHb = new ArrayList<>();
             columnNamesInHb.add(classMetadata.getIdentifierPropertyName());
             columnNamesInHb.addAll(Arrays.asList(classMetadata.getPropertyNames()));
             String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.')+1);
-            entityInfo.setTableNameInHb(entityName);
+            entityInfo.setTableNameInHb(entityName.toLowerCase());
             entityInfo.setColumnNamesInHb(columnNamesInHb);
             entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
         }

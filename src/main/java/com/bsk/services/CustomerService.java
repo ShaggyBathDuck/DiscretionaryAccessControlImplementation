@@ -15,15 +15,15 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getCustomers(){
+    public List<Customer> read() {
         return customerRepository.findAll();
     }
 
-    public void add(Customer customer){
+    public void create(Customer customer) {
         customerRepository.save(customer);
     }
 
-    public void remove(String nip){
+    public void delete(String nip) {
         customerRepository.delete(nip);
     }
 
