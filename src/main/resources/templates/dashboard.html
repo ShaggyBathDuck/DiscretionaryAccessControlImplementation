@@ -60,12 +60,11 @@
                             <td th:text="${customer.getPostalCode()}"></td>
                             <td th:text="${customer.getCity()}"></td>
                             <td th:text="${customer.getDiscount()}"></td>
-                            <td><form action="#" th:action="@{'/dashboard/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
-                                <input type="hidden" name="_method" value="delete" />
+                            <td><form action="#" th:action="@{'/customers/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
                                 <button type="submit" id="submitButton" class="btn btn-sm">Usuń wiersz</button>
                             </form></td>
                         </tr>
-                        <form action="#" th:action="@{/dashboard/add}" method="post">
+                        <form action="#" th:action="@{/customers/add}" method="post">
                             <tr>
                                 <td><input class="tdinput" type="text" th:name="nip"/></td>
                                 <td><input class="tdinput" type="text" th:name="name"/></td>
