@@ -68,10 +68,14 @@ public class DashboardController {
         return "fragments/table :: tableDiv";
     }
 
-    @PostMapping("/frag1")
-    public String frag1(Model model) {
-        model.addAttribute("add", "hello");
-        return "fragments/frag1 :: common";
+    public String prepareCustomerModel(Model model) {
+        model.addAttribute("customer", new Customer());
+        return "fragments/table";
+    }
+
+    public String prepareUserModel(Model model) {
+        model.addAttribute("user", new User());
+        return "fragments/table";
     }
 
     @ModelAttribute("entitiesInfo")

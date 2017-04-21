@@ -17,7 +17,7 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create")
-    public String add(Customer customer, Model model) {
+    public String add(@RequestBody Customer customer, Model model) {
         customerService.create(customer);
         model.addAttribute("customers", customerService.read());
         return "redirect:/dashboard";
