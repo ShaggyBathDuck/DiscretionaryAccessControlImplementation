@@ -47,6 +47,13 @@ public class DashboardController {
         return customerService.read();
     }
 
+
+    @ModelAttribute("customer")
+    @ResponseBody
+    public Customer getCustomer() {
+        return new Customer();
+    }
+
     @ModelAttribute("users")
     @ResponseBody
     public List<User> getUsers() {

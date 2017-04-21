@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml" lang="en">
 
-<head>
-</head>
-<body>
 <!--/*--><!--@thymesVar id="data" type="Pair<String, TreeMap<String, com.bsk.domain.EntityInfo>> "--><!--*/-->
-<div th:fragment="tableDiv"
+<div xmlns:th="http://www.thymeleaf.org"
+     th:fragment="tableDiv"
      th:with="entitiesInfo=${data.getValue()},
             activeTabName=${data.getKey()}">
     <table id="table" class="table table-condensed table-bordered table-hover"
@@ -31,7 +26,7 @@
                 </form>
             </td>
         </tr>
-        <form action="#" th:action="@{'/__${listName}__/create'}" method="post">
+        <form action="#" th:action="@{'/__${listName}__/create'}" method="post" th:object="${customer}">
             <tr>
                 <td th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb()}">
                     <input type="text" th:name="${columnName}"/>
@@ -46,7 +41,4 @@
         </tbody>
     </table>
 </div>
-</body>
-</html>
-
 

@@ -27,7 +27,6 @@
                 <ul th:each="entry : ${entitiesInfo}">
                     <li>
                         <button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"
-                                th:classappend="${activeTabName == entry.key}?'btn-primary'"
                                 th:onclick="|changeTable('${entry.key}')|">
 
                         </button>
@@ -40,7 +39,7 @@
             <div class="col-md-8">
                 <h4 style="text-align: left">Dane w tabeli</h4>
                 <div th:id="tableDiv" id="tableDiv">
-
+                    <h3 style="text-align: center">Wybierz tabelę z menu po lewej.</h3>
                 </div>
             </div>
         </div>
