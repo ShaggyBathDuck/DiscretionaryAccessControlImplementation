@@ -1,5 +1,4 @@
-
-<!--/*--><!--@thymesVar id="data" type="Pair<String, TreeMap<String, com.bsk.domain.EntityInfo>> "--><!--*/-->
+<!--/*--><!--@thymesVar id="data" type="Pair<String, SortedMap<String, com.bsk.domain.EntityInfo>> "--><!--*/-->
 <div xmlns:th="http://www.thymeleaf.org"
      th:fragment="tableDiv"
      th:with="entitiesInfo=${data.getValue()},
@@ -64,6 +63,7 @@
             </table>
         </div>
     </div>
-
 </div>
+
+
 

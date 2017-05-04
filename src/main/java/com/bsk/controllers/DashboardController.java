@@ -1,6 +1,5 @@
 package com.bsk.controllers;
 
-
 import com.bsk.domain.Customer;
 import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
@@ -12,10 +11,7 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import java.util.*;
@@ -37,8 +33,14 @@ public class DashboardController {
 
 
     @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
+    public String dashboard(Model model,
+                            @RequestParam(required = false) String tabName) {
+        if (tabName == null)
+            return "dashboard";
+        else {
+            model.addAttribute("tabName", tabName);
+            return "dashboard";
+        }
     }
 
     @ModelAttribute("customers")
@@ -46,7 +48,6 @@ public class DashboardController {
     public List<Customer> getCustomers() {
         return customerService.read();
     }
-
 
     @ModelAttribute("customer")
     @ResponseBody
@@ -62,8 +63,8 @@ public class DashboardController {
 
     @PostMapping("/table")
     public String table(Model model, String activeTabName) {
-        TreeMap<String, EntityInfo> entitiesInfo = getTables();
-        Pair<String, TreeMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
+        SortedMap<String, EntityInfo> entitiesInfo = getTables();
+        Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
         model.addAttribute("data", data);
         return "fragments/table :: tableDiv";
     }
@@ -80,8 +81,8 @@ public class DashboardController {
 
     @ModelAttribute("entitiesInfo")
     @ResponseBody
-    public TreeMap<String, EntityInfo> getTables() {
-        TreeMap<String, EntityInfo> entitiesInfo = new TreeMap<>();
+    public SortedMap<String, EntityInfo> getTables() {
+        SortedMap<String, EntityInfo> entitiesInfo = new TreeMap<>();
         Session session = entityManager.unwrap(Session.class);
         Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
         for (ClassMetadata classMetadata : hibernateMetadata.values()) {

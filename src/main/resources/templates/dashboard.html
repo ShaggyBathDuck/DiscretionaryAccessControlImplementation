@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
-<body th:with="activeTabName=${entitiesInfo.firstEntry().getKey()}" th:onload="|changeTable('${activeTabName}')|">
+<!--/*--><!--@thymesVar id="tabName" type="String"--><!--*/-->
+<body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
+      th:onload="|changeTable('${activeTabName}')|">
 
 <!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
 <div class="container dashboard">

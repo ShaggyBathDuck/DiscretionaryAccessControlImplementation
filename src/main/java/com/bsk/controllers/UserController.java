@@ -13,19 +13,24 @@ public class UserController {
 
     private UserService userService;
 
-    public UserController(UserService userService, DashboardController dashboardController) {
+    public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    public String showHome(Model model) {
+        model.addAttribute("users", userService.read());
+        return "redirect:/dashboard?tabName=uzytkownicy";
     }
 
     @PostMapping("/create")
     public String createUser(@RequestBody User user, Model model) {
         userService.create(user);
-        model.addAttribute("users", userService.read());
-        return "redirect:/dashboard";
+        return showHome(model);
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void delete(@PathVariable Integer id, Model model) {
+    public String delete(@PathVariable Integer id, Model model) {
         userService.delete(id);
+        return showHome(model);
     }
 }
