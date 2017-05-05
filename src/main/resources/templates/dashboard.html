@@ -4,94 +4,37 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
-<body>
+<!--/*--><!--@thymesVar id="tabName" type="String"--><!--*/-->
+<body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
+      th:onload="|changeTable('${activeTabName}')|">
 
-
+<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
 <div class="container dashboard">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>
     <h4>
         <button type="submit" class="btn btn-sm">
-            <a href="offering.html">Przekaż uprawnienia</a>
+            <a th:href="@{/offering}">Przekaż uprawnienia</a>
         </button>
         <button type="submit" class="btn btn-sm">Wyloguj</button>
     </h4>
-    <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px" >
-        <div class="row">
-            <div class="col-md-2 " style="height: 570px; background-color:rgba(34,171,233,0.2); padding-top: 10px" >
-
-                <H4 style="text-align: center">Hurtownia</H4>
-                <hr/>
-                <!--/*--><!--@thymesVar id="tables" type="Map<String, List<String>>"--><!--*/-->
-                <ul th:each="table : ${tables}">
-                    <li><button type="button" class="btn btn-sq btn-block btn-space" th:text="${table.key}"></button></li>
-                </ul>
-            </div>
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-8">
-                <h4 style="text-align: left">Dane klientów</h4>
-                <div>
-                    <!--/*--><!--@thymesVar id="allCustomers" type="List<com.bsk.domain.Customer>"--><!--*/-->
-                    <table id="example" class="table table-condensed table-bordered table-hover" cellspacing="10"
-                           width="70%">
-                        <thead>
-                            <tr>
-                                <th>nip_klienta</th>
-                                <th>nazwa</th>
-                                <th>telefon</th>
-                                <th>ulica</th>
-                                <th>nr_domu</th>
-                                <th>nr_lokalu</th>
-                                <th>kod_pocztowy</th>
-                                <th>miasto</th>
-                                <th>rabat</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="customer : ${allCustomers}">
-                            <td th:text="${customer.getNip()}" contenteditable="true"></td>
-                            <td th:text="${customer.getName()}" contenteditable="true"></td>
-                            <td th:text="${customer.getPhoneNumber()}" contenteditable="true"></td>
-                            <td th:text="${customer.getStreet()}" contenteditable="true"></td>
-                            <td th:text="${customer.getHouseNumber()}" contenteditable="true"></td>
-                            <td th:text="${customer.getFlatNumber()}" contenteditable="true"></td>
-                            <td th:text="${customer.getPostalCode()}" contenteditable="true"></td>
-                            <td th:text="${customer.getCity()}" contenteditable="true"></td>
-                            <td th:text="${customer.getDiscount()}" contenteditable="true"></td>
-                            <td><form action="#" th:action="@{'/customers/delete/{nip}'(nip=${customer.getNip()})}" th:method="delete" >
-                                <button type="submit" id="submitButton" class="btn btn-sm">Usuń</button>
-                            </form></td>
-
-                        </tr>
-                        <form action="#" th:action="@{/customers/ad}" method="post">
-                            <tr>
-                                <td><input class="tdinput" type="text" th:name="nip"/></td>
-                                <td><input class="tdinput" type="text" th:name="name"/></td>
-                                <td><input class="tdinput" type="text" th:name="phoneNumber"/></td>
-                                <td><input class="tdinput" type="text" th:name="street"/></td>
-                                <td><input class="tdinput" type="text" th:name="houseNumber"/></td>
-                                <td><input class="tdinput" type="text" th:name="flatNumber"/></td>
-                                <td><input class="tdinput" type="text" th:name="postalCode"/></td>
-                                <td><input class="tdinput" type="text" th:name="city"/></td>
-                                <td><input class="tdinput" type="text" th:name="discount"/></td>
-                            </tr>
-                            <tr>
-                                <td><button type="button" name="addRow" class="btn btn-sm">Dodaj wiersz</button></td>
-                            </tr>
-                        </form>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+    <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
+        <div th:id="tableDiv" class="row"></div>
     </div>
 </div>
 
 <!-- /#page-content-wrapper -->
-
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function changeTable(tableName) {
+        $('#tableDiv').load("/table", {"activeTabName": tableName});
+    }
+    function refresh(tableName) {
+        $('#buttons').load(this);
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

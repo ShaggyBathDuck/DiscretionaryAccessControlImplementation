@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller("/customers")
+@Controller()
+@RequestMapping("/customers")
 public class CustomerController {
 
     private CustomerService customerService;
@@ -15,24 +16,26 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping(value = "customers/add")
-    public String add(Customer customer, Model model) {
-        customerService.add(customer);
-        model.addAttribute("allCustomers", customerService.getCustomers());
-        return "redirect:/dashboard";
+    public String showHome(Model model) {
+        model.addAttribute("customers", customerService.read());
+        return "redirect:/dashboard?tabName=klienci";
     }
 
-    @DeleteMapping(value = "customers/delete/{nip}")
+    @PostMapping(value = "/create")
+    public String create(Customer customer, Model model) {
+        customerService.save(customer);
+        return showHome(model);
+    }
+
+    @PutMapping(value = "/update")
+    public String update(Customer customer, Model model) {
+        customerService.save(customer);
+        return showHome(model);
+    }
+
+    @DeleteMapping(value = "/delete/{nip}")
     public String delete(@PathVariable String nip, Model model) {
-        customerService.remove(nip);
-        model.addAttribute("allCustomers", customerService.getCustomers());
-        return "redirect:/dashboard";
-    }
-
-    @PutMapping(value = "/customers/update/{nip}")
-    public String update(@PathVariable String nip, @RequestBody Customer customer, Model model){
-        customerService.update(nip, customer);
-        model.addAttribute("allCustomers", customerService.getCustomers());
-        return "redirect:/dashboard";
+        customerService.delete(nip);
+        return showHome(model);
     }
 }
