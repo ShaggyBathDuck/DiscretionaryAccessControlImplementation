@@ -22,20 +22,20 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@RequestBody Customer customer, Model model) {
-        customerService.create(customer);
+    public String create(Customer customer, Model model) {
+        customerService.save(customer);
+        return showHome(model);
+    }
+
+    @PutMapping(value = "/update")
+    public String update(Customer customer, Model model) {
+        customerService.save(customer);
         return showHome(model);
     }
 
     @DeleteMapping(value = "/delete/{nip}")
     public String delete(@PathVariable String nip, Model model) {
         customerService.delete(nip);
-        return showHome(model);
-    }
-
-    @PutMapping(value = "/update/{nip}")
-    public String update(@PathVariable String nip, @RequestBody Customer customer, Model model){
-        customerService.update(nip, customer);
         return showHome(model);
     }
 }

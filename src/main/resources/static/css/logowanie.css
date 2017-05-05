@@ -4,9 +4,6 @@ h2{
 	text-align: center;
 	font-size: 24px;
 }
-hr{
-	margin-bottom: 30px;
-}
 div.container.dashboard {
 	width: 1200px;
 	height: 800px;
@@ -51,15 +48,11 @@ div.main.przekazywanie{
 	width: 800px;
 }
 input[type=text],[type=password] {
-	width: 97.7%;
-	height: 34px;
-	padding-left: 5px;
-	margin-bottom: 20px;
-	margin-top: 8px;
+	width: 100%;
 	box-shadow: 0 0 5px #00F5FF;
 	border: 2px solid #00F5FF;
 	color: #4f4f4f;
-	font-size: 16px;
+	font-size: 14px;
 }
 label{
 	color: #464646;
@@ -102,12 +95,6 @@ h3.header{
 select.list{
 	width: 40%;
 }
-th{
-	background-color:darkgrey;
-}
-tr{
-	background-color: azure;
-}
 ul {
 	padding: 0;
 	margin: 0;
@@ -120,14 +107,11 @@ ul.list-group{
     text-align: center;
 }
 
-
 .btn-space {
 	margin: 5px;
 }
 .gradient{
 	background-color: rgba(34, 171, 233, 0.65);
-
-
 }
 
 .btn-sq {
@@ -136,18 +120,42 @@ ul.list-group{
 	font-size: 13px;
 }
 
-.table-fixed thead {
-	width: 97%;
+.divTable {
+	display: table;
 }
-.table-fixed tbody {
-	height: 230px;
-	overflow-y: auto;
-	width: 100%;
+
+.divTableRow {
+	display: table-row;
+	align: center;
 }
-.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
-	display: block;
+
+.divTableHeading {
+	background-color: #EEE;
+	display: table-header-group;
 }
-.table-fixed tbody td, .table-fixed thead > tr> th {
-	float: left;
-	border-bottom-width: 0;
+
+.divTableCell, .divTableHead {
+	border: 1px solid #ffffff;
+	background-color: wheat;
+	display: table-cell;
+	padding: 3px 10px;
+}
+
+.divTableCell:hover {
+	background-color: #ffffff;
+}
+
+.divTableHead {
+	background-color: #999999;
+	font-weight: bold;
+}
+
+.divTableFoot {
+	background-color: #EEE;
+	display: table-footer-group;
+	font-weight: bold;
+}
+
+.divTableBody {
+	display: table-row-group;
 }

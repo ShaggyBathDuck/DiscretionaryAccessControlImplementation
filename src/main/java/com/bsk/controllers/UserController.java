@@ -23,8 +23,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(@RequestBody User user, Model model) {
-        userService.create(user);
+    public String create(User user, Model model) {
+        userService.save(user);
+        return showHome(model);
+    }
+
+    @PutMapping("/update")
+    public String update(User user, Model model) {
+        userService.save(user);
         return showHome(model);
     }
 

@@ -19,14 +19,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public void create(Customer customer) {
+    public void save(Customer customer) {
         customerRepository.save(customer);
     }
 
     public void delete(String nip) {
         customerRepository.delete(nip);
-    }
-
-    public void update(String nip, Customer customer) {
     }
 }

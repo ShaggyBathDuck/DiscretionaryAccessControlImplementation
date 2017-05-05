@@ -49,12 +49,6 @@ public class DashboardController {
         return customerService.read();
     }
 
-    @ModelAttribute("customer")
-    @ResponseBody
-    public Customer getCustomer() {
-        return new Customer();
-    }
-
     @ModelAttribute("users")
     @ResponseBody
     public List<User> getUsers() {
@@ -66,17 +60,11 @@ public class DashboardController {
         SortedMap<String, EntityInfo> entitiesInfo = getTables();
         Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
         model.addAttribute("data", data);
-        return "fragments/table :: tableDiv";
-    }
-
-    public String prepareCustomerModel(Model model) {
-        model.addAttribute("customer", new Customer());
-        return "fragments/table";
-    }
-
-    public String prepareUserModel(Model model) {
         model.addAttribute("user", new User());
-        return "fragments/table";
+        model.addAttribute("customer", new Customer());
+        model.addAttribute("customers", customerService.read());
+        model.addAttribute("users", userService.read());
+        return "fragments/table :: tableDiv";
     }
 
     @ModelAttribute("entitiesInfo")
