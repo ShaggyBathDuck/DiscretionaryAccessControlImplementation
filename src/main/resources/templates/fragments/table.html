@@ -30,34 +30,25 @@
                 </div>
                 <div class="divTableBody">
                     <div class="divTableRow" th:each=" element: ${__${listName}__}">
-                        <input type="hidden" name="_method" value="PUT"/>
                         <div class="divTableCell" th:each="columnName: ${columnNamesHb}"
                              th:with="getterName=${'element.get'+columnName+'()'}"
                              th:id="'div'+${columnName}"
-                             th:contenteditable="true"
                              th:value="${__${getterName}__}"
                              th:text="${__${getterName}__}">
                         </div>
                         <div class="divTableCell">
-                            <form th:with="primaryKeyGetter=${'element.get'+columnNamesHb[0]+'()'}"
-                                  th:action="@{'/__${listName}__/update/'}"
-                                  th:object="${__${entityName}__}"
-                                  th:method="post">
-                                <input type="text" th:each="columnName: ${columnNamesHb}"
-                                       th:with="getterName=${'element.get'+columnName+'()'}"
-                                       th:id="${columnName}"
-                                       th:value="${__${getterName}__}"
-                                       style="display: none"/>
-                                <button type="submit" id="updateRow" class="btn btn-sm">Edytuj
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal"
+                                    onclick="">Edytuj
+                            </button>
                         </div>
                         <div class="divTableCell">
                             <form th:with="primaryKeyGetter=${'element.get'+columnNamesHb[0]+'()'}"
                                   th:action="@{'/__${listName}__/delete/{id}'(id=${__${primaryKeyGetter}__})}"
                                   th:method="delete"
-                                  id="deleteForm">
-                                <button type="submit" form="deleteForm" id="deleteRow" class="btn btn-sm">Usuń</button>
+                                  th:id="'deleteForm'+${__${primaryKeyGetter}__}">
+                                <button type="submit" th:form="'deleteForm'+${__${primaryKeyGetter}__}" id="deleteRow"
+                                        class="btn btn-sm btn-danger">Usuń
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -92,7 +83,41 @@
             </form>
         </div>
     </div>
+    <!-- /#page-content-wrapper -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $('#myModal').on("show.bs.modal", function (e) {
+            alert("test");
+        });
+        /*]]>*/
+    </script>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edycja</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odrzuć zmiany</button>
+                    <button type="button" class="btn btn-primary">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
+
+
 
 
 

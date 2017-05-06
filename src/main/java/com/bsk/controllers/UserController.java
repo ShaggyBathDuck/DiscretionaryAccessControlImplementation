@@ -5,7 +5,10 @@ import com.bsk.domain.User;
 import com.bsk.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -28,13 +31,13 @@ public class UserController {
         return showHome(model);
     }
 
-    @PutMapping("/update")
-    public String update(User user, Model model) {
+    @PutMapping("/update/{id}")
+    public String update(@PathVariable Integer id, User user, Model model) {
         userService.save(user);
         return showHome(model);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
+    @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable Integer id, Model model) {
         userService.delete(id);
         return showHome(model);

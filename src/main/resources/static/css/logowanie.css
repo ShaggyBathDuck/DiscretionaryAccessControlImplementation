@@ -141,8 +141,8 @@ ul.list-group{
 	padding: 3px 10px;
 }
 
-.divTableCell:hover {
-	background-color: #ffffff;
+.divTableRow:hover .divTableCell {
+	background-color: #FFD699;
 }
 
 .divTableHead {

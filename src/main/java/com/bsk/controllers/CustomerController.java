@@ -4,7 +4,10 @@ import com.bsk.domain.Customer;
 import com.bsk.services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller()
 @RequestMapping("/customers")
@@ -27,13 +30,13 @@ public class CustomerController {
         return showHome(model);
     }
 
-    @PutMapping(value = "/update")
-    public String update(Customer customer, Model model) {
+    @PutMapping(value = "/update/{nip}")
+    public String update(@PathVariable String nip, Customer customer, Model model) {
         customerService.save(customer);
         return showHome(model);
     }
 
-    @DeleteMapping(value = "/delete/{nip}")
+    @RequestMapping(value = "/delete/{nip}")
     public String delete(@PathVariable String nip, Model model) {
         customerService.delete(nip);
         return showHome(model);

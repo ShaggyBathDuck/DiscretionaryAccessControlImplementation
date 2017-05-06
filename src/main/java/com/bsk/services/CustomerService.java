@@ -26,4 +26,8 @@ public class CustomerService {
     public void delete(String nip) {
         customerRepository.delete(nip);
     }
+
+    public void findById(String id) {
+        customerRepository.findOne(id);
+    }
 }
