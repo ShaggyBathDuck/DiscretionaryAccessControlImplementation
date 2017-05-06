@@ -100,7 +100,8 @@ create table Uprawnienia(
   Stworz akcje NOT NULL,
   Czytaj akcje NOT NULL,
   Modyfikuj akcje NOT NULL,
-  Usun akcje NOT NULL
+  Usun akcje NOT NULL,
+  PRIMARY KEY (ID)
 );
 
 create table PrzekazywanieUprawnien(
