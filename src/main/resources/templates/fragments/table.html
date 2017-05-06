@@ -70,7 +70,8 @@
                     <tbody>
                     <tr>
                         <td th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb()}">
-                            <input type="text" th:name="${columnName}" th:field="*{__${columnName}__}"/>
+                            <input type="text" th:name="${columnName}" th:id="'add'+${columnName}"
+                                   th:field="*{__${columnName}__}"/>
                         </td>
                     </tr>
                     <tr>
