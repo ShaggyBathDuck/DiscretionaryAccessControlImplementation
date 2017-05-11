@@ -21,7 +21,7 @@ public class CustomerController {
 
     private String showHome(Model model) {
         model.addAttribute("customers", customerService.read());
-        return "redirect:/dashboard?tabName=klienci";
+        return "redirect:/?tabName=klienci";
     }
 
     @PostMapping(value = "/create")
@@ -36,7 +36,7 @@ public class CustomerController {
         return showHome(model);
     }
 
-    @RequestMapping(value = "/delete/{nip}")
+    @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable Integer id, Model model) {
         customerService.delete(id);
         return showHome(model);
