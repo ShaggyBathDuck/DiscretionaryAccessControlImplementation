@@ -99,3 +99,37 @@ CREATE TABLE Uzytkownicy(
 	email VARCHAR(30) NOT NULL,
 	Primary key (ID)
 );
+
+CREATE TYPE akcje as ENUM('NONE', 'TAKE', 'ACCESS', 'GRANT');
+
+create table Uprawnienia(
+  ID int NOT NULL,
+  Stworz akcje NOT NULL,
+  Czytaj akcje NOT NULL,
+  Modyfikuj akcje NOT NULL,
+  Usun akcje NOT NULL,
+  PRIMARY KEY (ID)
+);
+
+create table PrzekazywanieUprawnien(
+	dawca int NOT NULL,
+	biorca int not null,
+	klienci int not null,
+	zakupy int not null,
+	pozycjeZakupow int not null,
+	towary int not null,
+	towaryMagazyn int not null,
+	sprzedaze int not null,
+	pozycjeSprzedazy int not null,
+	PRIMARY KEY(biorca, dawca),
+	foreign key (biorca) references Uzytkownicy(ID),
+	foreign key (dawca) references Uzytkownicy(ID),
+	foreign key (klienci) references Uprawnienia(ID),
+	foreign key (zakupy) references Uprawnienia(ID),
+	foreign key (pozycjeZakupow) references Uprawnienia(ID),
+	foreign key (towary) references Uprawnienia(ID),
+	foreign key (towaryMagazyn) references Uprawnienia(ID),
+	foreign key (sprzedaze) references Uprawnienia(ID),
+	foreign key (pozycjeSprzedazy) references Uprawnienia(ID)
+);
+
