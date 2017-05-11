@@ -1,8 +1,6 @@
 package com.bsk.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +8,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Getter
+@Setter
 public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id

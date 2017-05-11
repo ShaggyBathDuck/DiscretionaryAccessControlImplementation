@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="pl">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -14,7 +14,7 @@
             <form style="display: inline" action="/" method="get">
                 <button type="submit" class="btn btn-sm">Zarządzaj danymi</button>
             </form>
-            <button type="submit" class="btn btn-sm">Wyloguj</button>
+            <a th:href="@{/logout}"> <button type="submit" class="btn btn-sm">Wyloguj</button></a>
         </h4>
         <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
             <div class="row">

@@ -7,7 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <!--/*--><!--@thymesVar id="tabName" type="String"--><!--*/-->
-<body th:with="activeTabName=${tabName == null?entitiesInfo.firstLast().getKey():tabName}"
+<body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
       th:onload="|changeTable('${activeTabName}')|">
 
 <!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
@@ -18,7 +18,7 @@
         <button type="submit" class="btn btn-sm">
             <a th:href="@{/offering}">Przekaż uprawnienia</a>
         </button>
-        <button type="submit" class="btn btn-sm">Wyloguj</button>
+        <a th:href="@{/logout}"> <button type="submit" class="btn btn-sm">Wyloguj</button></a>
     </h4>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
         <div th:id="tableDiv" class="row"></div>
