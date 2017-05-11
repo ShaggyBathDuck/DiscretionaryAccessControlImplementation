@@ -32,7 +32,7 @@ public class DashboardController {
     }
 
 
-    @GetMapping("/dashboard")
+    @GetMapping("/")
     public String dashboard(Model model,
                             @RequestParam(required = false) String tabName) {
         if (tabName == null)

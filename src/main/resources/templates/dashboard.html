@@ -7,7 +7,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <!--/*--><!--@thymesVar id="tabName" type="String"--><!--*/-->
-<body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
+<body th:with="activeTabName=${tabName == null?entitiesInfo.firstLast().getKey():tabName}"
       th:onload="|changeTable('${activeTabName}')|">
 
 <!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->

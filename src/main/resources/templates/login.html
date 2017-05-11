@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Bezpieczeństwo systemów komputerowych</title>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 		<link rel="stylesheet" href="css/logowanie.css"/>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="js/logowanie.js"></script>
-	</head>
+<head>
+		<title>Bezpieczeństwo systemów komputerowych</title>
+</head>
 	<body>
 		<div class="container logowanie">
 			<div class="main">
-				<form class="form" method="post" action="#">
+				<div th:if="${param.error}">
+					Invalid username and password.
+				</div>
+				<div th:if="${param.logout}">
+					You have been logged out.
+				</div>
+				<form th:action="@{/login}" method="post">
 					<h2>Hurtownia - Prototyp</h2>
 					<label>Login :</label>
-					<input type="text" name="email" id="email"/>
+					<input type="text" name="username"/>
 					<label>Hasło :</label>
-					<input type="password" name="password" id="password"/>
-					<input type="button" name="login" id="login" value="Zaloguj"/>
+					<input type="password" name="password"/>
+					<input type="submit" value="Zaloguj"/>
 				</form>
 			</div>
 		</div>
