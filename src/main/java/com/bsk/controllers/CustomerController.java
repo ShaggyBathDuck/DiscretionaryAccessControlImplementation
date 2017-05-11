@@ -19,7 +19,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public String showHome(Model model) {
+    private String showHome(Model model) {
         model.addAttribute("customers", customerService.read());
         return "redirect:/dashboard?tabName=klienci";
     }
@@ -30,15 +30,15 @@ public class CustomerController {
         return showHome(model);
     }
 
-    @PutMapping(value = "/update/{nip}")
-    public String update(@PathVariable String nip, Customer customer, Model model) {
+    @PutMapping(value = "/update/{id}")
+    public String update(@PathVariable Integer id, Customer customer, Model model) {
         customerService.save(customer);
         return showHome(model);
     }
 
     @RequestMapping(value = "/delete/{nip}")
-    public String delete(@PathVariable String nip, Model model) {
-        customerService.delete(nip);
+    public String delete(@PathVariable Integer id, Model model) {
+        customerService.delete(id);
         return showHome(model);
     }
 }

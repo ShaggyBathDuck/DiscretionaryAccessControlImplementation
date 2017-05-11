@@ -5,6 +5,7 @@ import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
 import com.bsk.services.CustomerService;
 import com.bsk.services.UserService;
+import com.bsk.util.ModalEditData;
 import javafx.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
@@ -65,6 +66,17 @@ public class DashboardController {
         model.addAttribute("customers", customerService.read());
         model.addAttribute("users", userService.read());
         return "fragments/table :: tableDiv";
+    }
+
+    @RequestMapping("/modalEdit")
+    public String modalEdit(Model model, String activeTabName, Integer id) {
+        ModalEditData modalEditData = new ModalEditData(getTables(), activeTabName, id);
+        model.addAttribute("data", modalEditData);
+        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("customer", customerService.findById(id));
+        model.addAttribute("customers", customerService.read());
+        model.addAttribute("users", userService.read());
+        return "fragments/modalEdit :: modalEdit";
     }
 
     @ModelAttribute("entitiesInfo")

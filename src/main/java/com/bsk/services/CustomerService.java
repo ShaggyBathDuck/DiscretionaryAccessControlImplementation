@@ -23,11 +23,11 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public void delete(String nip) {
-        customerRepository.delete(nip);
+    public void delete(Integer id) {
+        customerRepository.delete(id);
     }
 
-    public void findById(String id) {
-        customerRepository.findOne(id);
+    public Customer findById(Integer id) {
+        return customerRepository.findOne(id);
     }
 }
