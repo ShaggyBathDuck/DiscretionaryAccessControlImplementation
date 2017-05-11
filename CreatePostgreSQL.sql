@@ -1,4 +1,5 @@
 CREATE TABLE Dostawcy (
+  ID SERIAL NOT NULL,
 	nip VARCHAR(10)  NOT NULL,
 	nazwa VARCHAR(30) NOT NULL,
 	telefon VARCHAR(9) NOT NULL,
@@ -7,7 +8,8 @@ CREATE TABLE Dostawcy (
 	numerLokalu INT NOT NULL,
 	kodPocztowy VARCHAR(6) NOT NULL,
 	miasto VARCHAR(30) NOT NULL,
-	PRIMARY KEY(nip)
+	PRIMARY KEY(id),
+	UNIQUE(nip)
 );
 
 CREATE TABLE Zakupy (
@@ -54,6 +56,7 @@ CREATE TABLE TowaryMagazyn (
 );
 
 CREATE TABLE Klienci (
+  ID SERIAL NOT NULL,
 	nip VARCHAR(10)  NOT NULL,
 	nazwa VARCHAR(30) NOT NULL,
 	telefon VARCHAR(9) NOT NULL,
@@ -63,14 +66,17 @@ CREATE TABLE Klienci (
 	kodPocztowy VARCHAR(6) NOT NULL,
 	miasto VARCHAR(30) NOT NULL,
 	rabat INT NOT NULL,
-	PRIMARY KEY(nip)
+	PRIMARY KEY(ID),
+	UNIQUE(nip)
 );
 
 CREATE TABLE Sprzedaze (
+  ID SERIAL NOT NULL,
 	numerFaktury char(30) NOT NULL,
 	nipKlienta VARCHAR(10) NOT NULL,
 	data DATE NOT NULL,
-	PRIMARY KEY(numerFaktury),
+	PRIMARY KEY(ID),
+	UNIQUE(numerFaktury),
 	foreign key (nipKlienta) references Klienci(nip)
 );
 
@@ -93,6 +99,7 @@ CREATE TABLE Uzytkownicy(
 	email VARCHAR(30) NOT NULL,
 	Primary key (ID)
 );
+
 CREATE TYPE akcje as ENUM('NONE', 'TAKE', 'ACCESS', 'GRANT');
 
 create table Uprawnienia(
