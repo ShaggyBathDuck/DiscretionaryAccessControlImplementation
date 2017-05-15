@@ -8,8 +8,8 @@ import javax.persistence.Id;
 public class Privilege {
 
     @Id
-    @Column(name = "nip")
-    private Long id;
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "stworz")
     private String create;
@@ -23,7 +23,10 @@ public class Privilege {
     @Column(name = "usun")
     private String delete;
 
-    public Privilege(Long id, String create, String read, String update, String delete) {
+    public Privilege() {
+    }
+
+    public Privilege(Integer id, String create, String read, String update, String delete) {
         this.id = id;
         this.create = create;
         this.read = read;
@@ -31,14 +34,11 @@ public class Privilege {
         this.delete = delete;
     }
 
-    public Privilege() {
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -73,4 +73,5 @@ public class Privilege {
     public void setDelete(String delete) {
         this.delete = delete;
     }
+
 }
