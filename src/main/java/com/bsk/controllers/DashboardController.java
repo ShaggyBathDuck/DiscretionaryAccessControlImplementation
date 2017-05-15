@@ -9,6 +9,8 @@ import javafx.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,8 @@ public class DashboardController {
     @GetMapping("/")
     public String dashboard(Model model,
                             @RequestParam(required = false) String tabName) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
         if (tabName == null)
             return "dashboard";
         else {
