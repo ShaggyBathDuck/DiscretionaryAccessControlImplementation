@@ -98,18 +98,21 @@ public class DashboardController {
         return entitiesInfo;
     }
 
+    private void addCommonModelAttributes(Model model) {
+        model.addAttribute("customers", customerService.read());
+        model.addAttribute("users", userService.read());
+    }
+
     private void addEntitiesModelAttributes(Model model, Integer id) {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("customer", customerService.findById(id));
-        model.addAttribute("customers", customerService.read());
-        model.addAttribute("users", userService.read());
+        addCommonModelAttributes(model);
     }
 
     private void addEntitiesModelAttributes(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("customer", new Customer());
-        model.addAttribute("customers", customerService.read());
-        model.addAttribute("users", userService.read());
+        addCommonModelAttributes(model);
     }
 
 }
