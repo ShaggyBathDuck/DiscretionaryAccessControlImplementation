@@ -47,7 +47,8 @@ div.main.dashboard.container{
 div.main.przekazywanie{
 	width: 800px;
 }
-input[type=text],[type=password] {
+
+input[type=text], [type=password], [type=email] {
 	width: 100%;
 	box-shadow: 0 0 5px #00F5FF;
 	border: 2px solid #00F5FF;

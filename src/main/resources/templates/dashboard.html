@@ -11,7 +11,7 @@
 <body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
       th:onload="|changeTable('${activeTabName}')|">
 
-<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
+<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.util.EntityInfo>"--><!--*/-->
 <div class="container dashboard">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: user@test.com</h4>

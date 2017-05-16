@@ -1,10 +1,10 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
-import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
 import com.bsk.services.CustomerService;
 import com.bsk.services.UserService;
+import com.bsk.util.EntityInfo;
 import com.bsk.util.ModalEditData;
 import javafx.util.Pair;
 import org.hibernate.Session;
@@ -36,12 +36,9 @@ public class DashboardController {
     @GetMapping("/")
     public String dashboard(Model model,
                             @RequestParam(required = false) String tabName) {
-        if (tabName == null)
-            return "dashboard";
-        else {
+        if (tabName != null)
             model.addAttribute("tabName", tabName);
-            return "dashboard";
-        }
+        return "dashboard";
     }
 
     @ModelAttribute("customers")
@@ -61,10 +58,7 @@ public class DashboardController {
         SortedMap<String, EntityInfo> entitiesInfo = getTables();
         Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
         model.addAttribute("data", data);
-        model.addAttribute("user", new User());
-        model.addAttribute("customer", new Customer());
-        model.addAttribute("customers", customerService.read());
-        model.addAttribute("users", userService.read());
+        addEntitiesModelAttributes(model);
         return "fragments/table :: tableDiv";
     }
 
@@ -72,10 +66,7 @@ public class DashboardController {
     public String modalEdit(Model model, String activeTabName, Integer id) {
         ModalEditData modalEditData = new ModalEditData(getTables(), activeTabName, id);
         model.addAttribute("data", modalEditData);
-        model.addAttribute("user", userService.findById(id));
-        model.addAttribute("customer", customerService.findById(id));
-        model.addAttribute("customers", customerService.read());
-        model.addAttribute("users", userService.read());
+        addEntitiesModelAttributes(model, id);
         return "fragments/modalEdit :: modalEdit";
     }
 
@@ -99,12 +90,29 @@ public class DashboardController {
             ArrayList<String> columnNamesInHb = new ArrayList<>();
             columnNamesInHb.add(classMetadata.getIdentifierPropertyName());
             columnNamesInHb.addAll(Arrays.asList(classMetadata.getPropertyNames()));
-            String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.')+1);
+            String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.') + 1);
             entityInfo.setTableNameInHb(entityName.toLowerCase());
             entityInfo.setColumnNamesInHb(columnNamesInHb);
             entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
         }
         return entitiesInfo;
+    }
+
+    private void addCommonModelAttributes(Model model) {
+        model.addAttribute("customers", customerService.read());
+        model.addAttribute("users", userService.read());
+    }
+
+    private void addEntitiesModelAttributes(Model model, Integer id) {
+        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("customer", customerService.findById(id));
+        addCommonModelAttributes(model);
+    }
+
+    private void addEntitiesModelAttributes(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("customer", new Customer());
+        addCommonModelAttributes(model);
     }
 
 }

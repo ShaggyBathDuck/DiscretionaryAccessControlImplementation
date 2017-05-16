@@ -1,6 +1,6 @@
 CREATE TABLE Dostawcy (
   ID SERIAL NOT NULL,
-	nip VARCHAR(10)  NOT NULL,
+	nip VARCHAR(20)  NOT NULL,
 	nazwa VARCHAR(30) NOT NULL,
 	telefon VARCHAR(9) NOT NULL,
 	ulica VARCHAR(30) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE Dostawcy (
 CREATE TABLE Zakupy (
 	ID SERIAL NOT NULL,
 	data DATE NOT NULL,
-	nipDostawcy VARCHAR(10) NOT NULL,
+	nipDostawcy VARCHAR(20) NOT NULL,
 	nrFaktury VARCHAR(50),
 	foreign key (nipDostawcy) references Dostawcy(nip),
 	PRIMARY KEY (ID)
@@ -57,7 +57,7 @@ CREATE TABLE TowaryMagazyn (
 
 CREATE TABLE Klienci (
   ID SERIAL NOT NULL,
-	nip VARCHAR(10)  NOT NULL,
+	nip VARCHAR(20)  NOT NULL,
 	nazwa VARCHAR(30) NOT NULL,
 	telefon VARCHAR(9) NOT NULL,
 	ulica VARCHAR(30) NOT NULL,

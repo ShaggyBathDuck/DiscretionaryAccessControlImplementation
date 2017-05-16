@@ -1,9 +1,9 @@
-<!--/*--><!--@thymesVar id="data" type="Pair<String, SortedMap<String, com.bsk.domain.EntityInfo>> "--><!--*/-->
+<!--/*--><!--@thymesVar id="data" type="Pair<String, SortedMap<String, com.bsk.util.EntityInfo>> "--><!--*/-->
 <div xmlns:th="http://www.thymeleaf.org"
      th:fragment="tableDiv"
      th:with="entitiesInfo=${data.getValue()},
             activeTabName=${data.getKey()}">
-    <div th:with="columnNamesHb=${T(com.bsk.domain.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
+    <div th:with="columnNamesHb=${T(com.bsk.util.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
          listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
          entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">
 
@@ -35,7 +35,8 @@
                                  th:with="getterName=${'element.get'+columnName+'()'}"
                                  th:id="'div'+${columnName}"
                                  th:value="${__${getterName}__}"
-                                 th:text="${__${getterName}__}">
+                                 th:text="${__${getterName}__}"
+                                 style="white-space: nowrap;">
                             </div>
                             <div class="divTableCell">
                                 <button type="button" class="btn btn-info btn-sm"
@@ -64,29 +65,22 @@
                       th:action="@{'/__${listName}__/create'}"
                       th:method="post"
                       th:id="createForm">
-                    <table id="insertRow" class="table table-condensed table-bordered table-hover">
-                        <h4 style="text-align: center">Wprowadź nowy wiersz</h4>
-                        <thead>
-                        <tr>
-                            <th th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInDb()}"
-                                th:text="${columnName}" th:if="${columnName} !='id'"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb()}"
-                                th:if="${columnName} !='id'">
-                                <input type="text" th:name="${columnName}" th:id="'add'+${columnName}"
-                                       th:field="*{__${columnName}__}"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button type="submit" id="createRow" class="btn btn-sm">Dodaj wiersz</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h4 style="text-align: center">Wprowadź nowy wiersz</h4>
+                    <div th:replace="fragments/forms/__${entityName}__Form::tableForm">
+                    </div>
+                    <tr>
+                        <td>
+                            <button type="submit" th:form="createForm" id="createRow" class="btn btn-sm">Dodaj wiersz
+                            </button>
+                        </td>
+                    </tr>
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                    </div>
+                    <div class="alert alert-danger"
+                         th:each="err : ${#fields.errors('*')}"
+                         th:text="${err}">
+                    </div>
                 </form>
             </div>
         </div>
