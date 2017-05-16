@@ -1,21 +1,25 @@
 package com.bsk.dto;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
+@Getter
+@Setter
 public class CustomerDTO {
 
     @NotBlank
-    @Digits(integer = 10, fraction = 0)
+    @Pattern(regexp = "^((\\d{3}[- ]\\d{3}[- ]\\d{2}[- ]\\d{2})|(\\d{3}[- ]\\d{2}[- ]\\d{2}[- ]\\d{3}))$")
     private String nip;
 
     @NotBlank
-    @Pattern(regexp = "^[A-Za-z]+$")
+    @Pattern(regexp = "^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
     private String name;
 
     @NotBlank
@@ -23,7 +27,7 @@ public class CustomerDTO {
     private String phoneNumber;
 
     @NotBlank
-    @Pattern(regexp = "^[A-Za-z]+$")
+    @Pattern(regexp = "^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
     private String street;
 
     @NotBlank
@@ -31,17 +35,18 @@ public class CustomerDTO {
     private String houseNumber;
 
     @Digits(integer = 10, fraction = 0)
+    @Min(value = 1)
     private int flatNumber;
 
     @NotBlank
-    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$")
     private String postalCode;
 
     @NotBlank
-    @Pattern(regexp = "^[A-Za-z]+$")
+    @Pattern(regexp = "^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
     private String city;
 
-    @Digits(integer = 10, fraction = 0)
+    @Digits(integer = 2, fraction = 0)
     private int discount;
 
     public CustomerDTO(String nip, String name, String phoneNumber, String street, String houseNumber, int flatNumber, String postalCode, String city, int discount) {
@@ -56,75 +61,4 @@ public class CustomerDTO {
         this.discount = discount;
     }
 
-    public String getNip() {
-        return nip;
-    }
-
-    public void setNip(String nip) {
-        this.nip = nip;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public int getFlatNumber() {
-        return flatNumber;
-    }
-
-    public void setFlatNumber(int flatNumber) {
-        this.flatNumber = flatNumber;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
 }
