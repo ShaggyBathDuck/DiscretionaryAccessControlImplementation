@@ -47,7 +47,8 @@ div.main.dashboard.container{
 div.main.przekazywanie{
 	width: 800px;
 }
-input[type=text],[type=password] {
+
+input[type=text], [type=password], [type=email] {
 	width: 100%;
 	box-shadow: 0 0 5px #00F5FF;
 	border: 2px solid #00F5FF;
@@ -70,7 +71,7 @@ label{
 	font-weight: bold;
 	cursor: pointer;
 	color: white;
-	text-shadow: 0px 1px 0px #13506D;
+	text-shadow: 0 1px 0 #13506D;
 }
 #login:hover{
 	background: linear-gradient(#36caf0 5%, #22abe9 100%);
@@ -126,7 +127,6 @@ ul.list-group{
 
 .divTableRow {
 	display: table-row;
-	align: center;
 }
 
 .divTableHeading {
@@ -141,8 +141,8 @@ ul.list-group{
 	padding: 3px 10px;
 }
 
-.divTableCell:hover {
-	background-color: #ffffff;
+.divTableRow:hover .divTableCell {
+	background-color: #FFD699;
 }
 
 .divTableHead {

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,7 +26,7 @@ public class UserController {
 
     public String showHome(Model model) {
         model.addAttribute("users", userService.read());
-        return "redirect:/dashboard?tabName=uzytkownicy";
+        return "redirect:/?tabName=uzytkownicy";
     }
 
     @GetMapping
@@ -34,19 +35,19 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String create(User user, Model model) {
+    public String create(@Valid User user, Model model) {
         userService.save(user);
         return showHome(model);
     }
 
-    @PutMapping("/update")
-    public String update(User user, Model model) {
+    @PutMapping("/update/{id}")
+    public String update(@PathVariable int id, @Valid User user, Model model) {
         userService.save(user);
         return showHome(model);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public String delete(@PathVariable Integer id, Model model) {
+    @RequestMapping(value = "/delete/{id}")
+    public String delete(@PathVariable int id, Model model) {
         userService.delete(id);
         return showHome(model);
     }

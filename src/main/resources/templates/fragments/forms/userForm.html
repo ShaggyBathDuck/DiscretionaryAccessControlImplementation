@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="login"></th>
+        <th th:text="password"></th>
+        <th th:text="email"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="login">
+            <input type="text"
+                   name="login"
+                   required="required"
+                   pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{5,20}$"
+                   title="Nazwa użytkownika musi mieć 6-20 znaków. Może zawierać tylko znaki alfanumeryczne oraz znaki: -_."
+                   id="loginId"
+                   th:value="${'getLogin()'}"
+                   th:field="*{login}"/>
+        </td>
+        <td th:name="password">
+            <input type="password"
+                   th:name="password"
+                   required="required"
+                   id="passwordId"
+                   pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                   title="Hasło musi co najmniej 6 znaków. Musi zawierać co najmniej jedną dużą i małą literę, cyfrę i znak specjalny"
+                   th:value="${'getPassword()'}"
+                   th:field="*{password}"/>
+        </td>
+        <td th:name="email">
+            <input type="email"
+                   name="email"
+                   id="emailId"
+                   required="required"
+                   th:value="${'getEmail()'}"
+                   th:field="*{email}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

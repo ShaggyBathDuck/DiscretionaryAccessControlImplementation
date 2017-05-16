@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
+
 
 @Controller()
 @RequestMapping("/customers")
@@ -20,7 +20,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public String showHome(Model model) {
+    private String showHome(Model model) {
         model.addAttribute("customers", customerService.read());
         return "redirect:/?tabName=klienci";
     }
@@ -43,15 +43,15 @@ public class CustomerController {
         return "redirect:/?tabName=klienci";
     }
 
-    @PutMapping(value = "/update")
-    public String update(Customer customer, Model model) {
+    @PutMapping(value = "/update/{id}")
+    public String update(@PathVariable int id, @Valid Customer customer, Model model) {
         customerService.save(customer);
         return showHome(model);
     }
 
-    @DeleteMapping(value = "/delete/{nip}")
-    public String delete(@PathVariable String nip, Model model) {
-        customerService.delete(nip);
+    @RequestMapping(value = "/delete/{id}")
+    public String delete(@PathVariable int id, Model model) {
+        customerService.delete(id);
         return showHome(model);
     }
 }

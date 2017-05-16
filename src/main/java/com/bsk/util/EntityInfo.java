@@ -1,4 +1,4 @@
-package com.bsk.domain;
+package com.bsk.util;
 
 
 import lombok.AllArgsConstructor;
