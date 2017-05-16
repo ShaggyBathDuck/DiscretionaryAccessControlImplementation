@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div xmlns:th="http://www.thymeleaf.org"
+     id="modalEdit"
+     th:fragment="modalEdit"
+     th:with="entitiesInfo=${data.getTables()},
+            activeTabName=${data.getActiveTabName()},
+            objectId=${data.getObjectId()}">
+    <div th:with="columnNamesHb=${T(com.bsk.util.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
+         listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
+         entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">
+        <div id="modal-body" class="modal-body">
+            <form th:each=" element: ${__${listName}__.?[id == __${objectId}__]}"
+                  th:object="${__${entityName}__}"
+                  th:action="@{'/__${listName}__/update/{id}'(id='__${objectId}__')}"
+                  th:method="post"
+                  id="updateForm">
+                <input type="hidden" name="_method" value="put"/>
+                <div th:replace="fragments/forms/__${entityName}__Form::tableForm"/>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Odrzuć zmiany</button>
+            <button type="submit" form="updateForm" class="btn btn-primary">Zapisz</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

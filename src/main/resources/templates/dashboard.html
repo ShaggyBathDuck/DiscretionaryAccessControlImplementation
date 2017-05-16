@@ -4,13 +4,14 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <!--/*--><!--@thymesVar id="tabName" type="String"--><!--*/-->
 <body th:with="activeTabName=${tabName == null?entitiesInfo.firstEntry().getKey():tabName}"
       th:onload="|changeTable('${activeTabName}')|">
 
-<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.domain.EntityInfo>"--><!--*/-->
+<!--/*--><!--@thymesVar id="entitiesInfo" type="TreeMap<String, com.bsk.util.EntityInfo>"--><!--*/-->
 <div class="container dashboard">
     <h2>Moduł zarządzania zawartością</h2>
     <h4>Aktywny użytkownik: </h4><h4 th:text="${username}"/>
