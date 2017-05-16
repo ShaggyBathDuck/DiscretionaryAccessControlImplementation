@@ -9,7 +9,7 @@
 <body>
     <div class="container dashboard">
         <h2>Moduł przekazywania uprawnień</h2>
-        <h4>Aktywny użytkownik: </h4><h4 th:text="${username}"/>
+        <h4 th:text="'Aktywny użytkownik: '+${username}"/>
         <h4>
             <form style="display: inline" action="/" method="get">
                 <button type="submit" class="btn btn-sm">Zarządzaj danymi</button>

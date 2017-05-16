@@ -2,11 +2,13 @@ package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
 import com.bsk.dto.CustomerDTO;
+import com.bsk.mapper.CustomerMapper;
 import com.bsk.services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 
@@ -15,9 +17,11 @@ import javax.validation.Valid;
 public class CustomerController {
 
     private CustomerService customerService;
+    private CustomerMapper customerMapper;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
         this.customerService = customerService;
+        this.customerMapper = customerMapper;
     }
 
     private String showHome(Model model) {
@@ -28,15 +32,7 @@ public class CustomerController {
     @PostMapping(value = "/create")
     public String create(@Valid @ModelAttribute("customerDTO") CustomerDTO customerDTO, BindingResult bindingResult, Model model) {
         if(!bindingResult.hasErrors()){
-            Customer customer= new Customer(customerDTO.getNip(),
-                    customerDTO.getName(),
-                    customerDTO.getPhoneNumber(),
-                    customerDTO.getStreet(),
-                    customerDTO.getHouseNumber(),
-                    customerDTO.getFlatNumber(),
-                    customerDTO.getPostalCode(),
-                    customerDTO.getCity(),
-                    customerDTO.getDiscount());
+            Customer customer = customerMapper.map(customerDTO);
             customerService.save(customer);
             return showHome(model);
         }
