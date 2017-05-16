@@ -3,6 +3,7 @@ package com.bsk.controllers;
 import com.bsk.domain.Customer;
 import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
+import com.bsk.dto.CustomerDTO;
 import com.bsk.services.CustomerService;
 import com.bsk.services.UserService;
 import javafx.util.Pair;
@@ -66,6 +67,7 @@ public class DashboardController {
         model.addAttribute("data", data);
         model.addAttribute("user", new User());
         model.addAttribute("customer", new Customer());
+        model.addAttribute("customerDTO", new CustomerDTO());
         model.addAttribute("customers", customerService.read());
         model.addAttribute("users", userService.read());
         return "fragments/table :: tableDiv";

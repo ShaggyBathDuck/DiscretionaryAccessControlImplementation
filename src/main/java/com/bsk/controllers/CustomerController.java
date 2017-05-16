@@ -1,10 +1,14 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
+import com.bsk.dto.CustomerDTO;
 import com.bsk.services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller()
 @RequestMapping("/customers")
@@ -18,13 +22,25 @@ public class CustomerController {
 
     public String showHome(Model model) {
         model.addAttribute("customers", customerService.read());
-        return "redirect:/dashboard?tabName=klienci";
+        return "redirect:/?tabName=klienci";
     }
 
     @PostMapping(value = "/create")
-    public String create(Customer customer, Model model) {
-        customerService.save(customer);
-        return showHome(model);
+    public String create(@Valid @ModelAttribute("customerDTO") CustomerDTO customerDTO, BindingResult bindingResult, Model model) {
+        if(!bindingResult.hasErrors()){
+            Customer customer= new Customer(customerDTO.getNip(),
+                    customerDTO.getName(),
+                    customerDTO.getPhoneNumber(),
+                    customerDTO.getStreet(),
+                    customerDTO.getHouseNumber(),
+                    customerDTO.getFlatNumber(),
+                    customerDTO.getPostalCode(),
+                    customerDTO.getCity(),
+                    customerDTO.getDiscount());
+            customerService.save(customer);
+            return showHome(model);
+        }
+        return "redirect:/?tabName=klienci";
     }
 
     @PutMapping(value = "/update")
