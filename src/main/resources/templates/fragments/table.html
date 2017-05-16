@@ -20,7 +20,8 @@
         <div th:id="tableDiv" id="tableDiv"
              th:with="columnNamesHb=${T(com.bsk.domain.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
                            listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
-                           entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">
+                           entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()},
+                           dtoEntityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'DTO'}">
             <h3 style="text-align: center">Zawartość tabeli</h3>
             <div class="divTable">
                 <div class="divTableHeading">
@@ -64,7 +65,7 @@
                 </div>
             </div>
             <hr/>
-            <form th:object="${__${entityName}__}"
+            <form th:object="${__${dtoEntityName}__}"
                   th:action="@{'/__${listName}__/create'}"
                   th:method="post"
                   th:id="createForm">
