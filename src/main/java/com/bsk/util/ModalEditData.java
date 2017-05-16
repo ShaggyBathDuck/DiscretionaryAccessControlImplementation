@@ -1,7 +1,6 @@
 package com.bsk.util;
 
 
-import com.bsk.domain.EntityInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -10,38 +10,17 @@
      th:with="entitiesInfo=${data.getTables()},
             activeTabName=${data.getActiveTabName()},
             objectId=${data.getObjectId()}">
-    <div th:with="columnNamesHb=${T(com.bsk.domain.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
+    <div th:with="columnNamesHb=${T(com.bsk.util.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
          listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
          entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">
         <div id="modal-body" class="modal-body">
-            aasasas
             <form th:each=" element: ${__${listName}__.?[id == __${objectId}__]}"
                   th:object="${__${entityName}__}"
                   th:action="@{'/__${listName}__/update/{id}'(id='__${objectId}__')}"
                   th:method="post"
                   id="updateForm">
                 <input type="hidden" name="_method" value="put"/>
-                <table class="table table-condensed table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInDb()}"
-                            th:text="${columnName}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:each="columnName: ${columnNamesHb}"
-                            th:with="inputValue=${__${getterName}__}">
-                            <input type="text"
-                                   th:name="${columnName}"
-                                   th:with="getterName=${'element.get'+columnName+'()'}"
-                                   th:value="${__${getterName}__}"
-                                   th:field="*{__${columnName}__}">
-                            </input>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div th:replace="fragments/forms/__${entityName}__Form::tableForm"/>
             </form>
         </div>
         <div class="modal-footer">

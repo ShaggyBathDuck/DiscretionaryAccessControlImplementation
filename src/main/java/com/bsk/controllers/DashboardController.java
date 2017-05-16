@@ -1,10 +1,10 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
-import com.bsk.domain.EntityInfo;
 import com.bsk.domain.User;
 import com.bsk.services.CustomerService;
 import com.bsk.services.UserService;
+import com.bsk.util.EntityInfo;
 import com.bsk.util.ModalEditData;
 import javafx.util.Pair;
 import org.hibernate.Session;
