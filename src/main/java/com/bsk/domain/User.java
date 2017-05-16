@@ -3,6 +3,7 @@ package com.bsk.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Uzytkownicy")
 @NoArgsConstructor
@@ -21,4 +22,7 @@ public class User {
     private String password;
     @Column(name="email")
     private String email;
+
+    @OneToMany(mappedBy = "grantPrivilegePK.receiver")
+    private List<GrantPrivilege> grantedPrivileges;
 }
