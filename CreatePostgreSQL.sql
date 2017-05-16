@@ -100,7 +100,7 @@ CREATE TABLE Uzytkownicy(
 	Primary key (ID)
 );
 
-CREATE TYPE akcje as ENUM('NONE', 'TAKE', 'ACCESS', 'GRANT');
+CREATE TYPE akcje as ENUM('NONE', 'ACCESS', 'GRANT');
 
 create table Uprawnienia(
   ID int NOT NULL,
@@ -121,6 +121,7 @@ create table PrzekazywanieUprawnien(
 	towaryMagazyn int not null,
 	sprzedaze int not null,
 	pozycjeSprzedazy int not null,
+	przejmij BOOLEAN not NULL,
 	PRIMARY KEY(biorca, dawca),
 	foreign key (biorca) references Uzytkownicy(ID),
 	foreign key (dawca) references Uzytkownicy(ID),
