@@ -1,12 +1,11 @@
 package com.bsk.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity(name = "Uprawnienia")
 public class Privilege {
 
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
