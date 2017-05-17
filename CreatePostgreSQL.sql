@@ -15,9 +15,9 @@ CREATE TABLE Dostawcy (
 CREATE TABLE Zakupy (
 	ID SERIAL NOT NULL,
 	data DATE NOT NULL,
-	nipDostawcy VARCHAR(20) NOT NULL,
-	nrFaktury VARCHAR(50),
-	foreign key (nipDostawcy) references Dostawcy(nip),
+	idDostawcy INT NOT NULL,
+	nrFaktury VARCHAR(30),
+	foreign key (idDostawcy) references Dostawcy(id),
 	PRIMARY KEY (ID)
 );
 
@@ -72,22 +72,22 @@ CREATE TABLE Klienci (
 
 CREATE TABLE Sprzedaze (
   ID SERIAL NOT NULL,
-	numerFaktury char(30) NOT NULL,
-	nipKlienta VARCHAR(10) NOT NULL,
+	nrFaktury VARCHAR(30) NOT NULL,
+	idKlienta INT NOT NULL,
 	data DATE NOT NULL,
 	PRIMARY KEY(ID),
-	UNIQUE(numerFaktury),
-	foreign key (nipKlienta) references Klienci(nip)
+	UNIQUE(nrFaktury),
+	foreign key (idKlienta) references Klienci(id)
 );
 
 CREATE TABLE PozycjeSprzedazy (
 	ID SERIAL NOT NULL,
-	numerFaktury char(30) NOT NULL,
+	idSprzedaz INT NOT NULL,
 	idMagazynowe INT NOT NULL,
-	ile INT NOT NULL,
+	ilosc INT NOT NULL,
 	rabat INT NOT NULL,
 	PRIMARY KEY(ID),
-	foreign key (numerFaktury) references Sprzedaze(numerFaktury),
+	foreign key (idSprzedaz) references Sprzedaze(id),
 	foreign key (idMagazynowe) references TowaryMagazyn(ID)
 );
 

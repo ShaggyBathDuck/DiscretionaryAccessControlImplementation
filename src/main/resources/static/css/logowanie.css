@@ -6,7 +6,7 @@ h2{
 }
 div.container.dashboard {
 	width: 1200px;
-	height: 800px;
+	height: 900px;
 	margin:50px auto;
 	font-family: 'Amiko', sans-serif;
 	position:relative;
@@ -37,12 +37,12 @@ div.main{
 	font-size: 13px;
 }
 div.main.dashboard{
-	width: 1200px;
-	height: 600px;
+	width: 1300px;
+	height: 750px;
 	padding: 5px;
 }
 div.main.dashboard.container{
-	height: 600px;
+	height: 750px;
 }
 div.main.przekazywanie{
 	width: 800px;
