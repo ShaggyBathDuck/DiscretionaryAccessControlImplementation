@@ -2,7 +2,7 @@ package com.bsk.controllers;
 
 import com.bsk.configuration.UndisplayableTables;
 import com.bsk.domain.Customer;
-import com.bsk.domain.EntityInfo;
+import com.bsk.util.EntityInfo;
 import com.bsk.domain.User;
 import com.bsk.dto.CustomerDTO;
 import com.bsk.services.CustomerService;
