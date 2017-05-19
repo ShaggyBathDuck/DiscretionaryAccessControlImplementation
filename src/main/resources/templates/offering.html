@@ -6,7 +6,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <title>Przekazywanie uprawnień</title>
 </head>
-<body>
+<body >
     <div class="container dashboard">
         <h2>Moduł przekazywania uprawnień</h2>
         <h4 th:text="'Aktywny użytkownik: '+${username}"/>
@@ -21,29 +21,45 @@
                 <div class="col-md-4" ></div>
                 <div class="col-md-4">
                     <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
-                            th:text="Przekaż"
+
                             th:onclick="|changeGrantMode('grant')|"
-                            th:classappend="${grantMode == 'grant'}? btn-info: none"></button>
+                            th:classappend="${grantMode == 'grant'}? btn-info: none">Przekaż</button>
                     <button style="display: inline" class="btn btn-sq btn-block btn-space"
-                            th:text="Oddaj"
                             th:onclick="|changeGrantMode('give')|"
-                            th:classappend="${grantMode == 'give'}? btn-info: none"></button>
+                            th:classappend="${grantMode == 'give'}? btn-info: none">Oddaj</button>
                 </div>
                 <div class="col-md-4"></div>
             </div>
             <div class="row" style="margin-top: 10px" >
                 <div class="col-md-8" >
-                    <div class="divTable">
-                        <div class="divTableHeading">
+                    <div class="divTable" th:with=" privilegesList = ${ {'Select', 'Insert', 'Update', 'Delete'} }">
+                        <div class="divTableHeading" >
                             <div class="divTableHead"
-                                 th:each="tableName : ${tableNames}  "
-                                 th:text="${tableName}">
+                                 th:text="Tabele"></div>
+                            <div class="divTableHead"
+                                 th:each=" privilege: ${privilegesList}"
+                                 th:text="${privilege}">
+                            </div>
+                        </div>
+                        <div class="divTableBody">
+                            <div class="divTableRow" th:each="tableName : ${tableNames}">
+                                <div class="divTableName" th:text="${tableName}"></div>
+                                <div class="divPrivilege" th:each="privilege: ${privilegesList}">
+                                    <select class=" list yellow rounded" th:id ="${tableName} + ${privilege}">
+                                        <option>Nie przekazuj</option>
+                                        <option>Z delegacją</option>
+                                        <option>Bez delegacji</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4" id="users">
-
+                <div class="col-md-4" >
+                    <h4>Wybierz użytkownika</h4>
+                    <select class=" list yellow rounded" id="chosenUser">
+                        <option th:each="user : ${users}" th:text="${user}"></option>
+                    </select>
                 </div>
             </div>
         </div>

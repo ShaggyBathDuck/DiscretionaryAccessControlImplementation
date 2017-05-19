@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 @Controller
 public class OfferingController {
@@ -41,16 +39,14 @@ public class OfferingController {
 
     @ModelAttribute("users")
     @ResponseBody
-    public List<User> getUsers() {
-        return userService.read();
+    public List<String> getUsernames() {
+        return userService.readUsernames();
     }
 
     @ModelAttribute("tableNames")
     @ResponseBody
     public List<String> getTables(){
-        List<String> tables = new LinkedList<>(tableNamesRepository.getTableNames().keySet());
-        tables.add(0, "Uprawnienia");
-        return tables;
+        return new ArrayList<>(tableNamesRepository.getTableNames().keySet());
     }
 
 }
