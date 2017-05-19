@@ -62,11 +62,11 @@
                     </div>
                 </div>
 
-            <hr/>
-            <form th:object="${__${dtoEntityName}__}"
-                  th:action="@{'/__${listName}__/create'}"
-                  th:method="post"
-                  th:id="createForm">
+                <hr/>
+                <form th:object="${__${dtoEntityName}__}"
+                      th:action="@{'/__${listName}__/create'}"
+                      th:method="post"
+                      th:id="createForm">
 
                     <h4 style="text-align: center">Wprowadź nowy wiersz</h4>
                     <div th:replace="fragments/forms/__${entityName}__Form::tableForm">

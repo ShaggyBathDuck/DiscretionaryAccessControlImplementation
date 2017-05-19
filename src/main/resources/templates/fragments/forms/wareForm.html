@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="kodsww"></th>
+        <th th:text="numeridentyfikacyjny"></th>
+        <th th:text="jednostkamiary"></th>
+        <th th:text="kategoria"></th>
+        <th th:text="producent"></th>
+        <th th:text="nazwa"></th>
+        <th th:text="opis"></th>
+        <th th:text="stawkavat"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="swwCode">
+            <input type="text"
+                   name="swwCode"
+                   required="required"
+                   pattern="^[0-9-]{3,}"
+                   title="Niepoprawny kod"
+                   id="swwCodeId"
+                   th:value="${'getSwwCode()'}"
+                   th:field="*{swwCode}"/>
+        </td>
+        <td th:name="idNumber">
+            <input type="text"
+                   th:name="idNumber"
+                   required="required"
+                   id="idNumberId"
+                   pattern="^[0-9]{1,}"
+                   title="Niepoprawny numer"
+                   th:value="${'getIdNumber()'}"
+                   th:field="*{idNumber}"/>
+        </td>
+        <td th:name="unit">
+            <input type="text"
+                   th:name="unit"
+                   required="required"
+                   id="unitId"
+                   pattern="^[a-zA-z]{1,}"
+                   title="Jednostka niepoprawna"
+                   th:value="${'getUnit()'}"
+                   th:field="*{unit}"
+            />
+        </td>
+        <td th:name="category">
+            <input type="text"
+                   th:name="category"
+                   required="required"
+                   id="categoryId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa kategorii"
+                   th:value="${'getCategory()'}"
+                   th:field="*{category}"
+            />
+        </td>
+        <td th:name="manufacturer">
+            <input type="text"
+                   th:name="manufacturer"
+                   required="required"
+                   id="manufacturerId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa producenta"
+                   th:value="${'getManufacturer()'}"
+                   th:field="*{manufacturer}"
+            />
+        </td>
+        <td th:name="name">
+            <input type="text"
+                   th:name="name"
+                   required="required"
+                   id="nameId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa"
+                   th:value="${'getName()'}"
+                   th:field="*{name}"
+            />
+        </td>
+        <td th:name="description">
+            <input type="text"
+                   th:name="description"
+                   required="required"
+                   id="descriptionId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawny opis"
+                   th:value="${'getDescription()'}"
+                   th:field="*{description}"
+            />
+        </td>
+        <td th:name="taxRate">
+            <input type="text"
+                   th:name="taxRate"
+                   required="required"
+                   id="taxRateId"
+                   pattern="^[0-9]{1,2}"
+                   title="Stawka z zakresu 0-99%"
+                   th:value="${'getTaxRate()'}"
+                   th:field="*{taxRate}"
+            />
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

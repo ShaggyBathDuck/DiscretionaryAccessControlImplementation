@@ -3,9 +3,11 @@ package com.bsk.services;
 
 import com.bsk.domain.Vendor;
 import com.bsk.repositories.VendorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VendorService {
     private VendorRepository vendorRepository;
 

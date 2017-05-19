@@ -1,12 +1,11 @@
 package com.bsk.controllers;
 
 import com.bsk.configuration.UndisplayableTables;
-import com.bsk.domain.Customer;
-import com.bsk.domain.EntityInfo;
-import com.bsk.domain.User;
-import com.bsk.dto.CustomerDTO;
-import com.bsk.services.CustomerService;
-import com.bsk.services.UserService;
+import com.bsk.domain.*;
+import com.bsk.dto.*;
+import com.bsk.services.*;
+import com.bsk.util.EntityInfo;
+import com.bsk.util.ModalEditData;
 import javafx.util.Pair;
 import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
@@ -27,54 +26,68 @@ public class DashboardController {
 
     private UserService userService;
 
+    private VendorService vendorService;
+
+    private WareService wareService;
+
+    private WarehouseItemService warehouseItemService;
+
+    private PurchaseService purchaseService;
+
+    private PurchasePositionService purchasePositionService;
+
+    private SaleService saleService;
+
+    private SalePositionService salePositionService;
+
     private EntityManager entityManager;
 
     private UndisplayableTables undisplayableTables;
 
-    public DashboardController(CustomerService customerService, UserService userService, EntityManager entityManager, UndisplayableTables undisplayableTables) {
+    public DashboardController(CustomerService customerService, UserService userService, VendorService vendorService,
+                               WareService wareService, WarehouseItemService warehouseItemService,
+                               PurchaseService purchaseService, PurchasePositionService purchasePositionService,
+                               SaleService saleService, SalePositionService salePositionService,
+                               EntityManager entityManager, UndisplayableTables undisplayableTables) {
         this.customerService = customerService;
         this.userService = userService;
+        this.vendorService = vendorService;
+        this.wareService = wareService;
+        this.warehouseItemService = warehouseItemService;
+        this.purchaseService = purchaseService;
+        this.purchasePositionService = purchasePositionService;
+        this.saleService = saleService;
+        this.salePositionService = salePositionService;
         this.entityManager = entityManager;
         this.undisplayableTables = undisplayableTables;
     }
-
 
     @GetMapping("/")
     public String dashboard(Model model,
                             @RequestParam(required = false) String tabName) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", authentication.getName());
-        if (tabName == null)
-            return "dashboard";
-        else {
+        if (tabName != null)
             model.addAttribute("tabName", tabName);
-            return "dashboard";
-        }
+        return "dashboard";
     }
 
-    @ModelAttribute("customers")
-    @ResponseBody
-    public List<Customer> getCustomers() {
-        return customerService.read();
-    }
-
-    @ModelAttribute("users")
-    @ResponseBody
-    public List<User> getUsers() {
-        return userService.read();
-    }
 
     @PostMapping("/table")
     public String table(Model model, String activeTabName) {
         SortedMap<String, EntityInfo> entitiesInfo = getTables();
         Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
         model.addAttribute("data", data);
-        model.addAttribute("user", new User());
-        model.addAttribute("customer", new Customer());
-        model.addAttribute("customerDTO", new CustomerDTO());
-        model.addAttribute("customers", customerService.read());
-        model.addAttribute("users", userService.read());
+        addEntitiesModelAttributes(model);
         return "fragments/table :: tableDiv";
+    }
+
+    @RequestMapping("/modalEdit")
+    public String modalEdit(Model model, String activeTabName, Integer id) {
+        ModalEditData modalEditData = new ModalEditData(getTables(), activeTabName, id);
+        model.addAttribute("data", modalEditData);
+        addEntitiesModelAttributes(model, id);
+        return "fragments/modalEdit :: modalEdit";
     }
 
     @ModelAttribute("entitiesInfo")
@@ -85,7 +98,7 @@ public class DashboardController {
         Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
         for (ClassMetadata classMetadata : hibernateMetadata.values()) {
             AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            if (!undisplayableTables.getTables().contains(aep.getTableName().toLowerCase())){
+            if (!undisplayableTables.getTables().contains(aep.getTableName().toLowerCase())) {
                 int propertiesCounter = classMetadata.getPropertyNames().length;
                 ArrayList<String> columnNamesInDb = new ArrayList<>();
                 columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
@@ -98,13 +111,64 @@ public class DashboardController {
                 ArrayList<String> columnNamesInHb = new ArrayList<>();
                 columnNamesInHb.add(classMetadata.getIdentifierPropertyName());
                 columnNamesInHb.addAll(Arrays.asList(classMetadata.getPropertyNames()));
-                String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.')+1);
+                String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.') + 1);
                 entityInfo.setTableNameInHb(entityName.toLowerCase());
                 entityInfo.setColumnNamesInHb(columnNamesInHb);
                 entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
             }
         }
         return entitiesInfo;
+    }
+
+    private void addCommonModelAttributes(Model model) {
+        model.addAttribute("customers", customerService.read());
+        model.addAttribute("users", userService.read());
+        model.addAttribute("vendors", vendorService.read());
+        model.addAttribute("wares", wareService.read());
+        model.addAttribute("warehouseitems", warehouseItemService.read());
+        model.addAttribute("purchases", purchaseService.read());
+        model.addAttribute("purchasepositions", purchasePositionService.read());
+        model.addAttribute("sales", saleService.read());
+        model.addAttribute("salepositions", salePositionService.read());
+    }
+
+    private void addDTOs(Model model) {
+        model.addAttribute("customerDTO", new CustomerDTO());
+        model.addAttribute("vendorDTO", new VendorDTO());
+        model.addAttribute("wareDTO", new WareDTO());
+        model.addAttribute("warehouseitemDTO", new WarehouseItemDTO());
+        model.addAttribute("purchaseDTO", new PurchaseDTO());
+        model.addAttribute("purchasepositionDTO", new PurchasePositionDTO());
+        model.addAttribute("saleDTO", new SaleDTO());
+        model.addAttribute("salepositionDTO", new SalePositionDTO());
+    }
+
+    private void addEntitiesModelAttributes(Model model, Integer id) {
+        model.addAttribute("user", userService.findById(id));
+        model.addAttribute("customer", customerService.findById(id));
+        model.addAttribute("vendor", vendorService.findById(id));
+        model.addAttribute("ware", wareService.findById(id));
+        model.addAttribute("warehouseitem", warehouseItemService.findById(id));
+        model.addAttribute("purchase", purchaseService.findById(id));
+        model.addAttribute("purchaseposition", purchasePositionService.findById(id));
+        model.addAttribute("sale", saleService.findById(id));
+        model.addAttribute("saleposition", salePositionService.findById(id));
+        addCommonModelAttributes(model);
+        addDTOs(model);
+    }
+
+    private void addEntitiesModelAttributes(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("customer", new Customer());
+        model.addAttribute("vendor", new Vendor());
+        model.addAttribute("ware", new Ware());
+        model.addAttribute("warehouseitem", new WarehouseItem());
+        model.addAttribute("purchase", new Purchase());
+        model.addAttribute("purchaseposition", new PurchasePosition());
+        model.addAttribute("sale", new Sale());
+        model.addAttribute("saleposition", new SalePosition());
+        addCommonModelAttributes(model);
+        addDTOs(model);
     }
 
 }
