@@ -2,7 +2,6 @@ package com.bsk.controllers;
 
 import com.bsk.configuration.UndisplayableTables;
 import com.bsk.domain.*;
-import com.bsk.dto.*;
 import com.bsk.services.*;
 import com.bsk.util.EntityInfo;
 import com.bsk.util.ModalEditData;
@@ -132,16 +131,6 @@ public class DashboardController {
         model.addAttribute("salepositions", salePositionService.read());
     }
 
-    private void addDTOs(Model model) {
-        model.addAttribute("customerDTO", new CustomerDTO());
-        model.addAttribute("vendorDTO", new VendorDTO());
-        model.addAttribute("wareDTO", new WareDTO());
-        model.addAttribute("warehouseitemDTO", new WarehouseItemDTO());
-        model.addAttribute("purchaseDTO", new PurchaseDTO());
-        model.addAttribute("purchasepositionDTO", new PurchasePositionDTO());
-        model.addAttribute("saleDTO", new SaleDTO());
-        model.addAttribute("salepositionDTO", new SalePositionDTO());
-    }
 
     private void addEntitiesModelAttributes(Model model, Integer id) {
         model.addAttribute("user", userService.findById(id));
@@ -154,7 +143,6 @@ public class DashboardController {
         model.addAttribute("sale", saleService.findById(id));
         model.addAttribute("saleposition", salePositionService.findById(id));
         addCommonModelAttributes(model);
-        addDTOs(model);
     }
 
     private void addEntitiesModelAttributes(Model model) {
@@ -168,7 +156,6 @@ public class DashboardController {
         model.addAttribute("sale", new Sale());
         model.addAttribute("saleposition", new SalePosition());
         addCommonModelAttributes(model);
-        addDTOs(model);
     }
 
 }

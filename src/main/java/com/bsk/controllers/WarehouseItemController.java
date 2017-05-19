@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.WarehouseItem;
-import com.bsk.dto.WarehouseItemDTO;
-import com.bsk.mapper.WarehouseItemMapper;
 import com.bsk.services.WarehouseItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +13,9 @@ import javax.validation.Valid;
 @RequestMapping("/warehouseitems")
 public class WarehouseItemController {
     private WarehouseItemService warehouseItemService;
-    private WarehouseItemMapper warehouseItemMapper;
 
-    public WarehouseItemController(WarehouseItemService warehouseItemService, WarehouseItemMapper warehouseItemMapper) {
+    public WarehouseItemController(WarehouseItemService warehouseItemService) {
         this.warehouseItemService = warehouseItemService;
-        this.warehouseItemMapper = warehouseItemMapper;
     }
 
     private String showHome(Model model) {
@@ -28,10 +24,10 @@ public class WarehouseItemController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("warehouseItemDTO") WarehouseItemDTO warehouseItemDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid WarehouseItem warehouseItem, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            WarehouseItem warehouseItem = warehouseItemMapper.map(warehouseItemDTO);
-            warehouseItemService.save(warehouseItem);
+            WarehouseItem toSave = warehouseItem;
+            warehouseItemService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=towarymagazyn";

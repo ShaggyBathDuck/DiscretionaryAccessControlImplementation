@@ -2,8 +2,6 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.Vendor;
-import com.bsk.dto.VendorDTO;
-import com.bsk.mapper.VendorMapper;
 import com.bsk.services.VendorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +15,9 @@ import javax.validation.Valid;
 public class VendorController {
 
     private VendorService vendorService;
-    private VendorMapper vendorMapper;
 
-    public VendorController(VendorService vendorService, VendorMapper vendorMapper) {
+    public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
-        this.vendorMapper = vendorMapper;
     }
 
     private String showHome(Model model) {
@@ -30,10 +26,10 @@ public class VendorController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("vendorDTO") VendorDTO vendorDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid Vendor vendor, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            Vendor vendor = vendorMapper.map(vendorDTO);
-            vendorService.save(vendor);
+            Vendor toSave = vendor;
+            vendorService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=dostawcy";

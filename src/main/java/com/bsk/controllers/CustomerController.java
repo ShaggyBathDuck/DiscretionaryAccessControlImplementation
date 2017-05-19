@@ -1,13 +1,14 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Customer;
-import com.bsk.dto.CustomerDTO;
-import com.bsk.mapper.CustomerMapper;
 import com.bsk.services.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -17,11 +18,9 @@ import javax.validation.Valid;
 public class CustomerController {
 
     private CustomerService customerService;
-    private CustomerMapper customerMapper;
 
-    public CustomerController(CustomerService customerService, CustomerMapper customerMapper) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.customerMapper = customerMapper;
     }
 
     private String showHome(Model model) {
@@ -30,10 +29,10 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("customerDTO") CustomerDTO customerDTO, BindingResult bindingResult, Model model) {
-        if(!bindingResult.hasErrors()){
-            Customer customer = customerMapper.map(customerDTO);
-            customerService.save(customer);
+    public String create(@Valid Customer customer, BindingResult bindingResult, Model model) {
+        if (!bindingResult.hasErrors()) {
+            Customer toSave = customer;
+            customerService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=klienci";

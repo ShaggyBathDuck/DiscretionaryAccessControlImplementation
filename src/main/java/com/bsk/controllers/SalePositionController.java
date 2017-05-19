@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.SalePosition;
-import com.bsk.dto.SalePositionDTO;
-import com.bsk.mapper.SalePositionMapper;
 import com.bsk.services.SalePositionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +14,9 @@ import javax.validation.Valid;
 public class SalePositionController {
 
     private SalePositionService salePositionService;
-    private SalePositionMapper salePositionMapper;
 
-    public SalePositionController(SalePositionService salePositionService, SalePositionMapper salePositionMapper) {
+    public SalePositionController(SalePositionService salePositionService) {
         this.salePositionService = salePositionService;
-        this.salePositionMapper = salePositionMapper;
     }
 
     private String showHome(Model model) {
@@ -29,10 +25,10 @@ public class SalePositionController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("salepositionDTO") SalePositionDTO salePositionDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid SalePosition salePosition, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            SalePosition salePosition = salePositionMapper.map(salePositionDTO);
-            salePositionService.save(salePosition);
+            SalePosition toSave = salePosition;
+            salePositionService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=pozycjesprzedazy";

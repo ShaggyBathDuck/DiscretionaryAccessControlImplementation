@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @Entity(name = "Klienci")
@@ -42,7 +41,6 @@ public class Customer {
 
     @Column(name = "numerlokalu")
     @Digits(integer = 10, fraction = 0)
-    @Min(value = 1)
     private int flatNumber;
 
     @Column(name = "kodpocztowy")

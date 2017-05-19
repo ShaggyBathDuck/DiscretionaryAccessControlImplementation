@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Sale;
-import com.bsk.dto.SaleDTO;
-import com.bsk.mapper.SaleMapper;
 import com.bsk.services.SaleService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -20,11 +18,9 @@ import java.util.Date;
 public class SaleController {
 
     private SaleService saleService;
-    private SaleMapper saleMapper;
 
-    public SaleController(SaleService saleService, SaleMapper saleMapper) {
+    public SaleController(SaleService saleService) {
         this.saleService = saleService;
-        this.saleMapper = saleMapper;
     }
 
     private String showHome(Model model) {
@@ -33,10 +29,10 @@ public class SaleController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("saleDTO") SaleDTO saleDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("sale") Sale sale, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            Sale sale = saleMapper.map(saleDTO);
-            saleService.save(sale);
+            Sale toSave = sale;
+            saleService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=sprzedaze";

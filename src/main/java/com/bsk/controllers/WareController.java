@@ -2,8 +2,6 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.Ware;
-import com.bsk.dto.WareDTO;
-import com.bsk.mapper.WareMapper;
 import com.bsk.services.WareService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +15,9 @@ import javax.validation.Valid;
 public class WareController {
 
     private WareService wareService;
-    private WareMapper wareMapper;
 
-    public WareController(WareService wareService, WareMapper wareMapper) {
+    public WareController(WareService wareService) {
         this.wareService = wareService;
-        this.wareMapper = wareMapper;
     }
 
     private String showHome(Model model) {
@@ -30,10 +26,10 @@ public class WareController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("wareDTO") WareDTO wareDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid Ware ware, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            Ware ware = wareMapper.map(wareDTO);
-            wareService.save(ware);
+            Ware toSave = ware;
+            wareService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=towary";

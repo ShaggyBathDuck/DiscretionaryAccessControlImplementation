@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.PurchasePosition;
-import com.bsk.dto.PurchasePositionDTO;
-import com.bsk.mapper.PurchasePositionMapper;
 import com.bsk.services.PurchasePositionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +14,9 @@ import javax.validation.Valid;
 public class PurchasePositionController {
 
     private PurchasePositionService purchasePositionService;
-    private PurchasePositionMapper purchasePositionMapper;
 
-    public PurchasePositionController(PurchasePositionService purchasePositionService, PurchasePositionMapper purchasePositionMapper) {
+    public PurchasePositionController(PurchasePositionService purchasePositionService) {
         this.purchasePositionService = purchasePositionService;
-        this.purchasePositionMapper = purchasePositionMapper;
     }
 
     private String showHome(Model model) {
@@ -29,10 +25,10 @@ public class PurchasePositionController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("purchasepositionDTO") PurchasePositionDTO purchasePositionDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid PurchasePosition purchasePosition, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            PurchasePosition purchasePosition = purchasePositionMapper.map(purchasePositionDTO);
-            purchasePositionService.save(purchasePosition);
+            PurchasePosition toSave = purchasePosition;
+            purchasePositionService.save(toSave);
             return showHome(model);
         }
         return "redirect:/?tabName=pozycjezakupow";
