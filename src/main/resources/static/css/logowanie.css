@@ -182,3 +182,9 @@ ul.list-group{
 	height: 40px;
 
 }
+.space-for-div{
+	padding-top: 20px;
+}
+h5{
+	text-align: center;
+}

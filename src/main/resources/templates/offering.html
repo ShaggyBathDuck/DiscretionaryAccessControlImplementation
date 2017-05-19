@@ -17,7 +17,7 @@
             <a th:href="@{/logout}"> <button type="submit" class="btn btn-sm">Wyloguj</button></a>
         </h4>
         <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
-            <div class="row">
+            <div class="row space-for-div">
                 <div class="col-md-4" ></div>
                 <div class="col-md-4">
                     <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
@@ -30,8 +30,9 @@
                 </div>
                 <div class="col-md-4"></div>
             </div>
-            <div class="row" style="margin-top: 10px" >
-                <div class="col-md-8" >
+
+            <div class="row space-for-div"  >
+                <div class="col-md-7" >
                     <div class="divTable" th:with=" privilegesList = ${ {'Select', 'Insert', 'Update', 'Delete'} }">
                         <div class="divTableHeading" >
                             <div class="divTableHead"
@@ -55,11 +56,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4" >
-                    <h4>Wybierz użytkownika</h4>
+                <div class="col-lg-1" > </div>
+                <div class="col-md-3" >
+                    <h5>Wybierz użytkownika</h5>
                     <select class=" list yellow rounded" id="chosenUser">
                         <option th:each="user : ${users}" th:text="${user}"></option>
                     </select>
+                </div>
+                <div class="col-lg-1" > </div>
+            </div>
+            <div class="row space-for-div"  >
+                <div class="col-md-9"></div>
+                <div class="col-md-2">
+
+                    <button type="button" class="btn btn-sq btn-block btn-space btn-info" th:text="Wyślij">
+                    </button>
                 </div>
             </div>
         </div>
