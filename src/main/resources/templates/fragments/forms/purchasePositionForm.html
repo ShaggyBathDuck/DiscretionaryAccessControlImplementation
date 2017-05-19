@@ -8,20 +8,22 @@
 <table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
     <thead>
     <tr>
-        <th th:text="idzakupu"></th>
-        <th th:text="cena"></th>
         <th th:text="ilosc"></th>
+        <th th:text="cena"></th>
+        <th th:text="idzakupu"></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td th:name="purchase">
+        <td th:name="amount">
             <input type="number"
-                   name="purchase"
+                   th:name="amount"
                    required="required"
-                   id="purchaseId"
-                   th:value="${'getPurchase().getId()'}"
-                   th:field="*{purchase}"/>
+                   id="amountId"
+                   min="1"
+                   th:value="${'getAmount()'}"
+                   th:field="*{amount}"
+            />
         </td>
         <td th:name="price">
             <input type="number"
@@ -33,15 +35,13 @@
                    th:value="${'getPrice()'}"
                    th:field="*{price}"/>
         </td>
-        <td th:name="amount">
+        <td th:name="purchase">
             <input type="number"
-                   th:name="amount"
+                   name="purchase"
                    required="required"
-                   id="amountId"
-                   min="1"
-                   th:value="${'getAmount()'}"
-                   th:field="*{amount}"
-            />
+                   id="purchaseId"
+                   th:value="${'getPurchase().getId()'}"
+                   th:field="*{purchase}"/>
         </td>
     </tr>
     </tbody>

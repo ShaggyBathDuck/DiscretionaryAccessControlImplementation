@@ -8,49 +8,18 @@
 <table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
     <thead>
     <tr>
-        <th th:text="kodsww"></th>
-        <th th:text="numeridentyfikacyjny"></th>
-        <th th:text="jednostkamiary"></th>
         <th th:text="kategoria"></th>
+        <th th:text="opis"></th>
+        <th th:text="numeridentyfikacyjny"></th>
         <th th:text="producent"></th>
         <th th:text="nazwa"></th>
-        <th th:text="opis"></th>
+        <th th:text="kodsww"></th>
         <th th:text="stawkavat"></th>
+        <th th:text="jednostkamiary"></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td th:name="swwCode">
-            <input type="text"
-                   name="swwCode"
-                   required="required"
-                   pattern="^[0-9-]{3,}"
-                   title="Niepoprawny kod"
-                   id="swwCodeId"
-                   th:value="${'getSwwCode()'}"
-                   th:field="*{swwCode}"/>
-        </td>
-        <td th:name="idNumber">
-            <input type="text"
-                   th:name="idNumber"
-                   required="required"
-                   id="idNumberId"
-                   pattern="^[0-9]{1,}"
-                   title="Niepoprawny numer"
-                   th:value="${'getIdNumber()'}"
-                   th:field="*{idNumber}"/>
-        </td>
-        <td th:name="unit">
-            <input type="text"
-                   th:name="unit"
-                   required="required"
-                   id="unitId"
-                   pattern="^[a-zA-z]{1,}"
-                   title="Jednostka niepoprawna"
-                   th:value="${'getUnit()'}"
-                   th:field="*{unit}"
-            />
-        </td>
         <td th:name="category">
             <input type="text"
                    th:name="category"
@@ -61,6 +30,27 @@
                    th:value="${'getCategory()'}"
                    th:field="*{category}"
             />
+        </td>
+        <td th:name="description">
+            <input type="text"
+                   th:name="description"
+                   required="required"
+                   id="descriptionId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawny opis"
+                   th:value="${'getDescription()'}"
+                   th:field="*{description}"
+            />
+        </td>
+        <td th:name="idNumber">
+            <input type="text"
+                   th:name="idNumber"
+                   required="required"
+                   id="idNumberId"
+                   pattern="^[0-9]{1,}"
+                   title="Niepoprawny numer"
+                   th:value="${'getIdNumber()'}"
+                   th:field="*{idNumber}"/>
         </td>
         <td th:name="manufacturer">
             <input type="text"
@@ -84,16 +74,15 @@
                    th:field="*{name}"
             />
         </td>
-        <td th:name="description">
+        <td th:name="swwCode">
             <input type="text"
-                   th:name="description"
+                   name="swwCode"
                    required="required"
-                   id="descriptionId"
-                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
-                   title="Niepoprawny opis"
-                   th:value="${'getDescription()'}"
-                   th:field="*{description}"
-            />
+                   pattern="^[0-9-]{3,}"
+                   title="Niepoprawny kod"
+                   id="swwCodeId"
+                   th:value="${'getSwwCode()'}"
+                   th:field="*{swwCode}"/>
         </td>
         <td th:name="taxRate">
             <input type="text"
@@ -104,6 +93,17 @@
                    title="Stawka z zakresu 0-99%"
                    th:value="${'getTaxRate()'}"
                    th:field="*{taxRate}"
+            />
+        </td>
+        <td th:name="unit">
+            <input type="text"
+                   th:name="unit"
+                   required="required"
+                   id="unitId"
+                   pattern="^[a-zA-z]{1,}"
+                   title="Jednostka niepoprawna"
+                   th:value="${'getUnit()'}"
+                   th:field="*{unit}"
             />
         </td>
     </tr>

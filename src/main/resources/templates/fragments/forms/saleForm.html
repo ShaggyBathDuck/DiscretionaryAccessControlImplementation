@@ -8,24 +8,13 @@
 <table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
     <thead>
     <tr>
-        <th th:text="nrfaktury"></th>
         <th th:text="idklienta"></th>
         <th th:text="data"></th>
+        <th th:text="nrfaktury"></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td th:name="invoiceNumber">
-            <input type="text"
-                   th:name="invoiceNumber"
-                   required="required"
-                   id="invoiceNumberId"
-                   pattern="^[a-zA-z0-9-]{5,}"
-                   title="Niepoprawny numer faktury"
-                   th:value="${'getInvoiceNumber()'}"
-                   th:field="*{invoiceNumber}"
-            />
-        </td>
         <td th:name="customer">
             <input type="number"
                    th:name="customer"
@@ -41,6 +30,17 @@
                    id="dateId"
                    th:value="${'getDate()'}"
                    th:field="*{date}"/>
+        </td>
+        <td th:name="invoiceNumber">
+            <input type="text"
+                   th:name="invoiceNumber"
+                   required="required"
+                   id="invoiceNumberId"
+                   pattern="^[a-zA-z0-9-]{5,}"
+                   title="Niepoprawny numer faktury"
+                   th:value="${'getInvoiceNumber()'}"
+                   th:field="*{invoiceNumber}"
+            />
         </td>
     </tr>
     </tbody>

@@ -9,8 +9,8 @@
     <thead>
     <tr>
         <th th:text="data"></th>
+        <th th:text="nrfaktury"></th>
         <th th:text="iddostawcy"></th>
-        <th th:text="invoiceNumber"></th>
     </tr>
     </thead>
     <tbody>
@@ -23,14 +23,6 @@
                    th:value="${'getDate()'}"
                    th:field="*{date}"/>
         </td>
-        <td th:name="vendor">
-            <input type="number"
-                   th:name="vendor"
-                   required="required"
-                   id="vendorId"
-                   th:value="${'getVendor().getId()'}"
-                   th:field="*{vendor}"/>
-        </td>
         <td th:name="invoiceNumber">
             <input type="text"
                    th:name="invoiceNumber"
@@ -41,6 +33,14 @@
                    th:value="${'getInvoiceNumber()'}"
                    th:field="*{invoiceNumber}"
             />
+        </td>
+        <td th:name="vendor">
+            <input type="number"
+                   th:name="vendor"
+                   required="required"
+                   id="vendorId"
+                   th:value="${'getVendor().getId()'}"
+                   th:field="*{vendor}"/>
         </td>
     </tr>
     </tbody>
