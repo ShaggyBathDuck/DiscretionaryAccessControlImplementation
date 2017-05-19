@@ -8,33 +8,26 @@
 <table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
     <thead>
     <tr>
-        <th th:text="idtowaru"></th>
-        <th th:text="cenasprzedazy"></th>
+        <th th:text="ilosc"></th>
         <th th:text="lokalizacja"></th>
         <th th:text="idzakupu"></th>
-        <th th:text="ilosc"></th>
+        <th th:text="cenasprzedazy"></th>
+        <th th:text="idtowaru"></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td th:name="ware">
-            <input type="number"
-                   name="ware"
+        <td th:name="amount">
+            <input type="text"
+                   th:name="amount"
                    required="required"
-                   id="wareId"
-                   step="."
-                   th:value="${'getWare().getId()'}"
-                   th:field="*{ware}"/>
-        </td>
-        <td th:name="salesPrice">
-            <input type="number"
-                   th:name="salesPrice"
-                   required="required"
-                   id="salesPriceId"
-                   step=".01"
-                   title="Niepoprawna cena"
-                   th:value="${'getSalesPrice()'}"
-                   th:field="*{salesPrice}"/>
+                   id="amountId"
+                   pattern="^[0-9]+"
+                   min="1"
+                   title="Niepoprawna ilosc"
+                   th:value="${'getAmount()'}"
+                   th:field="*{amount}"
+            />
         </td>
         <td th:name="location">
             <input type="text"
@@ -57,17 +50,24 @@
                    th:field="*{purchase}"
             />
         </td>
-        <td th:name="amount">
-            <input type="text"
-                   th:name="amount"
+        <td th:name="salesPrice">
+            <input type="number"
+                   th:name="salesPrice"
                    required="required"
-                   id="amountId"
-                   pattern="^[0-9]+"
-                   min="1"
-                   title="Niepoprawna ilosc"
-                   th:value="${'getAmount()'}"
-                   th:field="*{amount}"
-            />
+                   id="salesPriceId"
+                   step=".01"
+                   title="Niepoprawna cena"
+                   th:value="${'getSalesPrice()'}"
+                   th:field="*{salesPrice}"/>
+        </td>
+        <td th:name="ware">
+            <input type="number"
+                   name="ware"
+                   required="required"
+                   id="wareId"
+                   step="."
+                   th:value="${'getWare().getId()'}"
+                   th:field="*{ware}"/>
         </td>
     </tr>
     </tbody>
