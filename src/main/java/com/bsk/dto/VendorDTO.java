@@ -1,10 +1,10 @@
 package com.bsk.dto;
 
+
 import lombok.Data;
 
 @Data
-public class CustomerDTO {
-
+public class VendorDTO {
     private String nip;
 
     private String name;
@@ -20,7 +20,5 @@ public class CustomerDTO {
     private String postalCode;
 
     private String city;
-
-    private int discount;
 
 }

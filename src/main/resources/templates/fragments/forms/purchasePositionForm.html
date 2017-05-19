@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="idzakupu"></th>
+        <th th:text="cena"></th>
+        <th th:text="ilosc"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="purchase">
+            <input type="number"
+                   name="purchase"
+                   required="required"
+                   id="purchaseId"
+                   th:value="${'getPurchase().getId()'}"
+                   th:field="*{purchase}"/>
+        </td>
+        <td th:name="price">
+            <input type="number"
+                   th:name="price"
+                   required="required"
+                   id="priceId"
+                   step=".01"
+                   min="0.01"
+                   th:value="${'getPrice()'}"
+                   th:field="*{price}"/>
+        </td>
+        <td th:name="amount">
+            <input type="number"
+                   th:name="amount"
+                   required="required"
+                   id="amountId"
+                   min="1"
+                   th:value="${'getAmount()'}"
+                   th:field="*{amount}"
+            />
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

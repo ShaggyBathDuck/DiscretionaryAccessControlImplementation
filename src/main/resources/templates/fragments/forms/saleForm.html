@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="nrfaktury"></th>
+        <th th:text="idklienta"></th>
+        <th th:text="data"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="invoiceNumber">
+            <input type="text"
+                   th:name="invoiceNumber"
+                   required="required"
+                   id="invoiceNumberId"
+                   pattern="^[a-zA-z0-9-]{5,}"
+                   title="Niepoprawny numer faktury"
+                   th:value="${'getInvoiceNumber()'}"
+                   th:field="*{invoiceNumber}"
+            />
+        </td>
+        <td th:name="customer">
+            <input type="number"
+                   th:name="customer"
+                   required="required"
+                   id="customerId"
+                   th:value="${'getCustomer().getId()'}"
+                   th:field="*{customer}"/>
+        </td>
+        <td th:name="date">
+            <input type="date"
+                   name="date"
+                   required="required"
+                   id="dateId"
+                   th:value="${'getDate()'}"
+                   th:field="*{date}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
