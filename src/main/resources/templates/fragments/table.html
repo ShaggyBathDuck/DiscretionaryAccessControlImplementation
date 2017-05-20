@@ -1,4 +1,9 @@
 <!--/*--><!--@thymesVar id="data" type="Pair<String, SortedMap<String, com.bsk.util.EntityInfo>> "--><!--*/-->
+
+<head>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+</head>
 <div xmlns:th="http://www.thymeleaf.org"
      th:fragment="tableDiv"
      th:with="entitiesInfo=${data.getValue()},
@@ -106,8 +111,18 @@
     <!-- /#page-content-wrapper -->
     <script th:inline="javascript">
         /*<![CDATA[*/
+
         function loadModalEdit(tableName, id) {
-            $('#modal-content').load("/modalEdit", {"activeTabName": tableName, "id": id});
+            var token = $("meta[name='_csrf']").attr("content");
+            $.ajax({
+                url: "/modalEdit",
+                headers: {'X-CSRF-TOKEN': token},
+                data: {"activeTabName": tableName, "id": id},
+                type: "POST",
+            }).done(function (data) {
+                $('#modal-content').html(data);
+            });
+            //$('#modal-content').load("/modalEdit", {"activeTabName": tableName, "id": id});
             $('#myModal').modal('show');
         }
         /*]]>*/

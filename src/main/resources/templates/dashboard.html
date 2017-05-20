@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Dashboard</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,8 +31,19 @@
 <!-- /#page-content-wrapper -->
 <script th:inline="javascript">
     /*<![CDATA[*/
+
+
     function changeTable(tableName) {
-        $('#tableDiv').load("/table", {"activeTabName": tableName});
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            url: "/table",
+            headers: {'X-CSRF-TOKEN': token},
+            data: {"activeTabName": tableName},
+            type: "POST",
+        }).done(function (data) {
+            $('#tableDiv').html(data);
+        });
+        //$('#tableDiv').load("/table", {"activeTabName": tableName});
     }
     function refresh(tableName) {
         $('#buttons').load(this);
