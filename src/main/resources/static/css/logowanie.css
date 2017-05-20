@@ -26,7 +26,7 @@ div.container.przekazywanie {
 	position:relative;
 }
 div.main{
-	width: 320px;
+	width: 590px;
 	margin-left:auto;
 	margin-right:auto;
 	padding: 10px 55px 40px;
@@ -34,7 +34,7 @@ div.main{
 	border: 15px solid white;
 	box-shadow: 0 0 10px;
 	border-radius: 2px;
-	font-size: 13px;
+	font-size: 16px;
 }
 div.main.dashboard{
 	width: 1300px;
@@ -53,13 +53,13 @@ input[type=text], [type=password], [type=email], [type=number], [type=date] {
 	box-shadow: 0 0 5px #00F5FF;
 	border: 2px solid #00F5FF;
 	color: #4f4f4f;
-	font-size: 14px;
+	font-size: 18px;
+	height: 30px;
 }
 label{
 	color: #464646;
 	text-shadow: 0 1px 0 #fff;
-	font-size: 18px;
-	font-weight: bold;
+	font-size: 22px;
 }
 #login {
 	width: 100%;
@@ -80,7 +80,7 @@ h4{
 	text-align: right;
 	margin-left:auto;
 	margin-right: auto;
-	font-size: 15px;
+	font-size: 20px;
 }
 .left {
     float: left;

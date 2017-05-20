@@ -46,7 +46,7 @@ public class Vendor {
     private int flatNumber;
 
     @Column(name = "kodpocztowy")
-    @Pattern(regexp = "\"^\\d{2}-\\d{3}$\"")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$")
     private String postalCode;
 
     @Column(name = "miasto")

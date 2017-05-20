@@ -28,20 +28,21 @@ public class SalePositionController {
     @PostMapping(value = "/create")
     public String create(@Valid @ModelAttribute("saleposition") SalePosition salePosition, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            SalePosition toSave = salePosition;
-            salePositionService.save(toSave);
+            salePositionService.save(salePosition);
             return showHome(model);
         }
-        attr.addFlashAttribute("org.springframework.validation.BindingResult.saleposition", bindingResult);
-        attr.addFlashAttribute("saleposition", salePosition);
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=pozycjesprzedazy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid SalePosition salePosition, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors())
-        salePositionService.save(salePosition);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid SalePosition salePosition, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            salePositionService.save(salePosition);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=pozycjesprzedazy";
     }
 
     @DeleteMapping(value = "/delete/{id}")

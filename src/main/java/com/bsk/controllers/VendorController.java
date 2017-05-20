@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -26,19 +27,23 @@ public class VendorController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid Vendor vendor, BindingResult bindingResult, Model model) {
+    public String create(@Valid Vendor vendor, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Vendor toSave = vendor;
-            vendorService.save(toSave);
+            vendorService.save(vendor);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=dostawcy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Vendor vendor, Model model) {
-        vendorService.save(vendor);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Vendor vendor, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            vendorService.save(vendor);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=dostawcy";
     }
 
     @DeleteMapping(value = "/delete/{id}")

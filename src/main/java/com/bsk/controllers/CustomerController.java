@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -29,19 +30,23 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid Customer customer, BindingResult bindingResult, Model model) {
+    public String create(@Valid Customer customer, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Customer toSave = customer;
-            customerService.save(toSave);
+            customerService.save(customer);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=klienci";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Customer customer, Model model) {
-        customerService.save(customer);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Customer customer, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            customerService.save(customer);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=klienci";
     }
 
     @RequestMapping(value = "/delete/{id}")

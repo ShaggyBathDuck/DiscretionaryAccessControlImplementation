@@ -127,7 +127,7 @@ public class DashboardController {
         model.addAttribute("purchases", purchaseService.read());
         model.addAttribute("purchasepositions", purchasePositionService.read());
         model.addAttribute("sales", saleService.read());
-        if (!model.containsAttribute("salepositions")) model.addAttribute("salepositions", salePositionService.read());
+        model.addAttribute("salepositions", salePositionService.read());
     }
 
 
@@ -140,8 +140,7 @@ public class DashboardController {
         model.addAttribute("purchase", purchaseService.findById(id));
         model.addAttribute("purchaseposition", purchasePositionService.findById(id));
         model.addAttribute("sale", saleService.findById(id));
-        if (!model.containsAttribute("saleposition"))
-            model.addAttribute("saleposition", salePositionService.findById(id));
+        model.addAttribute("saleposition", salePositionService.findById(id));
         addCommonModelAttributes(model);
     }
 
@@ -154,7 +153,7 @@ public class DashboardController {
         model.addAttribute("purchase", new Purchase());
         model.addAttribute("purchaseposition", new PurchasePosition());
         model.addAttribute("sale", new Sale());
-        if (!model.containsAttribute("saleposition")) model.addAttribute("saleposition", new SalePosition());
+        model.addAttribute("saleposition", new SalePosition());
         addCommonModelAttributes(model);
     }
 

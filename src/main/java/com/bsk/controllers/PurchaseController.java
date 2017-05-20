@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -29,19 +30,23 @@ public class PurchaseController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid Purchase purchase, BindingResult bindingResult, Model model) {
+    public String create(@Valid Purchase purchase, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Purchase toSave = purchase;
-            purchaseService.save(toSave);
+            purchaseService.save(purchase);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=zakupy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Purchase purchase, Model model) {
-        purchaseService.save(purchase);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Purchase purchase, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            purchaseService.save(purchase);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=zakupy";
     }
 
     @DeleteMapping(value = "/delete/{id}")

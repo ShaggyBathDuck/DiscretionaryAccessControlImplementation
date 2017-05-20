@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -29,19 +30,23 @@ public class SaleController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("sale") Sale sale, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("sale") Sale sale, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Sale toSave = sale;
-            saleService.save(toSave);
+            saleService.save(sale);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=sprzedaze";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Sale sale, Model model) {
-        saleService.save(sale);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Sale sale, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            saleService.save(sale);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=sprzedaze";
     }
 
     @DeleteMapping(value = "/delete/{id}")
