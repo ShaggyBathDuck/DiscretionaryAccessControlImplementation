@@ -94,7 +94,7 @@ h3.header{
 	font-size: 20px;
 }
 select.list{
-	width: 40%;
+	width: 100%;
 }
 ul {
 	padding: 0;
@@ -158,4 +158,33 @@ ul.list-group{
 
 .divTableBody {
 	display: table-row-group;
+}
+
+.divTableName{
+	background-color: #EEE;
+	font-weight: bold;
+	border: 1px solid #ffffff;
+	display: table-cell;
+	padding: 3px;
+}
+.divPrivilege{
+	border: 1px solid #ffffff;
+	background-color: wheat;
+	display: table-cell;
+	padding: 10px;
+}
+.yellow  { background-color: #f4d970; }
+
+.rounded {
+	-webkit-border-radius: 20px;
+	-moz-border-radius: 20px;
+	border-radius: 20px;
+	height: 40px;
+
+}
+.space-for-div{
+	padding-top: 20px;
+}
+h5{
+	text-align: center;
 }

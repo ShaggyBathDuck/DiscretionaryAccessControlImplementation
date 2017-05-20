@@ -25,4 +25,5 @@ public class User {
 
     @OneToMany(mappedBy = "grantPrivilegePK.receiver")
     private List<GrantPrivilege> grantedPrivileges;
+
 }
