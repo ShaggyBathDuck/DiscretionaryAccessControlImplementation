@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -25,17 +26,20 @@ public class SalePositionController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid SalePosition salePosition, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("saleposition") SalePosition salePosition, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             SalePosition toSave = salePosition;
             salePositionService.save(toSave);
             return showHome(model);
         }
+        attr.addFlashAttribute("org.springframework.validation.BindingResult.saleposition", bindingResult);
+        attr.addFlashAttribute("saleposition", salePosition);
         return "redirect:/?tabName=pozycjesprzedazy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid SalePosition salePosition, Model model) {
+    public String update(@PathVariable int id, @Valid SalePosition salePosition, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors())
         salePositionService.save(salePosition);
         return showHome(model);
     }

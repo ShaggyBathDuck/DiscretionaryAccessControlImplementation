@@ -66,7 +66,12 @@
                       th:action="@{'/__${listName}__/create'}"
                       th:method="post"
                       th:id="createForm">
-
+                    <ul>
+                        <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+                            <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+                            <span th:text="${e.message}">The error message</span>
+                        </li>
+                    </ul>
                     <h4 style="text-align: center">Wprowadź nowy wiersz</h4>
                     <div th:replace="fragments/forms/__${entityName}__Form::tableForm">
                     </div>
@@ -76,13 +81,6 @@
                             </button>
                         </td>
                     </tr>
-                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-                        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
-                    </div>
-                    <div class="alert alert-danger"
-                         th:each="err : ${#fields.errors('*')}"
-                         th:text="${err}">
-                    </div>
                 </form>
             </div>
         </div>
