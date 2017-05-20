@@ -34,7 +34,7 @@ public class Purchase {
 
     @NotBlank
     @Size(min = 5)
-    @Pattern(regexp = "^[a-zA-z0-9-]")
+    @Pattern(regexp = "^[a-zA-z0-9-]{5,}")
     @Column(name = "nrfaktury")
     private String invoiceNumber;
 

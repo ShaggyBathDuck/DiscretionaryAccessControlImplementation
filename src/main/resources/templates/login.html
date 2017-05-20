@@ -1,7 +1,10 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml"
+>
 		<link rel="stylesheet" href="css/logowanie.css"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <head>
 		<title>Bezpieczeństwo systemów komputerowych</title>
 </head>
@@ -9,10 +12,10 @@
 		<div class="container logowanie">
 			<div class="main">
 				<div th:if="${param.error}">
-					Invalid username and password.
+					Niepoprawna nazwa użytkownika lub hasło.
 				</div>
 				<div th:if="${param.logout}">
-					You have been logged out.
+					Zostałeś wylogowany.
 				</div>
 				<form th:action="@{/login}" method="post">
 					<h2>Hurtownia - Prototyp</h2>
@@ -20,7 +23,7 @@
 					<input type="text" name="username"/>
 					<label>Hasło :</label>
 					<input type="password" name="password"/>
-					<input type="submit" value="Zaloguj"/>
+					<button class="btn btn-md btn-success" type="submit">Zaloguj</button>
 				</form>
 			</div>
 		</div>

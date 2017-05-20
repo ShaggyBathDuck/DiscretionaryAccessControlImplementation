@@ -1,13 +1,12 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.SalePosition;
-import com.bsk.dto.SalePositionDTO;
-import com.bsk.mapper.SalePositionMapper;
 import com.bsk.services.SalePositionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -16,11 +15,9 @@ import javax.validation.Valid;
 public class SalePositionController {
 
     private SalePositionService salePositionService;
-    private SalePositionMapper salePositionMapper;
 
-    public SalePositionController(SalePositionService salePositionService, SalePositionMapper salePositionMapper) {
+    public SalePositionController(SalePositionService salePositionService) {
         this.salePositionService = salePositionService;
-        this.salePositionMapper = salePositionMapper;
     }
 
     private String showHome(Model model) {
@@ -29,19 +26,23 @@ public class SalePositionController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("salepositionDTO") SalePositionDTO salePositionDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("saleposition") SalePosition salePosition, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            SalePosition salePosition = salePositionMapper.map(salePositionDTO);
             salePositionService.save(salePosition);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=pozycjesprzedazy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid SalePosition salePosition, Model model) {
-        salePositionService.save(salePosition);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid SalePosition salePosition, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            salePositionService.save(salePosition);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=pozycjesprzedazy";
     }
 
     @DeleteMapping(value = "/delete/{id}")

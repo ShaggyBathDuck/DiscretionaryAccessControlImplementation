@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Purchase;
-import com.bsk.dto.PurchaseDTO;
-import com.bsk.mapper.PurchaseMapper;
 import com.bsk.services.PurchaseService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -20,11 +19,9 @@ import java.util.Date;
 public class PurchaseController {
 
     private PurchaseService purchaseService;
-    private PurchaseMapper purchaseMapper;
 
-    public PurchaseController(PurchaseService purchaseService, PurchaseMapper purchaseMapper) {
+    public PurchaseController(PurchaseService purchaseService) {
         this.purchaseService = purchaseService;
-        this.purchaseMapper = purchaseMapper;
     }
 
     private String showHome(Model model) {
@@ -33,19 +30,23 @@ public class PurchaseController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("purchaseDTO") PurchaseDTO purchaseDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid Purchase purchase, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Purchase purchase = purchaseMapper.map(purchaseDTO);
             purchaseService.save(purchase);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=zakupy";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Purchase purchase, Model model) {
-        purchaseService.save(purchase);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Purchase purchase, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            purchaseService.save(purchase);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=zakupy";
     }
 
     @DeleteMapping(value = "/delete/{id}")

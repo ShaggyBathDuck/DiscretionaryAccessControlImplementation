@@ -21,12 +21,12 @@ public class Ware {
 
     @NotNull
     @Column(name = "kodsww")
-    @Size(min = 3)
+    @Min(100)
     private Integer swwCode;
 
     @NotNull
     @Column(name = "numeridentyfikacyjny")
-    @Size(min = 1)
+    @Min(1)
     private Integer idNumber;
 
     @NotNull

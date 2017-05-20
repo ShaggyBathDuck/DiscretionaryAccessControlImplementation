@@ -23,10 +23,12 @@ public class SalePosition {
 
     @ManyToOne
     @JoinColumn(name = "idsprzedaz")
+    @NotNull
     private Sale sale;
 
     @ManyToOne
     @JoinColumn(name = "idmagazynowe")
+    @NotNull
     private WarehouseItem warehouseItem;
 
     @NotNull

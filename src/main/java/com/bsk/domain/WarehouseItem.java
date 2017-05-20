@@ -24,6 +24,7 @@ public class WarehouseItem {
 
     @OneToOne
     @JoinColumn(name = "idtowaru")
+    @NotNull
     private Ware ware;
 
     @NotNull
@@ -38,6 +39,7 @@ public class WarehouseItem {
 
     @ManyToOne
     @JoinColumn(name = "idzakupu")
+    @NotNull
     private Purchase purchase;
 
     @NotNull

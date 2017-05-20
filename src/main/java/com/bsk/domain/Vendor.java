@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @Entity(name = "Dostawcy")
@@ -40,16 +39,14 @@ public class Vendor {
 
     @Column(name = "numerdomu")
     @Digits(integer = 10, fraction = 0)
-    @Min(value = 1)
     private String houseNumber;
 
     @Column(name = "numerlokalu")
     @Digits(integer = 9, fraction = 0)
-    @Min(value = 1)
     private int flatNumber;
 
     @Column(name = "kodpocztowy")
-    @Pattern(regexp = "\"^\\d{2}-\\d{3}$\"")
+    @Pattern(regexp = "^\\d{2}-\\d{3}$")
     private String postalCode;
 
     @Column(name = "miasto")

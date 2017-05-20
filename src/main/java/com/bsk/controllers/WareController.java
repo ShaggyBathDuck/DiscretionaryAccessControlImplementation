@@ -2,13 +2,12 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.Ware;
-import com.bsk.dto.WareDTO;
-import com.bsk.mapper.WareMapper;
 import com.bsk.services.WareService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -17,11 +16,9 @@ import javax.validation.Valid;
 public class WareController {
 
     private WareService wareService;
-    private WareMapper wareMapper;
 
-    public WareController(WareService wareService, WareMapper wareMapper) {
+    public WareController(WareService wareService) {
         this.wareService = wareService;
-        this.wareMapper = wareMapper;
     }
 
     private String showHome(Model model) {
@@ -30,19 +27,23 @@ public class WareController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("wareDTO") WareDTO wareDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid Ware ware, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Ware ware = wareMapper.map(wareDTO);
             wareService.save(ware);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=towary";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Ware ware, Model model) {
-        wareService.save(ware);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Ware ware, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            wareService.save(ware);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=towary";
     }
 
     @DeleteMapping(value = "/delete/{id}")

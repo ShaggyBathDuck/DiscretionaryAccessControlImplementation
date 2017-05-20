@@ -1,8 +1,6 @@
 package com.bsk.controllers;
 
 import com.bsk.domain.Sale;
-import com.bsk.dto.SaleDTO;
-import com.bsk.mapper.SaleMapper;
 import com.bsk.services.SaleService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
@@ -20,11 +19,9 @@ import java.util.Date;
 public class SaleController {
 
     private SaleService saleService;
-    private SaleMapper saleMapper;
 
-    public SaleController(SaleService saleService, SaleMapper saleMapper) {
+    public SaleController(SaleService saleService) {
         this.saleService = saleService;
-        this.saleMapper = saleMapper;
     }
 
     private String showHome(Model model) {
@@ -33,19 +30,23 @@ public class SaleController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@Valid @ModelAttribute("saleDTO") SaleDTO saleDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid @ModelAttribute("sale") Sale sale, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            Sale sale = saleMapper.map(saleDTO);
             saleService.save(sale);
             return showHome(model);
         }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
         return "redirect:/?tabName=sprzedaze";
     }
 
     @PutMapping(value = "/update/{id}")
-    public String update(@PathVariable int id, @Valid Sale sale, Model model) {
-        saleService.save(sale);
-        return showHome(model);
+    public String update(@PathVariable int id, @Valid Sale sale, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            saleService.save(sale);
+            return showHome(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/?tabName=sprzedaze";
     }
 
     @DeleteMapping(value = "/delete/{id}")
