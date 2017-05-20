@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="miasto"></th>
+        <th th:text="numerlokalu"></th>
+        <th th:text="numerdomu"></th>
+        <th th:text="nazwa"></th>
+        <th th:text="nip"></th>
+        <th th:text="telefon"></th>
+        <th th:text="kodpocztowy"></th>
+        <th th:text="ulica"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="city">
+            <input type="text"
+                   name="city"
+                   required="required"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa miasta"
+                   id="cityId"
+                   th:value="${'getCity()'}"
+                   th:field="*{city}"/>
+        </td>
+        <td th:name="flatNumber">
+            <input type="text"
+                   th:name="flatNumber"
+                   required="required"
+                   id="flatNumberId"
+                   pattern="^[0-9]{1,}"
+                   title="Numer lokalu musi być liczbą"
+                   th:value="${'getFlatNumber()'}"
+                   th:field="*{flatNumber}"
+            />
+        </td>
+        <td th:name="houseNumber">
+            <input type="text"
+                   th:name="houseNumber"
+                   required="required"
+                   id="houseNumberId"
+                   pattern="^[0-9]{1,}"
+                   title="Numer domu musi być liczbą"
+                   th:value="${'getHouseNumber()'}"
+                   th:field="*{houseNumber}"
+            />
+        </td>
+        <td th:name="name">
+            <input type="text"
+                   th:name="name"
+                   required="required"
+                   id="nameId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa"
+                   th:value="${'getName()'}"
+                   th:field="*{name}"
+            />
+        </td>
+        <td th:name="nip">
+            <input type="text"
+                   th:name="nip"
+                   required="required"
+                   id="nipId"
+                   pattern="^((\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2})|(\d{3}[- ]\d{2}[- ]\d{2}[- ]\d{3}))$"
+                   title="Nip w nieprawidłowym formacie"
+                   th:value="${'geNip()'}"
+                   th:field="*{nip}"
+            />
+        </td>
+        <td th:name="phoneNumber">
+            <input type="text"
+                   th:name="phoneNumber"
+                   required="required"
+                   id="phoneNumberId"
+                   pattern="^[0-9]{9,9}"
+                   title="Niepoprawny format numeru"
+                   th:value="${'getPhoneNumber()'}"
+                   th:field="*{phoneNumber}"
+            />
+        </td>
+        <td th:name="postalCode">
+            <input type="text"
+                   th:name="postalCode"
+                   required="required"
+                   id="postalCodeId"
+                   pattern="^\d{2}-\d{3}$"
+                   title="Kod pocztowy w formacie 14-230"
+                   th:value="${'getPostalCode()'}"
+                   th:field="*{postalCode}"
+            />
+        </td>
+        <td th:name="street">
+            <input type="text"
+                   th:name="street"
+                   required="required"
+                   id="streetId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna nazwa"
+                   th:value="${'getStreet()'}"
+                   th:field="*{street}"
+            />
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="ilosc"></th>
+        <th th:text="lokalizacja"></th>
+        <th th:text="idzakupu"></th>
+        <th th:text="cenasprzedazy"></th>
+        <th th:text="idtowaru"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="amount">
+            <input type="text"
+                   th:name="amount"
+                   required="required"
+                   id="amountId"
+                   pattern="^[0-9]+"
+                   min="1"
+                   title="Niepoprawna ilosc"
+                   th:value="${'getAmount()'}"
+                   th:field="*{amount}"
+            />
+        </td>
+        <td th:name="location">
+            <input type="text"
+                   th:name="location"
+                   required="required"
+                   id="locationId"
+                   pattern="^(?=^.{2,}$)([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$"
+                   title="Niepoprawna lokalizacja"
+                   th:value="${'getLocation()'}"
+                   th:field="*{location}"
+            />
+        </td>
+        <td th:name="purchase">
+            <input type="number"
+                   th:name="purchase"
+                   required="required"
+                   id="purchaseId"
+                   step="."
+                   th:value="${'getPurchase().getId()'}"
+                   th:field="*{purchase}"
+            />
+        </td>
+        <td th:name="salesPrice">
+            <input type="number"
+                   th:name="salesPrice"
+                   required="required"
+                   id="salesPriceId"
+                   step=".01"
+                   title="Niepoprawna cena"
+                   th:value="${'getSalesPrice()'}"
+                   th:field="*{salesPrice}"/>
+        </td>
+        <td th:name="ware">
+            <input type="number"
+                   name="ware"
+                   required="required"
+                   id="wareId"
+                   step="."
+                   th:value="${'getWare().getId()'}"
+                   th:field="*{ware}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

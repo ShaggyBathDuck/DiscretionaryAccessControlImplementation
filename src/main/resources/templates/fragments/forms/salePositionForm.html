@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body xmlns:th="http://www.thymeleaf.org">
+<table class="table table-condensed table-bordered table-hover" th:fragment="tableForm">
+    <thead>
+    <tr>
+        <th th:text="ilosc"></th>
+        <th th:text="rabat"></th>
+        <th th:text="idsprzedaz"></th>
+        <th th:text="idmagazynowe"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:name="amount">
+            <input type="number"
+                   th:name="amount"
+                   required="required"
+                   id="amountId"
+                   min="1"
+                   th:value="${'getAmount()'}"
+                   th:field="*{amount}"
+            />
+        </td>
+        <td th:name="discount">
+            <input type="text"
+                   th:name="discount"
+                   required="required"
+                   id="discountId"
+                   pattern="^[0-9]{1,2}"
+                   title="Zniżka z zakresu 0-99%"
+                   th:value="${'getDiscount()'}"
+                   th:field="*{discount}"/>
+        </td>
+        <td th:name="sale">
+            <input type="number"
+                   name="sale"
+                   required="required"
+                   id="saleId"
+                   th:value="${'getSale().getId()'}"
+                   th:field="*{sale}"/>
+        </td>
+        <td th:name="warehouseItem">
+            <input type="number"
+                   th:name="warehouseItem"
+                   required="required"
+                   id="warehouseItemId"
+                   th:value="${'getWarehouseItem()'}"
+                   th:field="*{warehouseItem}"/>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
