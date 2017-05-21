@@ -3,6 +3,7 @@ package com.bsk.controllers;
 
 import com.bsk.domain.Vendor;
 import com.bsk.services.VendorService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,8 +48,12 @@ public class VendorController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public String delete(@PathVariable int id, Model model) {
-        vendorService.delete(id);
+    public String delete(@PathVariable int id, Model model, RedirectAttributes attr) {
+        try {
+            vendorService.delete(id);
+        } catch (DataIntegrityViolationException exception) {
+            attr.addFlashAttribute("foreignKeyError", "Nie można usunąć wiersza - jest kluczem obcym w innej tabeli");
+        }
         return showHome(model);
     }
 }
