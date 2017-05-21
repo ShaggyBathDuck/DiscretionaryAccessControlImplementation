@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -46,7 +45,9 @@ public class TableNamesRepository {
                 ArrayList<String> columnNamesInDb = new ArrayList<>();
                 columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
                 for (int i = 0; i < propertiesCounter; i++) {
-                    columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+                    if (((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i).length != 0) {
+                        columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+                    }
                 }
                 EntityInfo entityInfo = new EntityInfo();
                 entityInfo.setTableNameInDb(aep.getTableName().toLowerCase());
