@@ -23,6 +23,7 @@ public class User {
     @Column(name="email")
     private String email;
 
+    @Transient
     @OneToMany(mappedBy = "grantPrivilegePK.receiver")
     private List<GrantPrivilege> grantedPrivileges;
 }

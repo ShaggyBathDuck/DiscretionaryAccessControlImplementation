@@ -10,9 +10,8 @@ public class UndisplayableTables {
     private List<String> tables;
 
     public UndisplayableTables() {
-        tables = new ArrayList<>(3);
+        tables = new ArrayList<>(2);
         tables.add("przekazywanieuprawnien");
-        tables.add("uzytkownicy");
         tables.add("uprawnienia");
     }
 

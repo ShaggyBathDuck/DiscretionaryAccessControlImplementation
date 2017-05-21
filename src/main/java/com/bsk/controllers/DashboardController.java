@@ -101,7 +101,9 @@ public class DashboardController {
                 ArrayList<String> columnNamesInDb = new ArrayList<>();
                 columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
                 for (int i = 0; i < propertiesCounter; i++) {
-                    columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+                    if (((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i).length != 0) {
+                        columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
+                    }
                 }
                 EntityInfo entityInfo = new EntityInfo();
                 entityInfo.setTableNameInDb(aep.getTableName().toLowerCase());

@@ -2,8 +2,8 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.User;
-import com.bsk.repositories.UserRepository;
 import com.bsk.services.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ public class UserController {
 
     private UserService userService;
 
-    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService) {
-
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String showHome(Model model) {
@@ -31,17 +31,19 @@ public class UserController {
 
     @GetMapping
     List<User> findAll(){
-        return userRepository.findAll();
+        return userService.read();
     }
 
     @PostMapping("/create")
     public String create(@Valid User user, Model model) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return showHome(model);
     }
 
     @PutMapping("/update/{id}")
     public String update(@PathVariable int id, @Valid User user, Model model) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return showHome(model);
     }

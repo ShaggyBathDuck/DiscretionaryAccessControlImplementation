@@ -95,7 +95,7 @@ CREATE TABLE PozycjeSprzedazy (
 CREATE TABLE Uzytkownicy(
 	ID SERIAL NOT NULL,
 	login VARCHAR(15) NOT NULL,
-	haslo VARCHAR(30) NOT NULL,
+	haslo VARCHAR(100) NOT NULL,
 	email VARCHAR(30) NOT NULL,
 	Primary key (ID)
 );
