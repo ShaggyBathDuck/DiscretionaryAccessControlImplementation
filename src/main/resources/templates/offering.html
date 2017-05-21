@@ -6,107 +6,88 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <title>Przekazywanie uprawnień</title>
 </head>
-<body>
-<div class="container dashboard">
-    <h2>Moduł przekazywania uprawnień</h2>
-    <h4 th:text="'Aktywny użytkownik: '+${username}"/>
-    <h4>
-        <form style="display: inline" action="/" method="get">
-            <button type="submit" class="btn btn-md">Zarządzaj danymi</button>
-        </form>
-        <form method="post" th:action="@{/logout}">
-            <input type="hidden"
-                   th:name="${_csrf.parameterName}"
-                   th:value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-md">Wyloguj</button>
-        </form>
-    </h4>
-    <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
-        <div class="row">
-            <div class="col-md-2 " style="height: 570px; background-color:rgba(34,171,233,0.2); padding-top: 10px">
+<body >
+    <div class="container dashboard">
+        <h2>Moduł przekazywania uprawnień</h2>
+        <h4 th:text="'Aktywny użytkownik: '+${username}"/>
+        <h4>
+            <form style="display: inline" action="/" method="get">
+                <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
+            </form>
+            <form method="post" th:action="@{/logout}">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-md btn-warning">Wyloguj</button>
+            </form>
+        </h4>
+        <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
+            <div class="row space-for-div">
+                <div class="col-md-4" ></div>
+                <div class="col-md-4">
+                    <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
 
-                <h4 style="text-align: center">Hurtownia</h4>
-                <hr/>
-                <ul>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block btn-space">Dostawcy</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block btn-space">Zakupy</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block btn-space">Towary zakupione</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block disabled btn-space">Magazyn</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block disabled btn-space">Opis towarów</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block btn-space">Towary sprzedane</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-primary btn-block btn-space">Klienci</button>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-sq btn-block  btn-space">Sprzedaże</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-1">
-
-            </div>
-            <div class="col-md-8">
-                <div class="left">
-                    <h3 class="header">Aktualne uprawnienia:</h3>
-                    <ul class="list-group col-md-7">
-                        <li class="list-group-item">DELETE</li>
-                        <li class="list-group-item active ">UPDATE</li>
-                        <li class="list-group-item active">SELECT</li>
-                        <li class="list-group-item active">INSERT</li>
-                    </ul>
+                            th:onclick="|changeGrantMode('grant')|"
+                            th:classappend="${grantMode == 'grant'}? btn-info: none">Przekaż</button>
+                    <button style="display: inline" class="btn btn-sq btn-block btn-space"
+                            th:onclick="|changeGrantMode('give')|"
+                            th:classappend="${grantMode == 'give'}? btn-info: none">Oddaj</button>
                 </div>
-                <div class="right">
-                    <h3 class="header">Przekaż uprawnienia</h3>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="disabled"/>ALL PRIVILEGES</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="disabled"/>DELETE</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="checked"/>UPDATE</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="checked"/>SELECT</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" value="checked"/>INSERT</label>
-                    </div>
+                <div class="col-md-4"></div>
+            </div>
 
-                    <label>Tryb przekazywania</label>
-                    <div class="form-group">
-                        <select class="form-control list right" id="zDelegacja">
-                            <option>Z delegacją</option>
-                            <option>Bez delegacji</option>
-                        </select>
-                    </div>
+            <div class="row space-for-div"  >
+                <div class="col-md-7" >
+                    <div class="divTable" th:with=" privilegesList = ${ {'Select', 'Insert', 'Update', 'Delete'} }">
+                        <div class="divTableHeading" >
+                            <div class="divTableHead"
+                                 th:text="Tabele"></div>
+                            <div class="divTableHead"
+                                 th:each=" privilege: ${privilegesList}"
+                                 th:text="${privilege}">
+                            </div>
+                        </div>
+                        <div class="divTableBody">
+                            <div class="divTableRow" th:each="tableName : ${tableNames}">
+                                <div class="divTableName" th:text="${tableName}"></div>
+                                <div class="divPrivilege" th:each="privilege: ${privilegesList}">
+                                    <select class=" list yellow rounded" th:id ="${tableName} + ${privilege}">
+                                        <option>Nie przekazuj</option>
+                                        <option>Z delegacją</option>
+                                        <option>Bez delegacji</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
 
-                    <label class="right">Użytkownik</label>
-                    <div class="form-group">
-                        <select class="form-control list right" id="sel1">
-                            <option>user2@test.com</option>
-                            <option>user3@test.com</option>
-                            <option>user4@test.com</option>
-                            <option>user5@test.com</option>
-                        </select>
                     </div>
                     <button type="submit" class="btn btn-default right">Zatwierdź</button>
+                </div>
+                <div class="col-lg-1" > </div>
+                <div class="col-md-3" >
+                    <h5>Wybierz użytkownika</h5>
+                    <select class=" list yellow rounded" id="chosenUser">
+                        <option th:each="user : ${users}" th:text="${user}"></option>
+                    </select>
+                </div>
+                <div class="col-lg-1" > </div>
+            </div>
+            <div class="row space-for-div"  >
+                <div class="col-md-9"></div>
+                <div class="col-md-2">
+
+                    <button type="button" class="btn btn-sq btn-block btn-space btn-info" th:text="Wyślij">
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function changeGrantMode(mode) {
+            $('body').load("/offering?grantMode=" + mode);
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>

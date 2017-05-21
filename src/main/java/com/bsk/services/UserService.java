@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,6 +29,10 @@ public class UserService implements UserDetailsService {
 
     public List<User> read() {
         return userRepository.findAll();
+    }
+
+    public List<String> readUsernames(){
+        return userRepository.findAll().stream().map(User::getLogin).collect(Collectors.toList());
     }
 
     public void delete(Integer id) {

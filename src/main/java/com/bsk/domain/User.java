@@ -26,4 +26,5 @@ public class User {
     @Transient
     @OneToMany(mappedBy = "grantPrivilegePK.receiver")
     private List<GrantPrivilege> grantedPrivileges;
+
 }

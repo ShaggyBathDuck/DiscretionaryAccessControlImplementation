@@ -1,6 +1,6 @@
 package com.bsk.controllers;
 
-import com.bsk.configuration.UndisplayableTables;
+
 import com.bsk.domain.*;
 import com.bsk.services.*;
 import com.bsk.util.EntityInfo;
@@ -41,13 +41,13 @@ public class DashboardController {
 
     private EntityManager entityManager;
 
-    private UndisplayableTables undisplayableTables;
+    private TableNamesService tableNamesService;
 
     public DashboardController(CustomerService customerService, UserService userService, VendorService vendorService,
                                WareService wareService, WarehouseItemService warehouseItemService,
                                PurchaseService purchaseService, PurchasePositionService purchasePositionService,
                                SaleService saleService, SalePositionService salePositionService,
-                               EntityManager entityManager, UndisplayableTables undisplayableTables) {
+                               EntityManager entityManager, TableNamesService tableNamesService) {
         this.customerService = customerService;
         this.userService = userService;
         this.vendorService = vendorService;
@@ -58,7 +58,7 @@ public class DashboardController {
         this.saleService = saleService;
         this.salePositionService = salePositionService;
         this.entityManager = entityManager;
-        this.undisplayableTables = undisplayableTables;
+        this.tableNamesService = tableNamesService;
     }
 
     @GetMapping("/")
@@ -90,34 +90,8 @@ public class DashboardController {
 
     @ModelAttribute("entitiesInfo")
     @ResponseBody
-    public SortedMap<String, EntityInfo> getTables() {
-        SortedMap<String, EntityInfo> entitiesInfo = new TreeMap<>();
-        Session session = entityManager.unwrap(Session.class);
-        Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
-        for (ClassMetadata classMetadata : hibernateMetadata.values()) {
-            AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            if (!undisplayableTables.getTables().contains(aep.getTableName().toLowerCase())) {
-                int propertiesCounter = classMetadata.getPropertyNames().length;
-                ArrayList<String> columnNamesInDb = new ArrayList<>();
-                columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
-                for (int i = 0; i < propertiesCounter; i++) {
-                    if (((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i).length != 0) {
-                        columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getPropertyColumnNames(i)[0]);
-                    }
-                }
-                EntityInfo entityInfo = new EntityInfo();
-                entityInfo.setTableNameInDb(aep.getTableName().toLowerCase());
-                entityInfo.setColumnNamesInDb(columnNamesInDb);
-                ArrayList<String> columnNamesInHb = new ArrayList<>();
-                columnNamesInHb.add(classMetadata.getIdentifierPropertyName());
-                columnNamesInHb.addAll(Arrays.asList(classMetadata.getPropertyNames()));
-                String entityName = aep.getRootEntityName().substring(aep.getRootEntityName().lastIndexOf('.') + 1);
-                entityInfo.setTableNameInHb(entityName.toLowerCase());
-                entityInfo.setColumnNamesInHb(columnNamesInHb);
-                entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
-            }
-        }
-        return entitiesInfo;
+    public SortedMap<String, EntityInfo> getTables(){
+        return tableNamesService.getTableNames();
     }
 
     private void addCommonModelAttributes(Model model) {
