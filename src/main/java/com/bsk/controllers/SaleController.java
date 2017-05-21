@@ -3,6 +3,7 @@ package com.bsk.controllers;
 import com.bsk.domain.Sale;
 import com.bsk.services.SaleService;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,8 +51,12 @@ public class SaleController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public String delete(@PathVariable int id, Model model) {
-        saleService.delete(id);
+    public String delete(@PathVariable int id, Model model, RedirectAttributes attr) {
+        try {
+            saleService.delete(id);
+        } catch (DataIntegrityViolationException exception) {
+            attr.addFlashAttribute("foreignKeyError", "Nie można usunąć wiersza - jest kluczem obcym w innej tabeli");
+        }
         return showHome(model);
     }
 
