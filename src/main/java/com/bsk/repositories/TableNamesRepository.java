@@ -40,7 +40,6 @@ public class TableNamesRepository {
         Map<String, ClassMetadata> hibernateMetadata = session.getSessionFactory().getAllClassMetadata();
         for (ClassMetadata classMetadata : hibernateMetadata.values()) {
             AbstractEntityPersister aep = (AbstractEntityPersister) classMetadata;
-            if (!undisplayableTables.getTables().contains(aep.getTableName().toLowerCase())) {
                 int propertiesCounter = classMetadata.getPropertyNames().length;
                 ArrayList<String> columnNamesInDb = new ArrayList<>();
                 columnNamesInDb.add(((AbstractEntityPersister) classMetadata).getKeyColumnNames()[0]);
@@ -59,7 +58,6 @@ public class TableNamesRepository {
                 entityInfo.setTableNameInHb(entityName.toLowerCase());
                 entityInfo.setColumnNamesInHb(columnNamesInHb);
                 entitiesInfo.put(entityInfo.getTableNameInDb(), entityInfo);
-            }
         }
         return entitiesInfo;
     }
