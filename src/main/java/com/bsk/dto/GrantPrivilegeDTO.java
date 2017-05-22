@@ -9,20 +9,15 @@ public class GrantPrivilegeDTO {
 
     private Privilege purchase;
 
-
     private Privilege purchasePosition;
-
 
     private Privilege product;
 
     private Privilege warehouseProduct;
 
-
     private Privilege sale;
 
-
     private Privilege salePosition;
-
 
     private boolean take;
 

@@ -91,7 +91,7 @@ public class DashboardController {
     @ModelAttribute("entitiesInfo")
     @ResponseBody
     public SortedMap<String, EntityInfo> getTables(){
-        return tableNamesService.getTableNames();
+        return tableNamesService.getDisplayableTableNames();
     }
 
     private void addCommonModelAttributes(Model model) {

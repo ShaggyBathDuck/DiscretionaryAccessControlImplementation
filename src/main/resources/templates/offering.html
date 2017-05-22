@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="css/logowanie.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Przekazywanie uprawnień</title>
 </head>
 <body >
@@ -38,24 +41,27 @@
 
             <div class="row space-for-div"  >
                 <div class="col-md-7" >
-                    <div class="divTable" th:with=" privilegesList = ${ {'Select', 'Insert', 'Update', 'Delete'} }">
+                    <div class="divTable" th:with=" privilegesList = ${privilegeInfo.getColumnNamesInDb()}" >
                         <div class="divTableHeading" >
                             <div class="divTableHead"
                                  th:text="Tabele"></div>
                             <div class="divTableHead"
                                  th:each=" privilege: ${privilegesList}"
-                                 th:text="${privilege}">
+                                 th:text="${privilege}"
+                                 th:if="${privilege} != 'id'">
                             </div>
                         </div>
                         <div class="divTableBody">
-                            <div class="divTableRow" th:each="tableName : ${tableNames}">
-                                <div class="divTableName" th:text="${tableName}"></div>
-                                <div class="divPrivilege" th:each="privilege: ${privilegesList}">
+                            <div class="divTableRow"
+                                 th:each="tableDBName : ${grantedPrivilegeInfo.getColumnNamesInDb()}">
+                                <div class="divTableName" th:text="${tableDBName}"></div>
+                                <div class="divPrivilege"  th:each="privilege: ${privilegesList}" th:if="${privilege} != 'id'">
                                     <select class=" list yellow rounded" th:id ="${tableName} + ${privilege}">
                                         <option>Nie przekazuj</option>
                                         <option>Z delegacją</option>
                                         <option>Bez delegacji</option>
                                     </select>
+                                    <h6 th:text="${getterName}"></h6>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +91,15 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         function changeGrantMode(mode) {
-            $('body').load("/offering?grantMode=" + mode);
+            var token = $("meta[name='_csrf']").attr("content");
+            //$('body').load("/offering?grantMode=" + mode);
+            $.ajax({
+                url: "/offering?grantMode=" + mode,
+                headers: {'X-CSRF-TOKEN': token},
+                type: "GET"
+            }).done(function (data) {
+                $('body').html(data);
+            });
         }
         /*]]>*/
     </script>

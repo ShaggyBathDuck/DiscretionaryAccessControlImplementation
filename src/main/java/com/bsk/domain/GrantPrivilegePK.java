@@ -21,4 +21,19 @@ public class GrantPrivilegePK implements Serializable {
     private User receiver;
 
 
+    public User getGiver() {
+        return giver;
+    }
+
+    public void setGiver(User giver) {
+        this.giver = giver;
+    }
+
+    public User getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 }
