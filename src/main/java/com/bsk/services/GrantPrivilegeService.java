@@ -4,6 +4,7 @@ import com.bsk.connectors.PrivilegesConnector;
 import com.bsk.domain.GrantPrivilege;
 import com.bsk.domain.GrantPrivilegePK;
 import com.bsk.domain.Privilege;
+import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.repositories.GrantPrivilegesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class GrantPrivilegeService {
 
     public void save(GrantPrivilegeDTO grantPrivilegeDTO, String username) { //TODO Sprawdzanie czy nie występują cykle
         GrantPrivilege grantPrivilege = new GrantPrivilege(
-                new GrantPrivilegePK(userService.findByLogin(grantPrivilegeDTO.getReceiverName()), userService.findByLogin(username)),
+                new GrantPrivilegePK(userService.findByLogin(username), userService.findByLogin(grantPrivilegeDTO.getReceiverName())),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getCustomer()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getPurchase()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getPurchasePosition()),
@@ -54,6 +55,23 @@ public class GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getVendor()),
                 grantPrivilegeDTO.isTake());
         repository.save(grantPrivilege);
+    }
+    public void give(GrantPrivilegeDTO grantPrivilegeDTO, String username){
+        this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
+        this.removeByReceiver(userService.findByLogin(username));
+        this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(username)));
+        this.save(grantPrivilegeDTO, username);
+
+    }
+
+    private void removeByGiver(List<GrantPrivilege> list){
+        for(GrantPrivilege privilege:list){
+            removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()));
+            repository.delete(privilege);
+        }
+    }
+    private void removeByReceiver(User user){
+        this.repository.deleteAllByGrantPrivilegePK_Receiver(user);
     }
 
     public GrantPrivilege getUserPrivilege(String username){
@@ -89,4 +107,6 @@ public class GrantPrivilegeService {
                 .filter(l -> !l.equals(loggedUser))
                 .collect(Collectors.toList());
     }
+
+
 }
