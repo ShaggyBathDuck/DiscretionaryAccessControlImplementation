@@ -27,15 +27,14 @@ public class GrantPrivilegesController {
 
     @PostMapping(value = "/grant")
     public String create(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
-        if (grantPrivilegeDTO.getCustomer().getId() == null &&
-                grantPrivilegeDTO.getPurchase().getId() == null &&
-                grantPrivilegeDTO.getPurchasePosition().getId() == null &&
-                grantPrivilegeDTO.getWare().getId() == null &&
-                grantPrivilegeDTO.getWarehouseProduct().getId() == null &&
-                grantPrivilegeDTO.getSale().getId() == null &&
-                grantPrivilegeDTO.getSalePosition().getId() == null &&
-                grantPrivilegeDTO.getWare().getId() == null &&
-                grantPrivilegeDTO.getVendor().getId() == null) {
+        if (
+                !(grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getPurchasePosition().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getWare().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getWarehouseProduct().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getSale().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getSalePosition().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getVendor().hasEffectiveRights())) {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }

@@ -44,5 +44,4 @@ public class GrantPrivilegeDTO {
         this.salePosition = salePosition;
         this.take = take;
     }
-
 }

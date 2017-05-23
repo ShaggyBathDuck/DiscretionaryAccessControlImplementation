@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity(name = "Uprawnienia")
 public class Privilege {
 
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id")
     private Integer id;
@@ -93,5 +93,13 @@ public class Privilege {
         result = 31 * result + (update != null ? update.hashCode() : 0);
         result = 31 * result + (delete != null ? delete.hashCode() : 0);
         return result;
+    }
+
+    public boolean hasEffectiveRights() {
+        if (create.equalsIgnoreCase("NONE") &&
+                read.equalsIgnoreCase("NONE") &&
+                update.equalsIgnoreCase("NONE") &&
+                delete.equalsIgnoreCase("NONE")) return false;
+        return true;
     }
 }
