@@ -1,6 +1,7 @@
 package com.bsk.controllers;
 
 
+import com.bsk.checker.CommonPartChecker;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.services.GrantPrivilegeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class GrantPrivilegesController {
 
     @PostMapping(value = "/grant")
     public String grant(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (
                 !(grantPrivilegeDTO.getCustomer().hasEffectiveRights() ||
                         grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
@@ -35,15 +37,17 @@ public class GrantPrivilegesController {
                         grantPrivilegeDTO.getWarehouseProduct().hasEffectiveRights() ||
                         grantPrivilegeDTO.getSale().hasEffectiveRights() ||
                         grantPrivilegeDTO.getSalePosition().hasEffectiveRights() ||
-                        grantPrivilegeDTO.getVendor().hasEffectiveRights())) {
+                        grantPrivilegeDTO.getVendor().hasEffectiveRights() ||
+                        grantPrivilegeDTO.isTake())) {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }
-        if (!bindingResult.hasErrors()) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
-            attr.addFlashAttribute("successfullyGranted", true);
-            return "redirect:/offering";
+        if(!CommonPartChecker.haveCommonPart(grantPrivilegeDTO, grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()))){
+            if (!bindingResult.hasErrors()) {
+                grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
+                attr.addFlashAttribute("successfullyGranted", true);
+                return "redirect:/offering";
+            }
         }
         attr.addFlashAttribute("failedGranted", true);
         return "redirect:/offering";
@@ -65,12 +69,14 @@ public class GrantPrivilegesController {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }
-        if (!bindingResult.hasErrors()) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            grantPrivilegeService.give(grantPrivilegeDTO, authentication.getName());
-            attr.addFlashAttribute("successfullyGift", true);
-            return "redirect:/offering";
-        }
+            if (!bindingResult.hasErrors()) {
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                grantPrivilegeService.give(grantPrivilegeDTO, authentication.getName());
+                attr.addFlashAttribute("successfullyGift", true);
+                return "redirect:/offering";
+            }
+
+
         attr.addFlashAttribute("failedGranted", true);
         return "redirect:/offering";
     }

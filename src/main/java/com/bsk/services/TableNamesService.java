@@ -69,6 +69,13 @@ public class TableNamesService {
                     entityInfo.setPrivilege(userPrivilege.getCustomer());
                     break;
                 }
+                case "user":{
+                    if(userPrivilege.getGrantPrivilegePK().isAdmin())
+                        entityInfo.setPrivilege(new Privilege(41, "ACCESS", "ACCESS", "ACCESS", "ACCESS"));
+                    else
+                        entityInfo.setPrivilege(new Privilege(0, "NONE", "NONE", "NONE", "NONE"));
+                    break;
+                }
                 default: {
                     entityInfo.setPrivilege(new Privilege(0, "NONE", "NONE", "NONE", "NONE"));
                 }

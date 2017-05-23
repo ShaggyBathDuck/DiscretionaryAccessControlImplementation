@@ -90,6 +90,14 @@
                             <select class=" list yellow rounded" th:field="*{receiverName}" required="required">
                                 <option th:each="user : ${users}" th:value="${user}" th:text="${user}"></option>
                             </select>
+                            <div th:if="${userPrivileges.getGrantPrivilegePK().isAdmin()}">
+                                <h5>Nadaj prawo przejmij</h5>
+                                <select class=" list yellow rounded" th:field="*{take}" >
+                                    <option th:selected="true" th:value="false">Nie</option>
+                                    <option th:value="true">Tak</option>
+                                </select>
+                                <href/>
+                            </div>
                         </div>
                         <div class="col-lg-1" > </div>
                 </div>
