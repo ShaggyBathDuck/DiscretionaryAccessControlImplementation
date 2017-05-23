@@ -1,6 +1,7 @@
 package com.bsk.connectors;
 
 import com.bsk.domain.GrantPrivilege;
+import com.bsk.domain.GrantPrivilegePK;
 import com.bsk.domain.Privilege;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +14,14 @@ public class PrivilegesConnector {
     public GrantPrivilege connect(GrantPrivilege base, GrantPrivilege connected){
         List<Privilege> privilegeBaseList = this.getPrivilegesList(base);
         List<Privilege> privilegeConnectedList = this.getPrivilegesList(connected);
+
         for (int i=0; i<privilegeBaseList.size(); i++){
             privilegeBaseList.set(i, this.connectPrivileges(privilegeBaseList.get(i), privilegeConnectedList.get(i)));
         }
-
-        return new GrantPrivilege(null,
+        GrantPrivilegePK grantPrivilegePK=base.getGrantPrivilegePK();
+        if (connected.getGrantPrivilegePK().isAdmin())
+            grantPrivilegePK=connected.getGrantPrivilegePK();
+        return new GrantPrivilege(grantPrivilegePK,
                 privilegeBaseList.get(0),
                 privilegeBaseList.get(1),
                 privilegeBaseList.get(2),

@@ -37,7 +37,8 @@ public class GrantPrivilegesController {
                         grantPrivilegeDTO.getWarehouseProduct().hasEffectiveRights() ||
                         grantPrivilegeDTO.getSale().hasEffectiveRights() ||
                         grantPrivilegeDTO.getSalePosition().hasEffectiveRights() ||
-                        grantPrivilegeDTO.getVendor().hasEffectiveRights())) {
+                        grantPrivilegeDTO.getVendor().hasEffectiveRights() ||
+                        grantPrivilegeDTO.isTake())) {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }

@@ -59,17 +59,21 @@ public class GrantPrivilegeService {
         repository.save(grantPrivilege);
     }
     public void give(GrantPrivilegeDTO grantPrivilegeDTO, String username){
-        this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
         this.removeByReceiver(userService.findByLogin(username));
-        this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(username)));
+        this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(username)), grantPrivilegeDTO.getReceiverName());
+        this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
+        if(this.getUserPrivilege(username).isAdmin())
+            username=grantPrivilegeDTO.getReceiverName();
         this.save(grantPrivilegeDTO, username);
 
     }
 
-    private void removeByGiver(List<GrantPrivilege> list){
+    private void removeByGiver(List<GrantPrivilege> list, String receiver){
         for(GrantPrivilege privilege:list){
-            removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()));
-            repository.delete(privilege);
+            if(!privilege.getGrantPrivilegePK().getReceiver().equals(receiver)){
+                removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()), receiver);
+                repository.delete(privilege);
+            }
         }
     }
     private void removeByReceiver(User user){

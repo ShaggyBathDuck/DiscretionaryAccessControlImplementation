@@ -43,4 +43,8 @@ public class GrantPrivilegePK implements Serializable {
     public void setReceiver(User receiver) {
         this.receiver = receiver;
     }
+
+    public boolean isAdmin(){
+        return giver.equals(receiver);
+    }
 }
