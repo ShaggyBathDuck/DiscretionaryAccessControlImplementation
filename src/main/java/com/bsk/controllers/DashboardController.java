@@ -6,9 +6,6 @@ import com.bsk.services.*;
 import com.bsk.util.EntityInfo;
 import com.bsk.util.ModalEditData;
 import javafx.util.Pair;
-import org.hibernate.Session;
-import org.hibernate.metadata.ClassMetadata;
-import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
-import java.util.*;
+import java.util.SortedMap;
 
 @Controller
 public class DashboardController {
@@ -43,11 +40,9 @@ public class DashboardController {
 
     private TableNamesService tableNamesService;
 
-    public DashboardController(CustomerService customerService, UserService userService, VendorService vendorService,
-                               WareService wareService, WarehouseItemService warehouseItemService,
-                               PurchaseService purchaseService, PurchasePositionService purchasePositionService,
-                               SaleService saleService, SalePositionService salePositionService,
-                               EntityManager entityManager, TableNamesService tableNamesService) {
+    private GrantPrivilegeService grantPrivilegeService;
+
+    public DashboardController(CustomerService customerService, UserService userService, VendorService vendorService, WareService wareService, WarehouseItemService warehouseItemService, PurchaseService purchaseService, PurchasePositionService purchasePositionService, SaleService saleService, SalePositionService salePositionService, EntityManager entityManager, TableNamesService tableNamesService, GrantPrivilegeService grantPrivilegeService) {
         this.customerService = customerService;
         this.userService = userService;
         this.vendorService = vendorService;
@@ -59,6 +54,7 @@ public class DashboardController {
         this.salePositionService = salePositionService;
         this.entityManager = entityManager;
         this.tableNamesService = tableNamesService;
+        this.grantPrivilegeService = grantPrivilegeService;
     }
 
     @GetMapping("/")

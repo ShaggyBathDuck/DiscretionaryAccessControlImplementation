@@ -17,7 +17,8 @@
             <H4 style="text-align: center">Hurtownia</H4>
             <hr/>
             <ul th:each="entry : ${entitiesInfo}">
-                <li th:id="buttons">
+                <li th:id="buttons"
+                    th:if="${entitiesInfo.get('__${entry.key}__').getPrivilege().getRead() != 'NONE'}">
                     <button type="button" class="btn btn-sq btn-block btn-space" th:text="${entry.key}"
                             th:onclick="|changeTable('${entry.key}');refresh('${entry.key}')|"
                             th:classappend="${entry.key == activeTabName}? btn-info: none">
@@ -31,11 +32,13 @@
                 <div class="divTable">
                     <div class="divTableHeading">
                         <div class="divTableHead"
+                             th:if="${entitiesInfo.get('__${activeTabName}__').getPrivilege().getRead() != 'NONE'}"
                              th:each="columnName : ${entitiesInfo.get('__${activeTabName}__').getColumnNamesInDb()}"
                              th:text="${columnName}"></div>
                     </div>
                     <div class="divTableBody">
-                        <div class="divTableRow" th:each=" element: ${__${listName}__}">
+                        <div class="divTableRow" th:each=" element: ${__${listName}__}"
+                             th:if="${entitiesInfo.get('__${activeTabName}__').getPrivilege().getRead() != 'NONE'}">
                             <div class="divTableCell" th:each="columnName: ${columnNamesHb}"
                                  th:with="getterName=${'element.get'+columnName+'()'}"
                                  th:id="'div'+${columnName}"
@@ -43,7 +46,8 @@
                                  th:text="${__${getterName}__}"
                                  style="white-space: nowrap;">
                             </div>
-                            <div class="divTableCell">
+                            <div class="divTableCell"
+                                 th:if="${entitiesInfo.get('__${activeTabName}__').getPrivilege().getUpdate() != 'NONE'}">
                                 <button type="button" class="btn btn-info btn-sm"
                                         th:onclick="|loadModalEdit('${activeTabName}', '${element.getId()}')|"
                                         th:id="${element.getId()}"
@@ -51,7 +55,8 @@
                                         onclick="">Edytuj
                                 </button>
                             </div>
-                            <div class="divTableCell">
+                            <div class="divTableCell"
+                                 th:if="${entitiesInfo.get('__${activeTabName}__').getPrivilege().getDelete() != 'NONE'}">
                                 <form th:with="primaryKeyGetter=${'element.get'+columnNamesHb[0]+'()'}"
                                       th:action="@{'/__${listName}__/delete/{id}'(id=${__${primaryKeyGetter}__})}"
                                       th:method="delete"
@@ -70,7 +75,8 @@
                 <form th:object="${__${entityName}__}"
                       th:action="@{'/__${listName}__/create'}"
                       th:method="post"
-                      th:id="createForm">
+                      th:id="createForm"
+                      th:if="${entitiesInfo.get('__${activeTabName}__').getPrivilege().getCreate() != 'NONE'}">
                     <h4 style="text-align: center">Wprowadź nowy wiersz</h4>
                     <div th:replace="fragments/forms/__${entityName}__Form::tableForm">
                     </div>
