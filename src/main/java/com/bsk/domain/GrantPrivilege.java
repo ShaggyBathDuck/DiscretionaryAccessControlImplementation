@@ -5,18 +5,18 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-
+@Getter
+@Setter
 @Entity(name = "przekazywanieuprawnien")
 public class GrantPrivilege {
 
     @EmbeddedId
     private GrantPrivilegePK grantPrivilegePK;
 
-
     @ManyToOne
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "klienci")
-    private Privilege client;
+    private Privilege customer;
 
     @ManyToOne
     @PrimaryKeyJoinColumn
@@ -31,7 +31,7 @@ public class GrantPrivilege {
     @ManyToOne
     @PrimaryKeyJoinColumn
     @JoinColumn(name = "towary")
-    private Privilege product;
+    private Privilege ware;
 
     @ManyToOne
     @PrimaryKeyJoinColumn
@@ -48,86 +48,28 @@ public class GrantPrivilege {
     @JoinColumn(name = "pozycjesprzedazy")
     private Privilege salePosition;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "dostawcy")
+    private Privilege vendor;
+
     @Column(name = "przejmij")
     private boolean take;
 
     public GrantPrivilege() {
     }
 
-    public GrantPrivilege(GrantPrivilegePK grantPrivilegePK, Privilege client, Privilege purchase, Privilege purchasePosition, Privilege product, Privilege warehouseProduct, Privilege sale, Privilege salePosition, boolean take) {
+    public GrantPrivilege(GrantPrivilegePK grantPrivilegePK, Privilege customer, Privilege purchase, Privilege purchasePosition, Privilege ware, Privilege warehouseProduct, Privilege sale, Privilege salePosition, Privilege vendor, boolean take) {
         this.grantPrivilegePK = grantPrivilegePK;
-        this.client = client;
+        this.customer = customer;
         this.purchase = purchase;
         this.purchasePosition = purchasePosition;
-        this.product = product;
+        this.ware = ware;
         this.warehouseProduct = warehouseProduct;
         this.sale = sale;
         this.salePosition = salePosition;
+        this.vendor = vendor;
         this.take = take;
-    }
-
-    public GrantPrivilegePK getGrantPrivilegePK() {
-        return grantPrivilegePK;
-    }
-
-    public void setGrantPrivilegePK(GrantPrivilegePK grantPrivilegePK) {
-        this.grantPrivilegePK = grantPrivilegePK;
-    }
-
-    public Privilege getClient() {
-        return client;
-    }
-
-    public void setClient(Privilege client) {
-        this.client = client;
-    }
-
-    public Privilege getPurchase() {
-        return purchase;
-    }
-
-    public void setPurchase(Privilege purchase) {
-        this.purchase = purchase;
-    }
-
-    public Privilege getPurchasePosition() {
-        return purchasePosition;
-    }
-
-    public void setPurchasePosition(Privilege purchasePosition) {
-        this.purchasePosition = purchasePosition;
-    }
-
-    public Privilege getProduct() {
-        return product;
-    }
-
-    public void setProduct(Privilege product) {
-        this.product = product;
-    }
-
-    public Privilege getWarehouseProduct() {
-        return warehouseProduct;
-    }
-
-    public void setWarehouseProduct(Privilege warehouseProduct) {
-        this.warehouseProduct = warehouseProduct;
-    }
-
-    public Privilege getSale() {
-        return sale;
-    }
-
-    public void setSale(Privilege sale) {
-        this.sale = sale;
-    }
-
-    public Privilege getSalePosition() {
-        return salePosition;
-    }
-
-    public void setSalePosition(Privilege salePosition) {
-        this.salePosition = salePosition;
     }
 
     public boolean getTake() {

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -25,14 +26,26 @@ public class GrantPrivilegesController {
     }
 
     @PostMapping(value = "/grant")
-    public String create(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model) {
+    public String create(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (grantPrivilegeDTO.getCustomer().getId() == null &&
+                grantPrivilegeDTO.getPurchase().getId() == null &&
+                grantPrivilegeDTO.getPurchasePosition().getId() == null &&
+                grantPrivilegeDTO.getWare().getId() == null &&
+                grantPrivilegeDTO.getWarehouseProduct().getId() == null &&
+                grantPrivilegeDTO.getSale().getId() == null &&
+                grantPrivilegeDTO.getSalePosition().getId() == null &&
+                grantPrivilegeDTO.getWare().getId() == null &&
+                grantPrivilegeDTO.getVendor().getId() == null) {
+            attr.addFlashAttribute("noGrants", true);
+            return "redirect:/offering";
+        }
         if (!bindingResult.hasErrors()) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
-            model.addAttribute("successfullyGranted", true);
+            attr.addFlashAttribute("successfullyGranted", true);
             return "redirect:/offering";
         }
-        model.addAttribute("failedGranted", true);
+        attr.addFlashAttribute("failedGranted", true);
         return "redirect:/offering";
     }
 

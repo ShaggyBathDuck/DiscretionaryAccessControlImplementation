@@ -121,6 +121,7 @@ create table PrzekazywanieUprawnien(
 	towaryMagazyn int not null,
 	sprzedaze int not null,
 	pozycjeSprzedazy int not null,
+	dostawcy int not null,
 	przejmij BOOLEAN not NULL,
 	PRIMARY KEY(biorca, dawca),
 	foreign key (biorca) references Uzytkownicy(ID),
@@ -131,6 +132,7 @@ create table PrzekazywanieUprawnien(
 	foreign key (towary) references Uprawnienia(ID),
 	foreign key (towaryMagazyn) references Uprawnienia(ID),
 	foreign key (sprzedaze) references Uprawnienia(ID),
-	foreign key (pozycjeSprzedazy) references Uprawnienia(ID)
+	foreign key (pozycjeSprzedazy) references Uprawnienia(ID),
+	foreign key (dostawcy) references Uprawnienia(ID)
 );
 

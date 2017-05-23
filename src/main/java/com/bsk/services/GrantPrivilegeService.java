@@ -4,11 +4,9 @@ import com.bsk.connectors.PrivilegesConnector;
 import com.bsk.domain.GrantPrivilege;
 import com.bsk.domain.GrantPrivilegePK;
 import com.bsk.domain.Privilege;
-import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.repositories.GrantPrivilegesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,20 +44,21 @@ public class GrantPrivilegeService {
     public void save(GrantPrivilegeDTO grantPrivilegeDTO, String username) { //TODO Sprawdzanie czy nie występują cykle
         GrantPrivilege grantPrivilege = new GrantPrivilege(
                 new GrantPrivilegePK(userService.findByLogin(grantPrivilegeDTO.getReceiverName()), userService.findByLogin(username)),
-                privilegeService.findFirstByCRUD(grantPrivilegeDTO.getClient()),
+                privilegeService.findFirstByCRUD(grantPrivilegeDTO.getCustomer()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getPurchase()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getPurchasePosition()),
-                privilegeService.findFirstByCRUD(grantPrivilegeDTO.getProduct()),
+                privilegeService.findFirstByCRUD(grantPrivilegeDTO.getWare()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getWarehouseProduct()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getSale()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getSalePosition()),
+                privilegeService.findFirstByCRUD(grantPrivilegeDTO.getVendor()),
                 grantPrivilegeDTO.isTake());
         repository.save(grantPrivilege);
     }
 
     public GrantPrivilege getUserPrivilege(String username){
         Privilege noPrivileges = new Privilege(1, "NONE","NONE", "NONE","NONE" );
-        GrantPrivilege userPrivileges= new GrantPrivilege(null,noPrivileges,noPrivileges,noPrivileges,noPrivileges,noPrivileges,noPrivileges,noPrivileges,false);
+        GrantPrivilege userPrivileges = new GrantPrivilege(null, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, false);
         List<GrantPrivilege> userPrivilegeList = this.read().stream()
                 .filter(grantPrivilege -> grantPrivilege.getGrantPrivilegePK().getReceiver().getLogin().equals(username))
                 .collect(Collectors.toList());
