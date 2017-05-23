@@ -65,7 +65,7 @@
                                              capitalizedPrivilegeName= ${T(org.springframework.util.StringUtils).capitalize(privilege)},
                                              getterName=${'userPrivileges.get'+ capitalizeTableHbName +'().get'+capitalizedPrivilegeName+'()'}">
                                             <select class=" list yellow rounded" th:field="*{__${tableName.getValue() + '.' + privilege}__}" >
-                                                <option th:if="${__${getterName}__} == 'NONE' or ${__${getterName}__} == 'ACCESS'" th:disabled="true" value="NONE" >Brak praw</option>
+                                                <option th:selected="true" th:if="${__${getterName}__} == 'NONE' or ${__${getterName}__} == 'ACCESS'" value="NONE" >Brak praw</option>
                                                 <option th:if="${__${getterName}__} == 'GRANT'" value="NONE" >Nie przekazuj</option>
                                                 <option th:if="${__${getterName}__} == 'GRANT'" value="ACCESS">Bez delegacji</option>
                                                 <option th:if="${__${getterName}__} == 'GRANT'" value="GRANT">Z delegacją</option>
