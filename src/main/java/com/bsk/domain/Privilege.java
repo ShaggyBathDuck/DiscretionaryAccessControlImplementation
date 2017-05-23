@@ -102,4 +102,12 @@ public class Privilege {
                 delete.equalsIgnoreCase("NONE")) return false;
         return true;
     }
+
+    public boolean hasAnyGrantRight() {
+        if (create.equalsIgnoreCase("GRANT") ||
+                read.equalsIgnoreCase("GRANT") ||
+                update.equalsIgnoreCase("GRANT") ||
+                delete.equalsIgnoreCase("GRANT")) return true;
+        return false;
+    }
 }

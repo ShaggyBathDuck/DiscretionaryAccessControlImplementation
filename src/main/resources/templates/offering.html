@@ -58,12 +58,15 @@
                                 </div>
                                 <div class="divTableBody">
                                     <div class="divTableRow"
+                                         th:with=" capitalizeTableHbName=  ${T(org.springframework.util.StringUtils).capitalize(tableName.getValue())},
+                                                grantRights=${'userPrivileges.get'+ capitalizeTableHbName +'().hasAnyGrantRight()'}"
                                          th:each="tableName : ${grantedPrivilegeInfo.getColumnNamesDbHbMap()}" th:if="${tableName.getKey()} != 'Dawca' and ${tableName.getKey()} != 'Przejmij'"
                                          th:field="*{__${tableName.getValue()}__}" >
-                                        <div class="divTableName" th:text="${tableName.getKey()}"></div>
-                                        <div class="divPrivilege"  th:each="privilege: ${privilegesList}"  th:if="${privilege} != 'id'"
-                                             th:with=" capitalizeTableHbName=  ${T(org.springframework.util.StringUtils).capitalize(tableName.getValue())},
-                                             capitalizedPrivilegeName= ${T(org.springframework.util.StringUtils).capitalize(privilege)},
+                                        <div class="divTableName" th:text="${tableName.getKey()}"
+                                             th:if="${__${grantRights}__} == true"></div>
+                                        <div class="divPrivilege" th:each="privilege: ${privilegesList}"
+                                             th:if="${privilege} != 'id' and ${__${grantRights}__} == true"
+                                             th:with="capitalizedPrivilegeName= ${T(org.springframework.util.StringUtils).capitalize(privilege)},
                                              getterName=${'userPrivileges.get'+ capitalizeTableHbName +'().get'+capitalizedPrivilegeName+'()'}">
                                             <select class=" list yellow rounded" th:field="*{__${tableName.getValue() + '.' + privilege}__}" >
                                                 <option style="color:gray" th:selected="true"

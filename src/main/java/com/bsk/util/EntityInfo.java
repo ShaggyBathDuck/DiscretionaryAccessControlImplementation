@@ -1,6 +1,7 @@
 package com.bsk.util;
 
 
+import com.bsk.domain.Privilege;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +21,7 @@ public class EntityInfo {
     private String tableNameInHb;
     private ArrayList<String> columnNamesInDb;
     private ArrayList<String> columnNamesInHb;
+    private Privilege privilege;
 
     public static ArrayList<String> capitalizeColumnNames(ArrayList<String> columnNames) {
         ArrayList<String> newList = new ArrayList<>();
