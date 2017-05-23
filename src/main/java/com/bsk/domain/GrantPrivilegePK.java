@@ -20,6 +20,13 @@ public class GrantPrivilegePK implements Serializable {
     @JoinColumn(name = "biorca")
     private User receiver;
 
+    public GrantPrivilegePK() {
+    }
+
+    public GrantPrivilegePK(User giver, User receiver) {
+        this.giver = giver;
+        this.receiver = receiver;
+    }
 
     public User getGiver() {
         return giver;

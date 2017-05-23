@@ -8,6 +8,9 @@ import lombok.Setter;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +29,12 @@ public class EntityInfo {
             newList.add(newColumnName);
         }
         return newList;
+    }
+
+    public Map<String, String> getColumnNamesDbHbMap(){
+        Map<String, String> columnMap= new LinkedHashMap<>();
+        for (int i=0; i<columnNamesInDb.size(); i++)
+            columnMap.put(StringUtils.capitalize(columnNamesInDb.get(i)), columnNamesInHb.get(i));
+        return columnMap;
     }
 }

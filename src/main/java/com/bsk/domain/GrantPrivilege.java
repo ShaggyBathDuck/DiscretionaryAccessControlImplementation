@@ -130,7 +130,7 @@ public class GrantPrivilege {
         this.salePosition = salePosition;
     }
 
-    public boolean isTake() {
+    public boolean getTake() {
         return take;
     }
 

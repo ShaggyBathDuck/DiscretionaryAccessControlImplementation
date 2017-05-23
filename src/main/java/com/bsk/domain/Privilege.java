@@ -73,6 +73,25 @@ public class Privilege {
         this.delete = delete;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Privilege privilege = (Privilege) o;
 
+        if (create != null ? !create.equals(privilege.create) : privilege.create != null) return false;
+        if (read != null ? !read.equals(privilege.read) : privilege.read != null) return false;
+        if (update != null ? !update.equals(privilege.update) : privilege.update != null) return false;
+        return delete != null ? delete.equals(privilege.delete) : privilege.delete == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = create != null ? create.hashCode() : 0;
+        result = 31 * result + (read != null ? read.hashCode() : 0);
+        result = 31 * result + (update != null ? update.hashCode() : 0);
+        result = 31 * result + (delete != null ? delete.hashCode() : 0);
+        return result;
+    }
 }

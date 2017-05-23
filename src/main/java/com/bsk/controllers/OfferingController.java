@@ -1,11 +1,6 @@
 package com.bsk.controllers;
 
-import com.bsk.connectors.PrivilegesConnector;
-import com.bsk.domain.GrantPrivilege;
-import com.bsk.domain.Privilege;
-import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
-import com.bsk.repositories.TableNamesRepository;
 import com.bsk.services.GrantPrivilegeService;
 import com.bsk.services.TableNamesService;
 import com.bsk.services.UserService;
@@ -15,14 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedMap;
 
 @Controller
 public class OfferingController {
@@ -46,7 +37,8 @@ public class OfferingController {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("grantMode", grantMode);
         model.addAttribute("userPrivileges", grantPrivilegeService.getUserPrivilege(authentication.getName()));
-        model.addAttribute("users", userService.findAllUsersNamesByTake(grantMode.equals("give"), authentication.getName()));
+        model.addAttribute("users", grantPrivilegeService.findAllUsernamesForSelectedMode(grantMode.equals("give"), authentication.getName()));
+        model.addAttribute("sentPrivilege", new GrantPrivilegeDTO());
         return "offering";
     }
 
@@ -68,9 +60,5 @@ public class OfferingController {
     public EntityInfo getGrantedPrivilegeInfo(){
         return tableNamesService.getTableNames().get("przekazywanieuprawnien");
     }
-
-
-
-
 
 }
