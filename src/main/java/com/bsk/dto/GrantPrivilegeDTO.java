@@ -2,9 +2,13 @@ package com.bsk.dto;
 
 
 import com.bsk.domain.Privilege;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 public class GrantPrivilegeDTO {
+    @NotEmpty
+    private String receiverName;
+
     private Privilege client;
 
     private Privilege purchase;
@@ -21,7 +25,11 @@ public class GrantPrivilegeDTO {
 
     private boolean take;
 
-    public GrantPrivilegeDTO(Privilege client, Privilege purchase, Privilege purchasePosition, Privilege product, Privilege warehouseProduct, Privilege sale, Privilege salePosition, boolean take) {
+    public GrantPrivilegeDTO() {
+    }
+
+    public GrantPrivilegeDTO(String receiverName, Privilege client, Privilege purchase, Privilege purchasePosition, Privilege product, Privilege warehouseProduct, Privilege sale, Privilege salePosition, boolean take) {
+        this.receiverName = receiverName;
         this.client = client;
         this.purchase = purchase;
         this.purchasePosition = purchasePosition;
@@ -30,6 +38,14 @@ public class GrantPrivilegeDTO {
         this.sale = sale;
         this.salePosition = salePosition;
         this.take = take;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
     }
 
     public Privilege getClient() {

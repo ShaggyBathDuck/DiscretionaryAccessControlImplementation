@@ -5,9 +5,7 @@ import com.bsk.domain.Privilege;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Component
 public class PrivilegesConnector {
@@ -27,7 +25,7 @@ public class PrivilegesConnector {
                 privilegeBaseList.get(4),
                 privilegeBaseList.get(5),
                 privilegeBaseList.get(6),
-                base.isTake() || connected.isTake());
+                base.getTake() || connected.getTake());
     }
 
     private  List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege){
@@ -52,7 +50,7 @@ public class PrivilegesConnector {
 
     private Privilege connectPrivileges(Privilege base, Privilege connected){
         List<String> baseList =this.getPrivilegeModes(base);
-        List<String> connectedList =this.getPrivilegeModes(base);
+        List<String> connectedList =this.getPrivilegeModes(connected);
 
         for (int i=0; i<baseList.size();i++){
             if(baseList.get(i).equals("NONE") || (baseList.get(i).equals("ACCESS") && connectedList.get(i).equals("GRANT")))

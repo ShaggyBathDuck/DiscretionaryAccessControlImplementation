@@ -9,8 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,12 +17,9 @@ public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
-    private GrantPrivilegeService grantPrivilegeService;
-
     @Autowired
-    public UserService(UserRepository userRepository, GrantPrivilegeService grantPrivilegeService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.grantPrivilegeService = grantPrivilegeService;
     }
 
 
@@ -60,13 +56,7 @@ public class UserService implements UserDetailsService {
         return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public List<String> findAllUsersNamesByTake(boolean take, String loggedUser){
-         return grantPrivilegeService.findAllByTake(take)
-                 .stream()
-                 .map(g -> g.getGrantPrivilegePK().getReceiver().getLogin())
-                 .collect(Collectors.toSet())
-                 .stream()
-                 .filter(l -> !l.equals(loggedUser))
-                 .collect(Collectors.toList());
-    }
+
+
+    public User findByLogin(String login){return userRepository.findByLogin(login);}
 }
