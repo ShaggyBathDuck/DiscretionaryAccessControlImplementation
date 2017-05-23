@@ -10,8 +10,10 @@ import com.bsk.repositories.GrantPrivilegesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +44,7 @@ public class GrantPrivilegeService {
         repository.save(grantPrivilege);
     }
 
-    public void save(GrantPrivilegeDTO grantPrivilegeDTO, String username) { //TODO Sprawdzanie czy nie występują cykle
+    public void save(GrantPrivilegeDTO grantPrivilegeDTO, String username) {
         GrantPrivilege grantPrivilege = new GrantPrivilege(
                 new GrantPrivilegePK(userService.findByLogin(username), userService.findByLogin(grantPrivilegeDTO.getReceiverName())),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getCustomer()),
@@ -98,8 +100,10 @@ public class GrantPrivilegeService {
                     .map(g -> g.getGrantPrivilegePK().getReceiver().getLogin())
                     .collect(Collectors.toSet());
         }else{
+            Set<String> ancestorsUsernames = this.findAllAncestors(loggedUser);
             usernames= userService.read().stream()
                     .map(g -> g.getLogin())
+                    .filter(username -> !ancestorsUsernames.contains(username))
                     .collect(Collectors.toSet());
         }
         return usernames
@@ -108,5 +112,16 @@ public class GrantPrivilegeService {
                 .collect(Collectors.toList());
     }
 
-
+    private Set<String> findAllAncestors(String loggedUser){
+        Set<String> ancestorsNames= new HashSet<>();
+        ancestorsNames.add(loggedUser);
+        List<GrantPrivilege> receivedPrivileges=repository.findAllByGrantPrivilegePK_Receiver(userService.findByLogin(loggedUser));
+        String giverLogin;
+        for (int i=0; i<receivedPrivileges.size();i++){
+            giverLogin=receivedPrivileges.get(i).getGrantPrivilegePK().getGiver().getLogin();
+            if(!loggedUser.equals(giverLogin))
+                ancestorsNames.addAll(findAllAncestors(giverLogin));
+        }
+        return ancestorsNames;
+    }
 }
