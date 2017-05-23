@@ -26,7 +26,7 @@ public class GrantPrivilegesController {
     }
 
     @PostMapping(value = "/grant")
-    public String create(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+    public String grant(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (
                 !(grantPrivilegeDTO.getCustomer().hasEffectiveRights() ||
                         grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
@@ -43,6 +43,32 @@ public class GrantPrivilegesController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
             attr.addFlashAttribute("successfullyGranted", true);
+            return "redirect:/offering";
+        }
+        attr.addFlashAttribute("failedGranted", true);
+        return "redirect:/offering";
+    }
+
+    @PostMapping(value = "/give")
+    public String give(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (
+                !(grantPrivilegeDTO.getCustomer().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getPurchasePosition().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getWare().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getWarehouseProduct().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getSale().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getSalePosition().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getVendor().hasEffectiveRights() ||
+                        grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()).getTake()
+                        )) {
+            attr.addFlashAttribute("noGrants", true);
+            return "redirect:/offering";
+        }
+        if (!bindingResult.hasErrors()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            grantPrivilegeService.give(grantPrivilegeDTO, authentication.getName());
+            attr.addFlashAttribute("successfullyGift", true);
             return "redirect:/offering";
         }
         attr.addFlashAttribute("failedGranted", true);
