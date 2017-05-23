@@ -28,8 +28,9 @@
             <div class="row space-for-div">
                 <div class="col-md-4" ></div>
                 <div class="col-md-4">
-                    <label style="color: green" th:if="${successfullyGranted}">Przekazano poprawnie uprawnienia</label>
-                    <label style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</label>
+                    <h4 style="color: green" th:if="${successfullyGranted}">Przekazano poprawnie uprawnienia</h4>
+                    <h4 style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</h4>
+                    <h4 style="color: red" th:if="${noGrants}">Nie wybrano żadnych uprawnień</h4>
                     <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
                             th:onclick="|changeGrantMode('grant')|"
                             th:classappend="${grantMode == 'grant'}? btn-info: none">Przekaż</button>

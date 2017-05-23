@@ -25,18 +25,20 @@ public class PrivilegesConnector {
                 privilegeBaseList.get(4),
                 privilegeBaseList.get(5),
                 privilegeBaseList.get(6),
+                privilegeBaseList.get(7),
                 base.getTake() || connected.getTake());
     }
 
     private  List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege){
-        List<Privilege> privilegeList = new ArrayList<>(7);
-        privilegeList.add(grantPrivilege.getClient());
+        List<Privilege> privilegeList = new ArrayList<>(8);
+        privilegeList.add(grantPrivilege.getCustomer());
         privilegeList.add(grantPrivilege.getPurchase());
         privilegeList.add(grantPrivilege.getPurchasePosition());
-        privilegeList.add(grantPrivilege.getProduct());
+        privilegeList.add(grantPrivilege.getWare());
         privilegeList.add(grantPrivilege.getWarehouseProduct());
         privilegeList.add(grantPrivilege.getSale());
         privilegeList.add(grantPrivilege.getSalePosition());
+        privilegeList.add(grantPrivilege.getVendor());
         return privilegeList;
     }
     private List<String> getPrivilegeModes(Privilege privilege){
