@@ -127,25 +127,6 @@ INSERT INTO towarymagazyn VALUES (13, 6, 50.99, 'MagazynC', 7, 78);
 
 
 --
--- TOC entry 2238 (class 0 OID 16411)
--- Dependencies: 189
--- Data for Name: pozycjesprzedazy; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO pozycjesprzedazy VALUES (1, 1, 1, 8, 5);
-INSERT INTO pozycjesprzedazy VALUES (7, 2, 4, 12, 4);
-INSERT INTO pozycjesprzedazy VALUES (8, 3, 5, 45, 5);
-INSERT INTO pozycjesprzedazy VALUES (9, 3, 6, 10, 0);
-INSERT INTO pozycjesprzedazy VALUES (13, 5, 10, 1, 10);
-INSERT INTO pozycjesprzedazy VALUES (14, 7, 10, 15, 0);
-INSERT INTO pozycjesprzedazy VALUES (15, 6, 11, 100, 30);
-INSERT INTO pozycjesprzedazy VALUES (16, 6, 12, 4, 2);
-INSERT INTO pozycjesprzedazy VALUES (18, 5, 13, 10, 5);
-INSERT INTO pozycjesprzedazy VALUES (19, 10, 4, 19, 1);
-INSERT INTO pozycjesprzedazy VALUES (22, 8, 3, 10, 0);
-
-
---
 -- TOC entry 2260 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: pozycjesprzedazy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
@@ -289,9 +270,9 @@ INSERT INTO uzytkownicy VALUES (22, 'piotr3', '$2a$10$u3JfZ2Tbpj77ESauulpUDeDWk6
 -- Data for Name: przekazywanieuprawnien; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO przekazywanieuprawnien VALUES (10, 21, 1, 1, 1, 1, 2, 3, 2, true, 1);
-INSERT INTO przekazywanieuprawnien VALUES (21, 22, 81, 81, 81, 11, 11, 73, 1, false, 1);
-INSERT INTO przekazywanieuprawnien VALUES (10, 22, 10, 1, 1, 1, 1, 1, 1, false, 1);
+INSERT INTO przekazywanieuprawnien VALUES (10, 21, 1, 1, 1, 1, 2, 3, 2,  1, true);
+INSERT INTO przekazywanieuprawnien VALUES (21, 22, 81, 81, 81, 11, 11, 73, 1, 1,false);
+INSERT INTO przekazywanieuprawnien VALUES (10, 22, 10, 1, 1, 1, 1, 1, 1, 1,false);
 
 
 --
@@ -310,6 +291,26 @@ INSERT INTO sprzedaze VALUES (7, 'KLJ-KS-KF', 16, '2016-12-31');
 INSERT INTO sprzedaze VALUES (8, 'BVH-45-GF', 17, '2016-11-30');
 INSERT INTO sprzedaze VALUES (9, 'GHJ-XC-45', 7, '2016-12-13');
 INSERT INTO sprzedaze VALUES (10, 'BHL-FD-78', 10, '2017-10-11');
+
+
+
+--
+-- TOC entry 2238 (class 0 OID 16411)
+-- Dependencies: 189
+-- Data for Name: pozycjesprzedazy; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO pozycjesprzedazy VALUES (1, 1, 1, 8, 5);
+INSERT INTO pozycjesprzedazy VALUES (7, 2, 4, 12, 4);
+INSERT INTO pozycjesprzedazy VALUES (8, 3, 5, 45, 5);
+INSERT INTO pozycjesprzedazy VALUES (9, 3, 6, 10, 0);
+INSERT INTO pozycjesprzedazy VALUES (13, 5, 10, 1, 10);
+INSERT INTO pozycjesprzedazy VALUES (14, 7, 10, 15, 0);
+INSERT INTO pozycjesprzedazy VALUES (15, 6, 11, 100, 30);
+INSERT INTO pozycjesprzedazy VALUES (16, 6, 12, 4, 2);
+INSERT INTO pozycjesprzedazy VALUES (18, 5, 13, 10, 5);
+INSERT INTO pozycjesprzedazy VALUES (19, 10, 4, 19, 1);
+INSERT INTO pozycjesprzedazy VALUES (22, 8, 3, 10, 0);
 
 
 --
@@ -362,4 +363,3 @@ SELECT pg_catalog.setval('zakupy_id_seq', 14, true);
 --
 -- PostgreSQL database dump complete
 --
-
