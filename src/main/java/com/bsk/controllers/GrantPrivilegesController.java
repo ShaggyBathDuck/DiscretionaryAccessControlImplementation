@@ -28,7 +28,8 @@ public class GrantPrivilegesController {
     @PostMapping(value = "/grant")
     public String create(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         if (
-                !(grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
+                !(grantPrivilegeDTO.getCustomer().hasEffectiveRights() ||
+                        grantPrivilegeDTO.getPurchase().hasEffectiveRights() ||
                         grantPrivilegeDTO.getPurchasePosition().hasEffectiveRights() ||
                         grantPrivilegeDTO.getWare().hasEffectiveRights() ||
                         grantPrivilegeDTO.getWarehouseProduct().hasEffectiveRights() ||

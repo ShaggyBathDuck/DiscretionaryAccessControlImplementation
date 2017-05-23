@@ -63,9 +63,10 @@
                                          th:each="tableName : ${grantedPrivilegeInfo.getColumnNamesDbHbMap()}" th:if="${tableName.getKey()} != 'Dawca' and ${tableName.getKey()} != 'Przejmij'"
                                          th:field="*{__${tableName.getValue()}__}" >
                                         <div class="divTableName" th:text="${tableName.getKey()}"
-                                             th:if="${__${grantRights}__} == true"></div>
+                                             th:style="${__${grantRights}__} == false ?'display:none':''"></div>
                                         <div class="divPrivilege" th:each="privilege: ${privilegesList}"
-                                             th:if="${privilege} != 'id' and ${__${grantRights}__} == true"
+                                             th:style="${__${grantRights}__} == false ?'display:none':''"
+                                             th:if="${privilege} != 'id'"
                                              th:with="capitalizedPrivilegeName= ${T(org.springframework.util.StringUtils).capitalize(privilege)},
                                              getterName=${'userPrivileges.get'+ capitalizeTableHbName +'().get'+capitalizedPrivilegeName+'()'}">
                                             <select class=" list yellow rounded" th:field="*{__${tableName.getValue() + '.' + privilege}__}" >
