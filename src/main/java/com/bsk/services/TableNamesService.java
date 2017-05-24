@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -66,11 +67,11 @@ public class TableNamesService {
                     break;
                 }
                 case "warehouseitem": {
-                    entityInfo.setPrivilege(userPrivilege.getCustomer());
+                    entityInfo.setPrivilege(userPrivilege.getWarehouseProduct());
                     break;
                 }
                 case "user":{
-                    if(userPrivilege.getGrantPrivilegePK().isAdmin())
+                    if (Objects.nonNull(userPrivilege.getGrantPrivilegePK()) && userPrivilege.getGrantPrivilegePK().isAdmin())
                         entityInfo.setPrivilege(new Privilege(41, "ACCESS", "ACCESS", "ACCESS", "ACCESS"));
                     else
                         entityInfo.setPrivilege(new Privilege(0, "NONE", "NONE", "NONE", "NONE"));
