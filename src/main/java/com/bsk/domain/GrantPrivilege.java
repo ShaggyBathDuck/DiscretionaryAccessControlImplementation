@@ -79,4 +79,8 @@ public class GrantPrivilege {
     public void setTake(boolean take) {
         this.take = take;
     }
+
+    public boolean isAdmin(){
+        return this.grantPrivilegePK.isAdmin();
+    }
 }

@@ -15,8 +15,10 @@ public interface GrantPrivilegesRepository extends JpaRepository<GrantPrivilege,
     List<GrantPrivilege> findAllByTake(boolean take);
     @Transactional
     void deleteAllByGrantPrivilegePK_Receiver(User user);
+
     @Transactional
-    void deleteAllByGrantPrivilegePK_Giver(User user);
+    List<GrantPrivilege> findAllByGrantPrivilegePK_Receiver(User user);
+
     @Transactional
     List<GrantPrivilege> findAllByGrantPrivilegePK_Giver(User user);
 

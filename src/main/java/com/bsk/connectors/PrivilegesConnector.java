@@ -1,6 +1,7 @@
 package com.bsk.connectors;
 
 import com.bsk.domain.GrantPrivilege;
+import com.bsk.domain.GrantPrivilegePK;
 import com.bsk.domain.Privilege;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +14,14 @@ public class PrivilegesConnector {
     public GrantPrivilege connect(GrantPrivilege base, GrantPrivilege connected){
         List<Privilege> privilegeBaseList = this.getPrivilegesList(base);
         List<Privilege> privilegeConnectedList = this.getPrivilegesList(connected);
+
         for (int i=0; i<privilegeBaseList.size(); i++){
             privilegeBaseList.set(i, this.connectPrivileges(privilegeBaseList.get(i), privilegeConnectedList.get(i)));
         }
-
-        return new GrantPrivilege(null,
+        GrantPrivilegePK grantPrivilegePK=base.getGrantPrivilegePK();
+        if (connected.getGrantPrivilegePK().isAdmin())
+            grantPrivilegePK=connected.getGrantPrivilegePK();
+        return new GrantPrivilege(grantPrivilegePK,
                 privilegeBaseList.get(0),
                 privilegeBaseList.get(1),
                 privilegeBaseList.get(2),
@@ -29,7 +33,7 @@ public class PrivilegesConnector {
                 base.getTake() || connected.getTake());
     }
 
-    private  List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege){
+    public   List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege){
         List<Privilege> privilegeList = new ArrayList<>(8);
         privilegeList.add(grantPrivilege.getCustomer());
         privilegeList.add(grantPrivilege.getPurchase());
@@ -41,7 +45,7 @@ public class PrivilegesConnector {
         privilegeList.add(grantPrivilege.getVendor());
         return privilegeList;
     }
-    private List<String> getPrivilegeModes(Privilege privilege){
+    public List<String> getPrivilegeModes(Privilege privilege){
         List<String> modeList = new ArrayList<>(4);
         modeList.add(privilege.getCreate());
         modeList.add(privilege.getRead());
