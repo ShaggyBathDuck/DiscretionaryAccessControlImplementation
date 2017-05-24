@@ -83,4 +83,16 @@ public class GrantPrivilege {
     public boolean isAdmin(){
         return this.grantPrivilegePK.isAdmin();
     }
+
+    public boolean hasAnyGrantRight() {
+        if (customer.hasAnyGrantRight() ||
+                purchase.hasAnyGrantRight() ||
+                purchasePosition.hasAnyGrantRight() ||
+                ware.hasAnyGrantRight() ||
+                warehouseProduct.hasAnyGrantRight() ||
+                sale.hasAnyGrantRight() ||
+                salePosition.hasAnyGrantRight() ||
+                vendor.hasAnyGrantRight()) return true;
+        return false;
+    }
 }

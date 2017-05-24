@@ -25,30 +25,36 @@
             </form>
         </h4>
         <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
-            <div class="row space-for-div">
-                <div class="col-md-4" ></div>
-                <div class="col-md-4">
-                    <h4 style="color: green" th:if="${successfullyGranted}">Przekazano poprawnie uprawnienia</h4>
-                    <h4 style="color: green" th:if="${successfullyGift}">Oddano poprawnie uprawnienia</h4>
-                    <h4 style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</h4>
-                    <h4 style="color: red" th:if="${noGrants}">Nie wybrano żadnych uprawnień</h4>
-                    <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
-                            th:onclick="|changeGrantMode('grant')|"
-                            th:classappend="${grantMode == 'grant'}? btn-info: none">Przekaż</button>
-                    <button style="display: inline" class="btn btn-sq btn-block btn-space"
-                            th:onclick="|changeGrantMode('give')|"
-                            th:classappend="${grantMode == 'give'}? btn-info: none">Oddaj</button>
-                </div>
-                <div class="col-md-4"></div>
+            <div th:if="${!userPrivileges.hasAnyGrantRight()}">
+                <h4 style="text-align: center">Nie masz żadnego prawa, które mógłbyś przekazać!</h4>
             </div>
-            <form th:action="@{'/privilege/'+${grantMode}}"
-                  th:object="${sentPrivilege}"
-                  th:method="post"
-                  th:id="createForm" >
-                <div class="row space-for-div"  >
-                        <div class="col-md-7" >
-                            <div class="divTable" th:with=" privilegesList = ${privilegeInfo.getColumnNamesInHb()}" >
-                                <div class="divTableHeading" >
+            <div th:if="${userPrivileges.hasAnyGrantRight()}">
+                <div class="row space-for-div">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <h4 style="color: green" th:if="${successfullyGranted}">Przekazano poprawnie uprawnienia</h4>
+                        <h4 style="color: green" th:if="${successfullyGift}">Oddano poprawnie uprawnienia</h4>
+                        <h4 style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</h4>
+                        <h4 style="color: red" th:if="${noGrants}">Nie wybrano żadnych uprawnień</h4>
+                        <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
+                                th:onclick="|changeGrantMode('grant')|"
+                                th:classappend="${grantMode == 'grant'}? btn-info: none">Przekaż
+                        </button>
+                        <button style="display: inline" class="btn btn-sq btn-block btn-space"
+                                th:onclick="|changeGrantMode('give')|"
+                                th:classappend="${grantMode == 'give'}? btn-info: none">Oddaj
+                        </button>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <form th:action="@{'/privilege/'+${grantMode}}"
+                      th:object="${sentPrivilege}"
+                      th:method="post"
+                      th:id="createForm">
+                    <div class="row space-for-div">
+                        <div class="col-md-7">
+                            <div class="divTable" th:with=" privilegesList = ${privilegeInfo.getColumnNamesInHb()}">
+                                <div class="divTableHeading">
                                     <div class="divTableHead"
                                          th:text="Tabele"></div>
                                     <div class="divTableHead"
@@ -61,8 +67,9 @@
                                     <div class="divTableRow"
                                          th:with=" capitalizeTableHbName=  ${T(org.springframework.util.StringUtils).capitalize(tableName.getValue())},
                                                 grantRights=${'userPrivileges.get'+ capitalizeTableHbName +'().hasAnyGrantRight()'}"
-                                         th:each="tableName : ${grantedPrivilegeInfo.getColumnNamesDbHbMap()}" th:if="${tableName.getKey()} != 'Dawca' and ${tableName.getKey()} != 'Przejmij'"
-                                         th:field="*{__${tableName.getValue()}__}" >
+                                         th:each="tableName : ${grantedPrivilegeInfo.getColumnNamesDbHbMap()}"
+                                         th:if="${tableName.getKey()} != 'Dawca' and ${tableName.getKey()} != 'Przejmij'"
+                                         th:field="*{__${tableName.getValue()}__}">
                                         <div class="divTableName" th:text="${tableName.getKey()}"
                                              th:style="${__${grantRights}__} == false ?'display:none':''"></div>
                                         <div class="divPrivilege" th:each="privilege: ${privilegesList}"
@@ -70,45 +77,54 @@
                                              th:if="${privilege} != 'id'"
                                              th:with="capitalizedPrivilegeName= ${T(org.springframework.util.StringUtils).capitalize(privilege)},
                                              getterName=${'userPrivileges.get'+ capitalizeTableHbName +'().get'+capitalizedPrivilegeName+'()'}">
-                                            <select class=" list yellow rounded" th:field="*{__${tableName.getValue() + '.' + privilege}__}" >
+                                            <select class=" list yellow rounded"
+                                                    th:field="*{__${tableName.getValue() + '.' + privilege}__}">
                                                 <option style="color:gray" th:selected="true"
                                                         th:if="${__${getterName}__} == 'NONE' or ${__${getterName}__} == 'ACCESS'"
                                                         value="NONE">Brak praw
                                                 </option>
-                                                <option th:if="${__${getterName}__} == 'GRANT'" value="NONE" >Nie przekazuj</option>
-                                                <option th:if="${__${getterName}__} == 'GRANT'" value="ACCESS">Bez delegacji</option>
-                                                <option th:if="${__${getterName}__} == 'GRANT'" value="GRANT">Z delegacją</option>
+                                                <option th:if="${__${getterName}__} == 'GRANT'" value="NONE">Nie
+                                                    przekazuj
+                                                </option>
+                                                <option th:if="${__${getterName}__} == 'GRANT'" value="ACCESS">Bez
+                                                    delegacji
+                                                </option>
+                                                <option th:if="${__${getterName}__} == 'GRANT'" value="GRANT">Z
+                                                    delegacją
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-1" > </div>
-                        <div class="col-md-3" >
+                        <div class="col-lg-1"></div>
+                        <div class="col-md-3">
                             <h5>Wybierz użytkownika</h5>
                             <select class=" list yellow rounded" th:field="*{receiverName}" required="required">
                                 <option th:each="user : ${users}" th:value="${user}" th:text="${user}"></option>
                             </select>
                             <div th:if="${userPrivileges.getGrantPrivilegePK() != null and userPrivileges.getGrantPrivilegePK().isAdmin()}">
                                 <h5>Nadaj prawo przejmij</h5>
-                                <select class=" list yellow rounded" th:field="*{take}" >
+                                <select class=" list yellow rounded" th:field="*{take}">
                                     <option th:selected="true" th:value="false">Nie</option>
                                     <option th:value="true">Tak</option>
                                 </select>
                                 <href/>
                             </div>
                         </div>
-                        <div class="col-lg-1" > </div>
-                </div>
-                <div class="row space-for-div"  >
-                    <div class="col-md-9"></div>
-                    <div class="col-md-2">
-                        <button type="submit" th:form="createForm" id="sendPrivilege" class="btn btn-sq btn-block btn-space btn-info" th:text="Wyślij">
-                        </button>
+                        <div class="col-lg-1"></div>
                     </div>
-                </div>
-            </form>
+                    <div class="row space-for-div">
+                        <div class="col-md-9"></div>
+                        <div class="col-md-2">
+                            <button type="submit" th:form="createForm" id="sendPrivilege"
+                                    class="btn btn-sq btn-block btn-space btn-info" th:text="Wyślij">
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <script th:inline="javascript">
