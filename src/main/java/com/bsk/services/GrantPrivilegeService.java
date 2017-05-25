@@ -70,7 +70,7 @@ public class GrantPrivilegeService {
 
     private void removeByGiver(List<GrantPrivilege> list, String receiver){
         for(GrantPrivilege privilege:list){
-            if(!privilege.getGrantPrivilegePK().getReceiver().equals(receiver)){
+            if(!privilege.getGrantPrivilegePK().getReceiver().getLogin().equals(receiver)){
                 removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()), receiver);
                 repository.delete(privilege);
             }
