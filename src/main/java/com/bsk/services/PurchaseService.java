@@ -32,5 +32,7 @@ public class PurchaseService {
         return purchaseRepository.findOne(id);
     }
 
-
+    public List<Purchase> findByAllAttributes(String invoiceNumber) {
+        return purchaseRepository.findByInvoiceNumberContains(invoiceNumber);
+    }
 }

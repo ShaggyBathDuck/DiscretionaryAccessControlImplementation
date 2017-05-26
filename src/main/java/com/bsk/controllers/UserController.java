@@ -2,7 +2,10 @@ package com.bsk.controllers;
 
 
 import com.bsk.domain.User;
+import com.bsk.services.TableNamesService;
 import com.bsk.services.UserService;
+import com.bsk.util.EntityInfo;
+import javafx.util.Pair;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.SortedMap;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -21,9 +25,12 @@ public class UserController {
 
     private PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    private TableNamesService tableNamesService;
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder, TableNamesService tableNamesService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.tableNamesService = tableNamesService;
     }
 
     public String showHome(Model model) {
@@ -58,5 +65,16 @@ public class UserController {
             attr.addFlashAttribute("foreignKeyError", "Nie można usunąć wiersza - jest kluczem obcym w innej tabeli");
         }
         return showHome(model);
+    }
+
+    @RequestMapping(value = "/search")
+    public String search(Model model, String content, RedirectAttributes attr) {
+        List<User> users = userService.findByAllAttributes(content);
+        model.addAttribute("users", users);
+        model.addAttribute("user", new User());
+        SortedMap<String, EntityInfo> entitiesInfo = tableNamesService.getDisplayableTableNames();
+        Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>("uzytkownicy", entitiesInfo);
+        model.addAttribute("data", data);
+        return "fragments/table :: tableDiv";
     }
 }

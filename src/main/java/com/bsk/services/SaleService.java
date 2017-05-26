@@ -30,4 +30,8 @@ public class SaleService {
     public Sale findById(Integer id) {
         return saleRepository.findOne(id);
     }
+
+    public List<Sale> findByAllAttributes(String invoiceNumber) {
+        return saleRepository.findByInvoiceNumberContains(invoiceNumber);
+    }
 }

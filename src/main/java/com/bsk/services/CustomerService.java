@@ -30,4 +30,9 @@ public class CustomerService {
     public Customer findById(Integer id) {
         return customerRepository.findOne(id);
     }
+
+    public List<Customer> findByAllAttributes(String content) {
+        return customerRepository.findByNameContainsOrCityContainsOrNipContainsOrPhoneNumberContainsOrStreetContainsOrPostalCodeContains
+                (content, content, content, content, content, content);
+    }
 }

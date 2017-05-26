@@ -11,7 +11,6 @@
     <div th:with="columnNamesHb=${T(com.bsk.util.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
          listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
          entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">
-
         <div class="col-md-2 " style="height: 870px;background-color:rgba(34,171,233,0.2); padding-top: 10px; padding-left:40px ">
 
             <H4 style="text-align: center">Hurtownia</H4>
@@ -29,6 +28,14 @@
         <div class="col-md-9">
             <div th:id="tableDiv" id="tableDiv">
                 <h3 style="text-align: center">Zawartość tabeli</h3>
+                <div class="row" style="float: right; padding: 10px">
+                    <form id="search-form">
+                        <input type="text" id="search-content" placeholder="Wyszukaj"/>
+                        <button type="button" class="btn-info btn-md" id="btn-search"
+                                th:onclick="|search('${listName}')|" style="margin: 10px">Szukaj
+                        </button>
+                    </form>
+                </div>
                 <div class="divTable">
                     <div class="divTableHeading">
                         <div class="divTableHead"
@@ -125,6 +132,23 @@
             });
             //$('#modal-content').load("/modalEdit", {"activeTabName": tableName, "id": id});
             $('#myModal').modal('show');
+        }
+
+
+        function search(listName) {
+
+            var value = $("#search-content").val();
+            var token = $("meta[name='_csrf']").attr("content");
+
+            $("#btn-search").prop("disabled", true);
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': token},
+                url: listName + "/search",
+                data: {"content": value},
+            }).done(function (data) {
+                $('#tableDiv').html(data);
+            });
         }
         /*]]>*/
     </script>
