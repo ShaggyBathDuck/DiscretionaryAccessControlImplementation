@@ -30,4 +30,8 @@ public class SalePositionService {
     public SalePosition findById(Integer id) {
         return salePositionRepository.findOne(id);
     }
+
+    public List<SalePosition> findByAllAttributes(Integer number) {
+        return salePositionRepository.findByAmountOrDiscount(number, number);
+    }
 }

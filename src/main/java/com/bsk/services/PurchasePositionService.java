@@ -4,6 +4,7 @@ import com.bsk.domain.PurchasePosition;
 import com.bsk.repositories.PurchasePositionRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -29,5 +30,9 @@ public class PurchasePositionService {
 
     public PurchasePosition findById(Integer id) {
         return purchasePositionRepository.findOne(id);
+    }
+
+    public List<PurchasePosition> findByAllAttributes(BigDecimal number) {
+        return purchasePositionRepository.findByPriceOrAmount(number, number.intValue());
     }
 }

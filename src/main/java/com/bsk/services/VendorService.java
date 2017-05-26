@@ -30,4 +30,9 @@ public class VendorService {
     public Vendor findById(Integer id) {
         return vendorRepository.findOne(id);
     }
+
+    public List<Vendor> findByAllAttributes(String content) {
+        return vendorRepository.findByNameContainsOrCityContainsOrNipContainsOrPhoneNumberContainsOrStreetContainsOrPostalCodeContains
+                (content, content, content, content, content, content);
+    }
 }

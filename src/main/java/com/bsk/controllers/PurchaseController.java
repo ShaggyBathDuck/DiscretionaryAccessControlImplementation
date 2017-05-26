@@ -2,6 +2,9 @@ package com.bsk.controllers;
 
 import com.bsk.domain.Purchase;
 import com.bsk.services.PurchaseService;
+import com.bsk.services.TableNamesService;
+import com.bsk.util.EntityInfo;
+import javafx.util.Pair;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -14,15 +17,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.SortedMap;
 
 @Controller
 @RequestMapping("/purchases")
 public class PurchaseController {
 
     private PurchaseService purchaseService;
+    private TableNamesService tableNamesService;
 
-    public PurchaseController(PurchaseService purchaseService) {
+    public PurchaseController(PurchaseService purchaseService, TableNamesService tableNamesService) {
         this.purchaseService = purchaseService;
+        this.tableNamesService = tableNamesService;
     }
 
     private String showHome(Model model) {
@@ -65,5 +72,16 @@ public class PurchaseController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
         binder.registerCustomEditor(Date.class, editor);
+    }
+
+    @RequestMapping(value = "/search")
+    public String search(Model model, String content, RedirectAttributes attr) {
+        List<Purchase> purchases = purchaseService.findByAllAttributes(content);
+        model.addAttribute("purchases", purchases);
+        model.addAttribute("purchase", new Purchase());
+        SortedMap<String, EntityInfo> entitiesInfo = tableNamesService.getDisplayableTableNames();
+        Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>("zakupy", entitiesInfo);
+        model.addAttribute("data", data);
+        return "fragments/table :: tableDiv";
     }
 }

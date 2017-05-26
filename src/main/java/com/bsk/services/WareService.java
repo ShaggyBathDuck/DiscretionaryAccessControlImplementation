@@ -30,4 +30,9 @@ public class WareService {
     public Ware findById(Integer id) {
         return wareRepository.findOne(id);
     }
+
+    public List<Ware> findByAllAttributes(String content) {
+        return wareRepository.findByUnitContainsOrCategoryContainsOrManufacturerContainsOrNameContainsOrDescriptionContains(
+                content, content, content, content, content);
+    }
 }

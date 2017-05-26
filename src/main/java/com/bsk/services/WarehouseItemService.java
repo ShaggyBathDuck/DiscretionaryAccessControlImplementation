@@ -31,4 +31,8 @@ public class WarehouseItemService {
     public WarehouseItem findById(Integer id) {
         return warehouseItemRepository.findOne(id);
     }
+
+    public List<WarehouseItem> findByAllAttributes(String content) {
+        return warehouseItemRepository.findByLocationContains(content);
+    }
 }
