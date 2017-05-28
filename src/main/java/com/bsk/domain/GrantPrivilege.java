@@ -95,4 +95,12 @@ public class GrantPrivilege {
                 vendor.hasAnyGrantRight()) return true;
         return false;
     }
+
+    public User getReceiver(){
+        return this.grantPrivilegePK.getReceiver();
+    }
+
+    public User getGiver(){
+        return this.grantPrivilegePK.getGiver();
+    }
 }

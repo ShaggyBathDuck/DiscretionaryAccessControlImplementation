@@ -18,7 +18,6 @@ public interface GrantPrivilegeService {
     List<String> findAllUsernamesForSelectedMode(boolean isModeTake, String loggedUser);
     Set<String> findAllUserAncestors(String loggedUser);
     void delete(GrantPrivilege deletedPrivilege);
-    void update(GrantPrivilege updatedPrivilege);
-
+    void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege);
 
 }

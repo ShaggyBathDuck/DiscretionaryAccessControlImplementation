@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -127,15 +128,30 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
 
 
     public void delete(GrantPrivilege deletedPrivilege){
-        //TODO
-        List<GrantPrivilege> givenPrivileges= this.repository.findAllByGrantPrivilegePK_Giver(deletedPrivilege.getGrantPrivilegePK().getReceiver());
-        for(int i=0; i<givenPrivileges.size(); i++){
-            delete(givenPrivileges.get(i));
-            this.repository.delete(givenPrivileges.get(i));
-        }
+        this.depthUpdate(deletedPrivilege.getReceiver(), deletedPrivilege);
+        this.repository.deleteAllByGrantPrivilegePK_Receiver(deletedPrivilege.getReceiver());
     }
-    public void update(GrantPrivilege updatedPrivilege){
-        //TODO
 
+    public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege){
+        GrantPrivilege diffPrivilege  = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege);
+        //Check if any privilege has been received, if yes need to update all children
+        if(GrantPrivilegesUtilities.haveCommonPart(oldPrivilege, diffPrivilege))
+            this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
+        this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
+        this.save(newPrivilege);
+
+    }
+
+    private void depthUpdate(User privilegeOwner, GrantPrivilege updatedPrivilege){
+        List<GrantPrivilege> givenPrivileges = this.repository.findAllByGrantPrivilegePK_Giver(privilegeOwner);
+        Iterator<GrantPrivilege> iterator = givenPrivileges.iterator();
+        while(iterator.hasNext()){
+            GrantPrivilege privilege = iterator.next();
+            depthUpdate(privilege.getReceiver(), updatedPrivilege);
+            privilege = GrantPrivilegesUtilities.difference(privilege, updatedPrivilege);
+            if(GrantPrivilegesUtilities.isEmpty(privilege)){
+                this.repository.delete(privilege);
+            }
+        }
     }
 }
