@@ -3,7 +3,10 @@ package com.bsk.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 
 @Embeddable
