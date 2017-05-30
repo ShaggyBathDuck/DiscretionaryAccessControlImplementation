@@ -1,4 +1,4 @@
-﻿﻿
+﻿﻿﻿
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Widok admina</title>
 </head>
-<body>
+<body th:if="${__${userPrivileges.isAdmin()}__}">
 <div class="container dashboard">
     <h2>Zarządzanie uprawnieniami</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username}"/>
@@ -17,7 +17,7 @@
         <form style="display: inline" action="/" method="get">
             <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
         </form>
-        <form method="get" th:action="@{/offering}" style="display: inline">
+        <form method="get" th:action="@{/offering}">
             <button type="submit" class="btn btn-md btn-primary">
                 Przekaż uprawnienia
             </button>
@@ -30,10 +30,10 @@
         </form>
     </h4>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
+
         <div class="divTable" style="align-content: center">
             <div class="divTableHeading">
-                <div class="divTableHead"
-                     text="Tabela/Użytkownik"></div>
+                <div class="divTableHead">Użytkownicy</div>
                 <div class="divTableHead"
                      th:each="entry : ${entitiesInfo}"
                      th:if="${entry.key != 'uzytkownicy'}"
@@ -42,6 +42,7 @@
             <div class="divTableBody">
                 <div class="divTableRow"
                      th:each="privilege: ${privileges}">
+
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getReceiver().getLogin()}">
@@ -79,7 +80,16 @@
                          th:text="${privilege.getPurchase()}">
                     </div>
                     <div class="divTableCell">
-                        <button type="button" class="btn btn-info btn-sm">Edytuj
+                            <button type="submit"
+                                    id="createRow"
+                                    th:onclick="|create('${privilege.getReceiver().getLogin()}')|"
+                                    class="btn btn-sm btn-success">Nadaj prawo
+                            </button>
+                    </div>
+                    <div class="divTableCell">
+                        <button type="button"
+                                th:onclick="|modify('${privilege.getReceiver().getLogin()}')|"
+                                class="btn btn-info btn-sm">Edytuj
                         </button>
                     </div>
                     <div class="divTableCell">
@@ -99,11 +109,22 @@
 </div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    function changeGrantMode(mode) {
+    function create(username) {
         var token = $("meta[name='_csrf']").attr("content");
         //$('body').load("/offering?grantMode=" + mode);
         $.ajax({
-            url: "/offering?grantMode=" + mode,
+            url: "/offering/create?username=" + username,
+            headers: {'X-CSRF-TOKEN': token},
+            type: "GET"
+        }).done(function (data) {
+            $('body').html(data);
+        });
+    }
+    function modify(username) {
+        var token = $("meta[name='_csrf']").attr("content");
+        //$('body').load("/offering?grantMode=" + mode);
+        $.ajax({
+            url: "/offering/modify?username=" + username,
             headers: {'X-CSRF-TOKEN': token},
             type: "GET"
         }).done(function (data) {

@@ -107,4 +107,16 @@ public class GrantPrivilegesUtilities {
         privilegeList.add(grantPrivilege.getVendor());
         return privilegeList;
     }
+
+    public static GrantPrivilegeDTO mapTo(GrantPrivilege grantPrivilege){
+        return new GrantPrivilegeDTO(grantPrivilege.getReceiver().getLogin(),
+                grantPrivilege.getCustomer(),
+                grantPrivilege.getPurchase(),
+                grantPrivilege.getPurchasePosition(),
+                grantPrivilege.getWare(),
+                grantPrivilege.getWarehouseProduct(),
+                grantPrivilege.getSale(),
+                grantPrivilege.getSalePosition(),
+                grantPrivilege.getTake());
+    }
 }

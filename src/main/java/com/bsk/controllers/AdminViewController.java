@@ -30,36 +30,13 @@ public class AdminViewController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", authentication.getName());
         model.addAttribute("privileges", adminViewService.read());
+        model.addAttribute("userPrivileges", adminViewService.getUserPrivilege(authentication.getName()));
         model.addAttribute("entitiesInfo", tableNamesService.getDisplayableTableNames());
         model.addAttribute("templateprivilege", new GrantPrivilege());
+
+
         return "/admin-view";
     }
 
-
-    @PostMapping(value = "/create")
-    public String create(@Valid GrantPrivilege grantPrivilege, BindingResult bindingResult, Model model, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
-            adminViewService.save(grantPrivilege);
-            return adminViewPage(model);
-        }
-        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
-        return "redirect:/admin-view";
-    }
-
-    @PutMapping(value = "/update/{receiver}")
-    public String update(@Valid GrantPrivilege updatedPrivilege, BindingResult bindingResult, Model model, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
-            adminViewService.update(updatedPrivilege);
-            return adminViewPage(model);
-        }
-        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
-        return "redirect:/admin-view";
-    }
-
-    @DeleteMapping(value = "/delete/{receiver}")
-    public String delete(@PathVariable String receiver, Model model, RedirectAttributes attr) {
-        adminViewService.delete(receiver);
-        return "redirect:/admin-view";
-    }
 
 }

@@ -26,7 +26,7 @@ public class GrantPrivilegesController {
         this.grantPrivilegeService = grantPrivilegeService;
     }
 
-    @PostMapping(value = "/grant")
+    @PostMapping(value = {"/grant", "/create"})
     public String grant(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (
@@ -81,5 +81,16 @@ public class GrantPrivilegesController {
         return "redirect:/offering";
     }
 
+    @PostMapping(value = "/update")
+    public String update(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr){
+        if (!bindingResult.hasErrors()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            grantPrivilegeService.update(grantPrivilegeDTO,authentication.getName());
+            attr.addFlashAttribute("successfullyGranted", true);
+            return "redirect:/offering";
+
+        }
+        return "redirect:/offering";
+    }
 
 }

@@ -1,10 +1,13 @@
 package com.bsk.controllers;
 
+import com.bsk.domain.GrantPrivilege;
+import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.services.GrantPrivilegeService;
 import com.bsk.services.TableNamesService;
 import com.bsk.services.UserService;
 import com.bsk.util.EntityInfo;
+import com.bsk.util.GrantPrivilegesUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,6 +48,33 @@ public class OfferingController {
         return "offering";
     }
 
+
+
+    @GetMapping("/offering/create")
+    public String offeringCreatePage(Model model, @RequestParam String username){
+        List<String> users = new ArrayList<>();
+        users.add(userService.findByLogin(username).getLogin());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("grantMode", "create");
+        model.addAttribute("userPrivileges", grantPrivilegeService.getUserPrivilege(authentication.getName()));
+        model.addAttribute("users",  users);
+        model.addAttribute("sentPrivilege",new GrantPrivilegeDTO());
+        return "offering";
+    }
+
+    @GetMapping("/offering/modify")
+    public String offeringModifyPage(Model model, @RequestParam String username){
+        List<String> users = new ArrayList<>();
+        users.add(userService.findByLogin(username).getLogin());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("grantMode", "update");
+        model.addAttribute("userPrivileges", grantPrivilegeService.getUserPrivilege(authentication.getName()));
+        model.addAttribute("users",  users);
+        model.addAttribute("sentPrivilege", GrantPrivilegesUtilities.mapTo(grantPrivilegeService.getUserPrivilege(username)));
+        return "offering";
+    }
 
     @ModelAttribute("tableNames")
     @ResponseBody

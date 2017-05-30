@@ -28,5 +28,6 @@ public interface GrantPrivilegeService {
     void delete(GrantPrivilege deletedPrivilege);
 
     void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege);
+    void update(GrantPrivilegeDTO newPrivilege, String giverUsername);
 
 }

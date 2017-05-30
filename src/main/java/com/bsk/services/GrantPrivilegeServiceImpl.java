@@ -139,7 +139,20 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
             this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
         this.save(newPrivilege);
+    }
 
+    public void update(GrantPrivilegeDTO newPrivilegeDTO, String giverUsername){
+        GrantPrivilege newPrivilege = new GrantPrivilege(new GrantPrivilegePK(userService.findByLogin(giverUsername), userService.findByLogin(newPrivilegeDTO.getReceiverName())),
+                newPrivilegeDTO.getCustomer(),
+                newPrivilegeDTO.getPurchase(),
+                newPrivilegeDTO.getPurchasePosition(),
+                newPrivilegeDTO.getWare(),
+                newPrivilegeDTO.getWarehouseProduct(),
+                newPrivilegeDTO.getSale(),
+                newPrivilegeDTO.getSalePosition(),
+                newPrivilegeDTO.getVendor(),
+                newPrivilegeDTO.isTake());
+        this.update(newPrivilege, this.getUserPrivilege(newPrivilegeDTO.getReceiverName()));
     }
 
     private void depthUpdate(User privilegeOwner, GrantPrivilege updatedPrivilege) {

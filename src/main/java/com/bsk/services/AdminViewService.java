@@ -44,5 +44,9 @@ public class AdminViewService {
         grantPrivilegeService.save(grantPrivilege);
         return true;
     }
+    public GrantPrivilege getUserPrivilege(String username){
+        return grantPrivilegeService.getUserPrivilege(username);
+    }
+
 
 }
