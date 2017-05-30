@@ -17,7 +17,7 @@
         <form style="display: inline" action="/" method="get">
             <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
         </form>
-        <form method="get" th:action="@{/offering}">
+        <form method="get" th:action="@{/offering}" style="display: inline">
             <button type="submit" class="btn btn-md btn-primary">
                 Przekaż uprawnienia
             </button>
@@ -42,9 +42,6 @@
             <div class="divTableBody">
                 <div class="divTableRow"
                      th:each="privilege: ${privileges}">
-                    <form th:>
-
-                    </form>
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getReceiver().getLogin()}">

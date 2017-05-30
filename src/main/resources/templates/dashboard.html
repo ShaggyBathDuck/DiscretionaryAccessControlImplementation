@@ -18,12 +18,12 @@
     <h2>Moduł zarządzania zawartością</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username} "/>
     <div class="row" style="text-align: right">
-        <form method="get" th:action="@{/offering}">
+        <form method="get" th:action="@{/offering}" style="display: inline">
             <button type="submit" class="btn btn-md btn-primary">
                 Przekaż uprawnienia
             </button>
         </form>
-        <form method="get" th:action="@{/admin-view}">
+        <form method="get" th:action="@{/admin-view}" style="display: inline">
             <button type="submit" class="btn btn-md btn-primary">
                 Zarządzaj uprawnieniami
             </button>
