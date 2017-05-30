@@ -1,5 +1,4 @@
-﻿﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+﻿<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -30,8 +29,57 @@
         </form>
     </h4>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
-        <div class="divTable">
-            <p th:each="privilege: ${privileges}" th:text="${privilege.getReceiver().getLogin()}"></p>
+        <div class="divTable" style="align-content: center">
+            <div class="divTableHeading">
+                <div class="divTableHead"
+                     text="Tabela/Użytkownik"></div>
+                <div class="divTableHead"
+                     th:each="entry : ${entitiesInfo}"
+                     th:if="${entry.key != 'uzytkownicy'}"
+                     th:text="${entry.key}"></div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow"
+                     th:each="privilege: ${privileges}">
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getReceiver().getLogin()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getVendor()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getCustomer()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getSalePosition()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getPurchasePosition()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getSale()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getWare()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getWarehouseProduct()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getPurchase()}">
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

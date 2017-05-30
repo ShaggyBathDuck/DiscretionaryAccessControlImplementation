@@ -3,7 +3,7 @@ package com.bsk.controllers;
 
 import com.bsk.domain.GrantPrivilege;
 import com.bsk.services.AdminViewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.bsk.services.TableNamesService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,10 +20,11 @@ import javax.validation.Valid;
 @RequestMapping("/admin-view")
 public class AdminViewController {
     private AdminViewService adminViewService;
+    private TableNamesService tableNamesService;
 
-    @Autowired
-    public AdminViewController(AdminViewService adminViewService) {
+    public AdminViewController(AdminViewService adminViewService, TableNamesService tableNamesService) {
         this.adminViewService = adminViewService;
+        this.tableNamesService = tableNamesService;
     }
 
     @GetMapping
@@ -31,6 +32,7 @@ public class AdminViewController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", authentication.getName());
         model.addAttribute("privileges", adminViewService.read());
+        model.addAttribute("entitiesInfo", tableNamesService.getDisplayableTableNames());
         return "/admin-view";
     }
 
