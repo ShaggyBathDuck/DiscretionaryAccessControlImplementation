@@ -56,6 +56,8 @@ public class GrantPrivilege {
     @Column(name = "przejmij")
     private boolean take;
 
+
+
     public GrantPrivilege() {
     }
 

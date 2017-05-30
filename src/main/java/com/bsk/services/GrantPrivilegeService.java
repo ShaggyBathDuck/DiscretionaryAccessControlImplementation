@@ -1,6 +1,7 @@
 package com.bsk.services;
 
 import com.bsk.domain.GrantPrivilege;
+import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import org.springframework.stereotype.Service;
 

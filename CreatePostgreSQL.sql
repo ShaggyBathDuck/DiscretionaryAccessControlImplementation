@@ -123,7 +123,6 @@ create table PrzekazywanieUprawnien(
 	pozycjeSprzedazy int not null,
 	dostawcy int not null,
 	przejmij BOOLEAN not NULL,
-	admin BOOLEAN,
 	PRIMARY KEY(biorca, dawca),
 	foreign key (biorca) references Uzytkownicy(ID),
 	foreign key (dawca) references Uzytkownicy(ID),

@@ -23,6 +23,11 @@
                 Przekaż uprawnienia
             </button>
         </form>
+        <form method="get" th:action="@{/admin-view}" >
+            <button type="submit" class="btn btn-md btn-primary">
+                Zarządzaj uprawnieniami
+            </button>
+        </form>
         <form method="post" th:action="@{/logout}">
             <input type="hidden"
                    th:name="${_csrf.parameterName}"

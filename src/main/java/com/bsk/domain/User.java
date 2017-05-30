@@ -24,7 +24,7 @@ public class User {
     private String email;
 
     @Transient
-    @OneToMany(mappedBy = "grantPrivilegePK.receiver")
+    @OneToMany(mappedBy = "grantPrivilegePK_receiver")
     private List<GrantPrivilege> grantedPrivileges;
 
     public Integer getId() {

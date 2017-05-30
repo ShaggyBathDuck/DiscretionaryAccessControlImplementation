@@ -79,7 +79,7 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
 
     public GrantPrivilege getUserPrivilege(String username){
         Privilege noPrivileges = new Privilege(1, "NONE","NONE", "NONE","NONE" );
-        GrantPrivilege userPrivileges = new GrantPrivilege(null, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, false);
+        GrantPrivilege userPrivileges = new GrantPrivilege(new GrantPrivilegePK(new User(), this.userService.findByLogin(username)), noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, false);
         List<GrantPrivilege> userPrivilegeList = this.read().stream()
                 .filter(grantPrivilege -> grantPrivilege.getGrantPrivilegePK().getReceiver().getLogin().equals(username))
                 .collect(Collectors.toList());
