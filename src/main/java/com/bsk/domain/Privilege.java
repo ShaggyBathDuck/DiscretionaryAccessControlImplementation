@@ -110,4 +110,14 @@ public class Privilege {
                 delete.equalsIgnoreCase("GRANT")) return true;
         return false;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(create.equals("NONE")?" ":(create.equals("GRANT")?"Id ":"I "));
+        stringBuilder.append(read.equals("NONE")?" ":(read.equals("GRANT")?"Sd ":"S "));
+        stringBuilder.append(update.equals("NONE")?" ":(update.equals("GRANT")?"Ud ":"U "));
+        stringBuilder.append(delete.equals("NONE")?" ":(delete.equals("GRANT")?"Dd ":"D "));
+        return stringBuilder.toString();
+    }
 }

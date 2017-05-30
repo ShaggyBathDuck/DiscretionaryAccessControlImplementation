@@ -47,5 +47,20 @@ public class AdminViewController {
         return "redirect:/admin-view";
     }
 
+    @PutMapping(value = "/update/{receiver}")
+    public String update(@Valid GrantPrivilege updatedPrivilege, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            adminViewService.update(updatedPrivilege);
+            return adminViewPage(model);
+        }
+        attr.addFlashAttribute("errors", bindingResult.getFieldErrors());
+        return "redirect:/admin-view";
+    }
+
+    @DeleteMapping(value = "/delete/{receiver}")
+    public String delete(@PathVariable String receiver, Model model, RedirectAttributes attr) {
+        adminViewService.delete(receiver);
+        return adminViewPage(model);
+    }
 
 }
