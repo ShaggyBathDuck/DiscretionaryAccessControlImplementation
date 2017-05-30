@@ -1,9 +1,9 @@
 package com.bsk.controllers;
 
 
-import com.bsk.checker.CommonPartChecker;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.services.GrantPrivilegeService;
+import com.bsk.util.GrantPrivilegesUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,7 +42,7 @@ public class GrantPrivilegesController {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }
-        if(!CommonPartChecker.haveCommonPart(grantPrivilegeDTO, grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()))){
+        if(!GrantPrivilegesUtilities.haveCommonPart(grantPrivilegeDTO, grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()))){
             if (!bindingResult.hasErrors()) {
                 grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
                 attr.addFlashAttribute("successfullyGranted", true);

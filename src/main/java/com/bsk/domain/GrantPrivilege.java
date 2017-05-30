@@ -56,6 +56,8 @@ public class GrantPrivilege {
     @Column(name = "przejmij")
     private boolean take;
 
+
+
     public GrantPrivilege() {
     }
 
@@ -94,5 +96,13 @@ public class GrantPrivilege {
                 salePosition.hasAnyGrantRight() ||
                 vendor.hasAnyGrantRight()) return true;
         return false;
+    }
+
+    public User getReceiver(){
+        return this.grantPrivilegePK.getReceiver();
+    }
+
+    public User getGiver(){
+        return this.grantPrivilegePK.getGiver();
     }
 }

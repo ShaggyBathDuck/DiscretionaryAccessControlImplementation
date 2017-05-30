@@ -22,7 +22,9 @@ public class PrivilegeService {
     }
 
     public Privilege findFirstByCRUD(Privilege privilege){
-        //return privilegeRepository.findPrivilegeByCreateAndReadAndUpdateAndDelete(privilege.getCreate(), privilege.getRead(), privilege.getUpdate(), privilege.getDelete());
         return this.read().stream().filter(p ->p.equals(privilege)).findFirst().get();
+    }
+    public Privilege findById(Integer id){
+        return this.privilegeRepository.findOne(id);
     }
 }

@@ -61,6 +61,7 @@ public class DashboardController {
     public String dashboard(Model model, @RequestParam(required = false) String tabName) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username", authentication.getName());
+        model.addAttribute("userPrivileges", grantPrivilegeService.getUserPrivilege(authentication.getName()));
         if (tabName != null)
             model.addAttribute("tabName", tabName);
         return "dashboard";
@@ -89,6 +90,7 @@ public class DashboardController {
     public SortedMap<String, EntityInfo> getTables(){
         return tableNamesService.getDisplayableTableNames();
     }
+
 
     private void addCommonModelAttributes(Model model) {
         model.addAttribute("customers", customerService.read());
