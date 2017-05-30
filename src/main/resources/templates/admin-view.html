@@ -1,4 +1,5 @@
-﻿﻿<html xmlns:th="http://www.thymeleaf.org">
+﻿﻿
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -41,6 +42,9 @@
             <div class="divTableBody">
                 <div class="divTableRow"
                      th:each="privilege: ${privileges}">
+                    <form th:>
+
+                    </form>
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getReceiver().getLogin()}">
@@ -76,6 +80,19 @@
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getPurchase()}">
+                    </div>
+                    <div class="divTableCell">
+                        <button type="button" class="btn btn-info btn-sm">Edytuj
+                        </button>
+                    </div>
+                    <div class="divTableCell">
+                        <form th:action="@{'/admin-view/delete/'+__${privilege.getReceiver().getLogin()}__}"
+                              th:method="delete">
+                            <button type="submit"
+                                    id="deleteRow"
+                                    class="btn btn-sm btn-danger">Usuń
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

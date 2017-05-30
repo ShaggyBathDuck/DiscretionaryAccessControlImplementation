@@ -114,10 +114,10 @@ public class Privilege {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(create.equals("NONE")?" ":(create.equals("GRANT")?"Id ":"I "));
-        stringBuilder.append(read.equals("NONE")?" ":(read.equals("GRANT")?"Sd ":"S "));
-        stringBuilder.append(update.equals("NONE")?" ":(update.equals("GRANT")?"Ud ":"U "));
-        stringBuilder.append(delete.equals("NONE")?" ":(delete.equals("GRANT")?"Dd ":"D "));
+        stringBuilder.append(read.equals("NONE") ? "-" : (read.equals("GRANT") ? "Sd " : "S "));
+        stringBuilder.append(create.equals("NONE") ? "-" : (create.equals("GRANT") ? "Id " : "I "));
+        stringBuilder.append(delete.equals("NONE") ? "-" : (delete.equals("GRANT") ? "Dd " : "D "));
+        stringBuilder.append(update.equals("NONE") ? "-" : (update.equals("GRANT") ? "Ud " : "U "));
         return stringBuilder.toString();
     }
 }

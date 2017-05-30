@@ -9,9 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -33,6 +31,7 @@ public class AdminViewController {
         model.addAttribute("username", authentication.getName());
         model.addAttribute("privileges", adminViewService.read());
         model.addAttribute("entitiesInfo", tableNamesService.getDisplayableTableNames());
+        model.addAttribute("templateprivilege", new GrantPrivilege());
         return "/admin-view";
     }
 
@@ -60,7 +59,7 @@ public class AdminViewController {
     @DeleteMapping(value = "/delete/{receiver}")
     public String delete(@PathVariable String receiver, Model model, RedirectAttributes attr) {
         adminViewService.delete(receiver);
-        return adminViewPage(model);
+        return "redirect:/admin-view";
     }
 
 }
