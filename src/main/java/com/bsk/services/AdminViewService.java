@@ -36,8 +36,8 @@ public class AdminViewService {
         grantPrivilegeService.update(newPrivilege, this.grantPrivilegeService.getUserPrivilege(newPrivilege.getReceiver().getLogin()));
     }
 
-    public void delete(GrantPrivilege grantPrivilege){
-        grantPrivilegeService.delete(grantPrivilege);
+    public void delete(String user){
+        grantPrivilegeService.delete(this.grantPrivilegeService.getUserPrivilege(user));
     }
 
     public boolean save(GrantPrivilege grantPrivilege){
