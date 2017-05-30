@@ -54,55 +54,55 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
         repository.save(grantPrivilege);
     }
 
-    public void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername){
+    public void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername) {
         this.removeByReceiver(userService.findByLogin(giversUsername));
         this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(giversUsername)), grantPrivilegeDTO.getReceiverName());
         this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
-        if(this.getUserPrivilege(giversUsername).isAdmin())
-            giversUsername=grantPrivilegeDTO.getReceiverName();
+        if (this.getUserPrivilege(giversUsername).isAdmin())
+            giversUsername = grantPrivilegeDTO.getReceiverName();
         this.save(grantPrivilegeDTO, giversUsername);
 
     }
 
-    private void removeByGiver(List<GrantPrivilege> list, String receiver){
-        for(GrantPrivilege privilege:list){
-            if(!privilege.getGrantPrivilegePK().getReceiver().getLogin().equals(receiver)){
+    private void removeByGiver(List<GrantPrivilege> list, String receiver) {
+        for (GrantPrivilege privilege : list) {
+            if (!privilege.getGrantPrivilegePK().getReceiver().getLogin().equals(receiver)) {
                 removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()), receiver);
                 repository.delete(privilege);
             }
         }
     }
 
-    private void removeByReceiver(User user){
+    private void removeByReceiver(User user) {
         this.repository.deleteAllByGrantPrivilegePK_Receiver(user);
     }
 
-    public GrantPrivilege getUserPrivilege(String username){
-        Privilege noPrivileges = new Privilege(1, "NONE","NONE", "NONE","NONE" );
+    public GrantPrivilege getUserPrivilege(String username) {
+        Privilege noPrivileges = new Privilege(1, "NONE", "NONE", "NONE", "NONE");
         GrantPrivilege userPrivileges = new GrantPrivilege(new GrantPrivilegePK(new User(), this.userService.findByLogin(username)), noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, noPrivileges, false);
         List<GrantPrivilege> userPrivilegeList = this.read().stream()
                 .filter(grantPrivilege -> grantPrivilege.getGrantPrivilegePK().getReceiver().getLogin().equals(username))
                 .collect(Collectors.toList());
-        for(GrantPrivilege grantPrivilege : userPrivilegeList){
+        for (GrantPrivilege grantPrivilege : userPrivilegeList) {
             userPrivileges = GrantPrivilegesUtilities.connect(userPrivileges, grantPrivilege);
         }
         return userPrivileges;
     }
 
-    public List<GrantPrivilege> findAllWithTakePrivilege(){
+    public List<GrantPrivilege> findAllWithTakePrivilege() {
         return repository.findAllByTake(true);
     }
 
-    public List<String> findAllUsernamesForSelectedMode(boolean isModeTake, String loggedUser){
+    public List<String> findAllUsernamesForSelectedMode(boolean isModeTake, String loggedUser) {
         Set<String> usernames;
-        if(isModeTake){
-            usernames =this.findAllWithTakePrivilege()
+        if (isModeTake) {
+            usernames = this.findAllWithTakePrivilege()
                     .stream()
                     .map(g -> g.getGrantPrivilegePK().getReceiver().getLogin())
                     .collect(Collectors.toSet());
-        }else{
+        } else {
             Set<String> ancestorsUsernames = this.findAllUserAncestors(loggedUser);
-            usernames= userService.read().stream()
+            usernames = userService.read().stream()
                     .map(g -> g.getLogin())
                     .filter(username -> !ancestorsUsernames.contains(username))
                     .collect(Collectors.toSet());
@@ -113,43 +113,43 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 .collect(Collectors.toList());
     }
 
-    public Set<String> findAllUserAncestors(String loggedUser){
-        Set<String> ancestorsNames= new HashSet<>();
+    public Set<String> findAllUserAncestors(String loggedUser) {
+        Set<String> ancestorsNames = new HashSet<>();
         ancestorsNames.add(loggedUser);
-        List<GrantPrivilege> receivedPrivileges=repository.findAllByGrantPrivilegePK_Receiver(userService.findByLogin(loggedUser));
+        List<GrantPrivilege> receivedPrivileges = repository.findAllByGrantPrivilegePK_Receiver(userService.findByLogin(loggedUser));
         String giverLogin;
-        for (int i=0; i<receivedPrivileges.size();i++){
-            giverLogin=receivedPrivileges.get(i).getGrantPrivilegePK().getGiver().getLogin();
-            if(!loggedUser.equals(giverLogin))
+        for (int i = 0; i < receivedPrivileges.size(); i++) {
+            giverLogin = receivedPrivileges.get(i).getGrantPrivilegePK().getGiver().getLogin();
+            if (!loggedUser.equals(giverLogin))
                 ancestorsNames.addAll(findAllUserAncestors(giverLogin));
         }
         return ancestorsNames;
     }
 
 
-    public void delete(GrantPrivilege deletedPrivilege){
+    public void delete(GrantPrivilege deletedPrivilege) {
         this.depthUpdate(deletedPrivilege.getReceiver(), deletedPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(deletedPrivilege.getReceiver());
     }
 
-    public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege){
-        GrantPrivilege diffPrivilege  = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege);
+    public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege) {
+        GrantPrivilege diffPrivilege = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege);
         //Check if any privilege has been received, if yes need to update all children
-        if(GrantPrivilegesUtilities.haveCommonPart(oldPrivilege, diffPrivilege))
+        if (GrantPrivilegesUtilities.haveCommonPart(oldPrivilege, diffPrivilege))
             this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
         this.save(newPrivilege);
 
     }
 
-    private void depthUpdate(User privilegeOwner, GrantPrivilege updatedPrivilege){
+    private void depthUpdate(User privilegeOwner, GrantPrivilege updatedPrivilege) {
         List<GrantPrivilege> givenPrivileges = this.repository.findAllByGrantPrivilegePK_Giver(privilegeOwner);
         Iterator<GrantPrivilege> iterator = givenPrivileges.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             GrantPrivilege privilege = iterator.next();
             depthUpdate(privilege.getReceiver(), updatedPrivilege);
             privilege = GrantPrivilegesUtilities.difference(privilege, updatedPrivilege);
-            if(GrantPrivilegesUtilities.isEmpty(privilege)){
+            if (GrantPrivilegesUtilities.isEmpty(privilege)) {
                 this.repository.delete(privilege);
             }
         }

@@ -42,7 +42,7 @@ public class GrantPrivilegesController {
             attr.addFlashAttribute("noGrants", true);
             return "redirect:/offering";
         }
-        if(!GrantPrivilegesUtilities.haveCommonPart(grantPrivilegeDTO, grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()))){
+        if (!GrantPrivilegesUtilities.haveCommonPart(grantPrivilegeDTO, grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()))) {
             if (!bindingResult.hasErrors()) {
                 grantPrivilegeService.save(grantPrivilegeDTO, authentication.getName());
                 attr.addFlashAttribute("successfullyGranted", true);

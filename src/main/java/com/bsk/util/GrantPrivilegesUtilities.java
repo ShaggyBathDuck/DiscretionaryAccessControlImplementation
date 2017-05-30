@@ -12,12 +12,12 @@ import java.util.List;
 @Component
 public class GrantPrivilegesUtilities {
 
-    public static GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend){
+    public static GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend) {
         List<Privilege> minuendList = GrantPrivilegesUtilities.getPrivilegesList(minuend);
         List<Privilege> subtrahendList = GrantPrivilegesUtilities.getPrivilegesList(subtrahend);
 
-        for (int i=0; i<minuendList.size(); i++){
-            if(!(PrivilegesUtilities.isEmpty(minuendList.get(i))||PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
+        for (int i = 0; i < minuendList.size(); i++) {
+            if (!(PrivilegesUtilities.isEmpty(minuendList.get(i)) || PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
                 minuendList.set(i, new Privilege(1, "NONE", "NONE", "NONE", "NONE"));
         }
         return new GrantPrivilege(minuend.getGrantPrivilegePK(),
@@ -29,28 +29,28 @@ public class GrantPrivilegesUtilities {
                 minuendList.get(5),
                 minuendList.get(6),
                 minuendList.get(7),
-                (minuend.getTake())&&(!subtrahend.getTake())
+                (minuend.getTake()) && (!subtrahend.getTake())
         );
     }
 
-    public static boolean isEmpty(GrantPrivilege checkedPrivilege){
+    public static boolean isEmpty(GrantPrivilege checkedPrivilege) {
         if (!checkedPrivilege.getTake())
             return false;
-        for(Privilege p: getPrivilegesList(checkedPrivilege)){
-            if(!PrivilegesUtilities.isEmpty(p))
+        for (Privilege p : getPrivilegesList(checkedPrivilege)) {
+            if (!PrivilegesUtilities.isEmpty(p))
                 return false;
         }
         return true;
     }
 
-    public static boolean haveCommonPart(GrantPrivilege first, GrantPrivilege second){
+    public static boolean haveCommonPart(GrantPrivilege first, GrantPrivilege second) {
         List<Privilege> firstList = GrantPrivilegesUtilities.getPrivilegesList(first);
         List<Privilege> secondList = GrantPrivilegesUtilities.getPrivilegesList(second);
-        for (int i=0; i<firstList.size(); i++){
-            List<String> firstModeList= PrivilegesUtilities.getListOfModes(firstList.get(i));
-            List<String> secondModeList= PrivilegesUtilities.getListOfModes(secondList.get(i));
-            for (int j=0; j<firstModeList.size(); j++){
-                if((secondModeList.get(j).equals("GRANT") || secondModeList.get(j).equals("ACCESS"))&&
+        for (int i = 0; i < firstList.size(); i++) {
+            List<String> firstModeList = PrivilegesUtilities.getListOfModes(firstList.get(i));
+            List<String> secondModeList = PrivilegesUtilities.getListOfModes(secondList.get(i));
+            for (int j = 0; j < firstModeList.size(); j++) {
+                if ((secondModeList.get(j).equals("GRANT") || secondModeList.get(j).equals("ACCESS")) &&
                         (firstModeList.get(j).equals("GRANT") || firstModeList.get(j).equals("ACCESS")))
                     return true;
             }
@@ -58,8 +58,8 @@ public class GrantPrivilegesUtilities {
         return false;
     }
 
-    public static boolean haveCommonPart(GrantPrivilegeDTO dto, GrantPrivilege userPrivilege){
-        GrantPrivilege privilegeDTO= new GrantPrivilege(
+    public static boolean haveCommonPart(GrantPrivilegeDTO dto, GrantPrivilege userPrivilege) {
+        GrantPrivilege privilegeDTO = new GrantPrivilege(
                 new GrantPrivilegePK(),
                 dto.getCustomer(),
                 dto.getPurchase(),
@@ -73,16 +73,16 @@ public class GrantPrivilegesUtilities {
         return haveCommonPart(privilegeDTO, userPrivilege);
     }
 
-    public static GrantPrivilege connect(GrantPrivilege base, GrantPrivilege connected){
+    public static GrantPrivilege connect(GrantPrivilege base, GrantPrivilege connected) {
         List<Privilege> privilegeBaseList = GrantPrivilegesUtilities.getPrivilegesList(base);
         List<Privilege> privilegeConnectedList = GrantPrivilegesUtilities.getPrivilegesList(connected);
 
-        for (int i=0; i<privilegeBaseList.size(); i++){
+        for (int i = 0; i < privilegeBaseList.size(); i++) {
             privilegeBaseList.set(i, PrivilegesUtilities.connect(privilegeBaseList.get(i), privilegeConnectedList.get(i)));
         }
-        GrantPrivilegePK grantPrivilegePK=base.getGrantPrivilegePK();
+        GrantPrivilegePK grantPrivilegePK = base.getGrantPrivilegePK();
         if (connected.getGrantPrivilegePK().isAdmin())
-            grantPrivilegePK=connected.getGrantPrivilegePK();
+            grantPrivilegePK = connected.getGrantPrivilegePK();
         return new GrantPrivilege(grantPrivilegePK,
                 privilegeBaseList.get(0),
                 privilegeBaseList.get(1),
@@ -95,7 +95,7 @@ public class GrantPrivilegesUtilities {
                 base.getTake() || connected.getTake());
     }
 
-    private static List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege){
+    private static List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege) {
         List<Privilege> privilegeList = new ArrayList<>(8);
         privilegeList.add(grantPrivilege.getCustomer());
         privilegeList.add(grantPrivilege.getPurchase());

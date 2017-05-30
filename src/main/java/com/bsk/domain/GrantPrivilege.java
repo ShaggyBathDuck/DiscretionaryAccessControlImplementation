@@ -57,7 +57,6 @@ public class GrantPrivilege {
     private boolean take;
 
 
-
     public GrantPrivilege() {
     }
 
@@ -98,11 +97,11 @@ public class GrantPrivilege {
         return false;
     }
 
-    public User getReceiver(){
+    public User getReceiver() {
         return this.grantPrivilegePK.getReceiver();
     }
 
-    public User getGiver(){
+    public User getGiver() {
         return this.grantPrivilegePK.getGiver();
     }
 }
