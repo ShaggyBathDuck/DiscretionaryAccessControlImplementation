@@ -44,6 +44,7 @@
                      th:each="entry : ${entitiesInfo}"
                      th:if="${entry.key != 'uzytkownicy'}"
                      th:text="${entry.key}"></div>
+                <div class="divTableHead">Przejmij</div>
             </div>
             <div class="divTableBody">
                 <div class="divTableRow"
@@ -84,6 +85,10 @@
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getPurchase()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getTake()}">
                     </div>
                     <div class="divTableCell">
                             <button type="submit"
