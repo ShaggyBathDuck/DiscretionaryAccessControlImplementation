@@ -48,14 +48,16 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getSalePosition()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getVendor()),
                 grantPrivilegeDTO.isTake());
+        this.update(grantPrivilege, this.getUserPrivilege(username));
         repository.save(grantPrivilege);
     }
 
     public void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername) {
+        boolean isAdmin = this.getUserPrivilege(giversUsername).isAdmin();
         this.removeByReceiver(userService.findByLogin(giversUsername));
         this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(giversUsername)), grantPrivilegeDTO.getReceiverName());
         this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
-        if (this.getUserPrivilege(giversUsername).isAdmin())
+        if (isAdmin)
             giversUsername = grantPrivilegeDTO.getReceiverName();
         this.save(grantPrivilegeDTO, giversUsername);
 
