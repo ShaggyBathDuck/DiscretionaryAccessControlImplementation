@@ -48,8 +48,8 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getSalePosition()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getVendor()),
                 grantPrivilegeDTO.isTake());
-        this.update(grantPrivilege, this.getUserPrivilege(username));
-        repository.save(grantPrivilege);
+            this.updateChangesToChildren(grantPrivilege,this.getUserPrivilege(grantPrivilegeDTO.getReceiverName()) );
+            repository.save(grantPrivilege);
     }
 
     public void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername) {
@@ -130,10 +130,18 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
         this.depthUpdate(deletedPrivilege.getReceiver(), deletedPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(deletedPrivilege.getReceiver());
     }
-
-    public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege) {
+    private void updateChangesToChildren(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege){
         List<Integer> differences = new ArrayList<>(8);
         GrantPrivilege diffPrivilege = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege, differences);
+
+        //Check if any privilege has been received, if yes need to update all children
+        if (differences.stream().filter(integer -> integer == -1).count()>0) {
+            newPrivilege = GrantPrivilegesUtilities.removeAddedPrivileges(newPrivilege, differences);
+            this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
+        }
+    }
+
+    public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege) {
         GrantPrivilege savedPrivilege = new GrantPrivilege(newPrivilege.getGrantPrivilegePK(),
                 privilegeService.findFirstByCRUD(newPrivilege.getCustomer()),
                 privilegeService.findFirstByCRUD(newPrivilege.getPurchase()),
@@ -144,11 +152,8 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(newPrivilege.getSalePosition()),
                 privilegeService.findFirstByCRUD(newPrivilege.getVendor()),
                 newPrivilege.getTake());
-        //Check if any privilege has been received, if yes need to update all children
-        if (differences.stream().filter(integer -> integer == -1).count()>0) {
-            newPrivilege = GrantPrivilegesUtilities.removeAddedPrivileges(newPrivilege, differences);
-            this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
-        }
+
+        this.updateChangesToChildren(newPrivilege,oldPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
         this.save(savedPrivilege);
     }
