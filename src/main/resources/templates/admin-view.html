@@ -13,22 +13,28 @@
 <div class="container dashboard">
     <h2>Zarządzanie uprawnieniami</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username}"/>
-    <h4>
-        <form style="display: inline" action="/" method="get">
-            <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
-        </form>
-        <form method="get" th:action="@{/offering}">
-            <button type="submit" class="btn btn-md btn-primary">
-                Przekaż uprawnienia
-            </button>
-        </form>
-        <form method="post" th:action="@{/logout}">
-            <input type="hidden"
-                   th:name="${_csrf.parameterName}"
-                   th:value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-md btn-warning">Wyloguj</button>
-        </form>
-    </h4>
+        <ul id ="horizontal-list" >
+            <li style="display: inline;">
+                <form style="display: inline" action="/" method="get">
+                    <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
+                </form>
+            </li>
+            <li>
+                <form method="get" th:action="@{/offering}">
+                    <button type="submit" class="btn btn-md btn-primary">
+                        Przekaż uprawnienia
+                    </button>
+                </form>
+            </li>
+            <li>
+                <form method="post" th:action="@{/logout}">
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}"/>
+                    <button type="submit" class="btn btn-md btn-warning">Wyloguj</button>
+                </form>
+            </li>
+        </ul>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
 
         <div class="divTable" style="align-content: center">

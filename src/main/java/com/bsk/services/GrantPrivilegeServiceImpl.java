@@ -10,10 +10,7 @@ import com.bsk.util.GrantPrivilegesUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -133,12 +130,25 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
     }
 
     public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege) {
-        GrantPrivilege diffPrivilege = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege);
+        List<Integer> differences = new ArrayList<>(8);
+        GrantPrivilege diffPrivilege = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege, differences);
+        GrantPrivilege savedPrivilege = new GrantPrivilege(newPrivilege.getGrantPrivilegePK(),
+                privilegeService.findFirstByCRUD(newPrivilege.getCustomer()),
+                privilegeService.findFirstByCRUD(newPrivilege.getPurchase()),
+                privilegeService.findFirstByCRUD(newPrivilege.getPurchasePosition()),
+                privilegeService.findFirstByCRUD(newPrivilege.getWare()),
+                privilegeService.findFirstByCRUD(newPrivilege.getWarehouseProduct()),
+                privilegeService.findFirstByCRUD(newPrivilege.getSale()),
+                privilegeService.findFirstByCRUD(newPrivilege.getSalePosition()),
+                privilegeService.findFirstByCRUD(newPrivilege.getVendor()),
+                newPrivilege.getTake());
         //Check if any privilege has been received, if yes need to update all children
-        if (GrantPrivilegesUtilities.haveCommonPart(oldPrivilege, diffPrivilege))
+        if (differences.stream().filter(integer -> integer == -1).count()>0) {
+            newPrivilege = GrantPrivilegesUtilities.removeAddedPrivileges(newPrivilege, differences);
             this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
+        }
         this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
-        this.save(newPrivilege);
+        this.save(savedPrivilege);
     }
 
     public void update(GrantPrivilegeDTO newPrivilegeDTO, String giverUsername){
@@ -161,10 +171,11 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
         while (iterator.hasNext()) {
             GrantPrivilege privilege = iterator.next();
             depthUpdate(privilege.getReceiver(), updatedPrivilege);
-            privilege = GrantPrivilegesUtilities.difference(privilege, updatedPrivilege);
+            privilege = GrantPrivilegesUtilities.difference(privilege, updatedPrivilege, new ArrayList<>());
             if (GrantPrivilegesUtilities.isEmpty(privilege)) {
                 this.repository.delete(privilege);
-            }
+            }else
+                this.repository.save(privilege);
         }
     }
 }

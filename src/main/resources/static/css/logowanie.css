@@ -187,3 +187,12 @@ ul.list-group{
 h5{
 	text-align: center;
 }
+
+ul#horizontal-list{
+	min-width: 1000px;
+	list-style: none;
+	text-align: right;
+}
+ul#horizontal-list li{
+	display: inline;
+}

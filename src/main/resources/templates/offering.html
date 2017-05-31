@@ -12,7 +12,6 @@
 <body >
     <div class="container dashboard">
         <h2>Moduł przekazywania uprawnień</h2>
-        <div class="row" style="height: 50px">
             <h4 th:text="'Aktywny użytkownik: '+${username}"/>
             <h4>
                 <form style="display: inline" action="/" method="get">
@@ -28,7 +27,6 @@
                     <button type="submit" class="btn btn-md btn-warning">Wyloguj</button>
                 </form>
             </h4>
-        </div>
         <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
             <div th:if="${!userPrivileges.hasAnyGrantRight()}">
                 <h4 style="text-align: center">Nie masz żadnego prawa, które mógłbyś przekazać!</h4>
@@ -38,6 +36,7 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <h4 style="color: green" th:if="${successfullyGranted}">Przekazano poprawnie uprawnienia</h4>
+                        <h4 style="color: green" th:if="${successfullyModify}">Zmodyfikowano poprawnie uprawnienia</h4>
                         <h4 style="color: green" th:if="${successfullyGift}">Oddano poprawnie uprawnienia</h4>
                         <h4 style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</h4>
                         <h4 style="color: red" th:if="${noGrants}">Nie wybrano żadnych uprawnień</h4>

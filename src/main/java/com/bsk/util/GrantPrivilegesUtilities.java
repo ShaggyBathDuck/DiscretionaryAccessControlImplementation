@@ -12,13 +12,23 @@ import java.util.List;
 @Component
 public class GrantPrivilegesUtilities {
 
-    public static GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend) {
+    public static GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend, List<Integer> differences) {
         List<Privilege> minuendList = GrantPrivilegesUtilities.getPrivilegesList(minuend);
         List<Privilege> subtrahendList = GrantPrivilegesUtilities.getPrivilegesList(subtrahend);
 
         for (int i = 0; i < minuendList.size(); i++) {
-            if (!(PrivilegesUtilities.isEmpty(minuendList.get(i)) || PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
+            if((!PrivilegesUtilities.isEmpty(minuendList.get(i)) &&!PrivilegesUtilities.isEmpty(subtrahendList.get(i)))||
+                    (PrivilegesUtilities.isEmpty(minuendList.get(i)) &&PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
+                differences.add(i,0);
+            else if(!PrivilegesUtilities.isEmpty(minuendList.get(i))&& PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
+                differences.add(i,1);
+            else if(PrivilegesUtilities.isEmpty(minuendList.get(i))&& !PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
+                differences.add(i,-1);
+
+            if (!(PrivilegesUtilities.isEmpty(minuendList.get(i)) || PrivilegesUtilities.isEmpty(subtrahendList.get(i)))){
                 minuendList.set(i, new Privilege(1, "NONE", "NONE", "NONE", "NONE"));
+            }
+
         }
         return new GrantPrivilege(minuend.getGrantPrivilegePK(),
                 minuendList.get(0),
@@ -34,7 +44,7 @@ public class GrantPrivilegesUtilities {
     }
 
     public static boolean isEmpty(GrantPrivilege checkedPrivilege) {
-        if (!checkedPrivilege.getTake())
+        if (checkedPrivilege.getTake())
             return false;
         for (Privilege p : getPrivilegesList(checkedPrivilege)) {
             if (!PrivilegesUtilities.isEmpty(p))
@@ -117,6 +127,25 @@ public class GrantPrivilegesUtilities {
                 grantPrivilege.getWarehouseProduct(),
                 grantPrivilege.getSale(),
                 grantPrivilege.getSalePosition(),
+                grantPrivilege.getTake());
+    }
+
+    public static GrantPrivilege removeAddedPrivileges(GrantPrivilege grantPrivilege, List<Integer> differences){
+        List<Privilege> privilegeList = GrantPrivilegesUtilities.getPrivilegesList(grantPrivilege);
+        for(int i=0; i< privilegeList.size(); i++)
+            if(differences.get(i)==-1)
+                privilegeList.set(i, new Privilege(81, "GRANT", "GRANT", "GRANT", "GRANT"));
+            else
+                privilegeList.set(i, new Privilege(1, "NONE", "NONE", "NONE", "NONE"));
+        return new GrantPrivilege(grantPrivilege.getGrantPrivilegePK(),
+                privilegeList.get(0),
+                privilegeList.get(1),
+                privilegeList.get(2),
+                privilegeList.get(3),
+                privilegeList.get(4),
+                privilegeList.get(5),
+                privilegeList.get(6),
+                privilegeList.get(7),
                 grantPrivilege.getTake());
     }
 }

@@ -86,7 +86,7 @@ public class GrantPrivilegesController {
         if (!bindingResult.hasErrors()) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             grantPrivilegeService.update(grantPrivilegeDTO,authentication.getName());
-            attr.addFlashAttribute("successfullyGranted", true);
+            attr.addFlashAttribute("successfullyModify", true);
             return "redirect:/offering";
 
         }
