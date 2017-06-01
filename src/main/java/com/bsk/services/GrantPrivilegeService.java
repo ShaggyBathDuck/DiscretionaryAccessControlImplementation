@@ -16,9 +16,11 @@ public interface GrantPrivilegeService {
 
     void save(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername);
 
-    void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername);
+    void give(String receiverUsername, String giversUsername);
 
     GrantPrivilege getUserPrivilege(String username);
+
+    List<GrantPrivilege> getUserPrivilegeList(String username);
 
     List<GrantPrivilege> findAllWithTakePrivilege();
 
@@ -32,5 +34,7 @@ public interface GrantPrivilegeService {
     void update(GrantPrivilegeDTO newPrivilege, String giverUsername);
 
     List<User> getChildren(String parentUsername);
+
+
 
 }

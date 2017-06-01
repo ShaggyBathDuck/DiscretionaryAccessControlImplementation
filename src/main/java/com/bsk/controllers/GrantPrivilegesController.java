@@ -71,7 +71,7 @@ public class GrantPrivilegesController {
         }
             if (!bindingResult.hasErrors()) {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                grantPrivilegeService.give(grantPrivilegeDTO, authentication.getName());
+                grantPrivilegeService.give(grantPrivilegeDTO.getReceiverName(), authentication.getName());
                 attr.addFlashAttribute("successfullyGift", true);
                 return "redirect:/offering";
             }
