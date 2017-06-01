@@ -156,26 +156,29 @@
                         bootbox.confirm({
                             message: "<p style='font-size: 22px'>Stracisz wszystkie swoje prawa - użytkownik ma prawo przejmij!</p>",
                             size: "large",
+                            callback: function (result) {
+                                if (result) $("#createForm").submit();
+                            },
                             buttons: {
                                 confirm: {
                                     label: 'Potwierdź',
-                                    className: 'btn-success'
+                                    className: 'btn-success',
                                 },
                                 cancel: {
                                     label: 'Rezygnuj',
                                     className: 'btn-danger'
                                 }
-                            },
-                            callback: function (result) {
                             }
                         });
                     }
+                    else $("#createForm").submit();
                 },
             }).done(function (data) {
             });
         });
 
-        function beforeSubmit() {
+        function process() {
+            return true;
         }
         /*]]>*/
     </script>
