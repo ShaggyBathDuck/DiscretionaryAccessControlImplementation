@@ -12,36 +12,6 @@ import java.util.List;
 @Component
 public class GrantPrivilegesUtilities {
 
-    public static GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend, List<Integer> differences) {
-        List<Privilege> minuendList = GrantPrivilegesUtilities.getPrivilegesList(minuend);
-        List<Privilege> subtrahendList = GrantPrivilegesUtilities.getPrivilegesList(subtrahend);
-
-        for (int i = 0; i < minuendList.size(); i++) {
-            if((!PrivilegesUtilities.isEmpty(minuendList.get(i)) &&!PrivilegesUtilities.isEmpty(subtrahendList.get(i)))||
-                    (PrivilegesUtilities.isEmpty(minuendList.get(i)) &&PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
-                differences.add(i,0);
-            else if(!PrivilegesUtilities.isEmpty(minuendList.get(i))&& PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
-                differences.add(i,1);
-            else if(PrivilegesUtilities.isEmpty(minuendList.get(i))&& !PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
-                differences.add(i,-1);
-
-            if (!(PrivilegesUtilities.isEmpty(minuendList.get(i)) || PrivilegesUtilities.isEmpty(subtrahendList.get(i)))){
-                minuendList.set(i, new Privilege(1, "NONE", "NONE", "NONE", "NONE"));
-            }
-
-        }
-        return new GrantPrivilege(minuend.getGrantPrivilegePK(),
-                minuendList.get(0),
-                minuendList.get(1),
-                minuendList.get(2),
-                minuendList.get(3),
-                minuendList.get(4),
-                minuendList.get(5),
-                minuendList.get(6),
-                minuendList.get(7),
-                (minuend.getTake()) && (!subtrahend.getTake())
-        );
-    }
 
     public static boolean isEmpty(GrantPrivilege checkedPrivilege) {
         if (checkedPrivilege.getTake())
@@ -105,7 +75,7 @@ public class GrantPrivilegesUtilities {
                 base.getTake() || connected.getTake());
     }
 
-    private static List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege) {
+    public static List<Privilege> getPrivilegesList(GrantPrivilege grantPrivilege) {
         List<Privilege> privilegeList = new ArrayList<>(8);
         privilegeList.add(grantPrivilege.getCustomer());
         privilegeList.add(grantPrivilege.getPurchase());
