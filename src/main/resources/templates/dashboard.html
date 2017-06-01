@@ -22,7 +22,7 @@
             <button type="submit" class="btn btn-md btn-primary">Przekaż uprawnienia</button>
         </form>
         <form method="get" th:action="@{/admin-view}" style="display: inline">
-            <button type="submit" class="btn btn-md btn-primary" th:if="${__${userPrivileges.isAdmin()}__}">Zarządzaj uprawnieniami</button>
+            <button type="submit" class="btn btn-md btn-primary" >Zarządzaj uprawnieniami</button>
         </form>
         <form method="post" th:action="@{/logout}">
             <input type="hidden"

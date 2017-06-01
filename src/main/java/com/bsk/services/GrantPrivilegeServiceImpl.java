@@ -226,4 +226,11 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privileges.get(7),
                 takeLaw);
     }
+    public List<User> getChildren(String parentUsername){
+        return read().stream()
+                .filter(grantPrivilege -> grantPrivilege.getGiver().getLogin().equals(parentUsername))
+                .map(grantPrivilege -> grantPrivilege.getReceiver())
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }

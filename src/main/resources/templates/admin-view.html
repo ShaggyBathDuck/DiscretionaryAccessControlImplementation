@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>Widok admina</title>
 </head>
-<body th:if="${__${userPrivileges.isAdmin()}__}">
+<body>
 <div class="container dashboard">
     <h2>Zarządzanie uprawnieniami</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username}"/>
