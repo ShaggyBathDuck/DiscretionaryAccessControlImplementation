@@ -20,7 +20,7 @@
                 </form>
             </li>
             <li>
-                <form method="get" th:action="@{/offering}">
+                <form method="get" th:action="@{/offering}" style="display: inline">
                     <button type="submit" class="btn btn-md btn-primary">
                         Przekaż uprawnienia
                     </button>
@@ -37,13 +37,14 @@
         </ul>
     <div class="panel panel-default main dashboard" style="padding-left: 12px; padding-top: 0px">
 
-        <div class="divTable" style="align-content: center">
+        <div class="divTable" style="margin-left: auto; margin-right: auto; margin-top: 80px;">
             <div class="divTableHeading">
                 <div class="divTableHead">Użytkownicy</div>
                 <div class="divTableHead"
                      th:each="entry : ${entitiesInfo}"
                      th:if="${entry.key != 'uzytkownicy'}"
                      th:text="${entry.key}"></div>
+                <div class="divTableHead">Przejmij</div>
             </div>
             <div class="divTableBody">
                 <div class="divTableRow"
@@ -84,6 +85,10 @@
                     <div class="divTableCell"
                          style="white-space: nowrap;"
                          th:text="${privilege.getPurchase()}">
+                    </div>
+                    <div class="divTableCell"
+                         style="white-space: nowrap;"
+                         th:text="${privilege.getTake()}">
                     </div>
                     <div class="divTableCell">
                             <button type="submit"
