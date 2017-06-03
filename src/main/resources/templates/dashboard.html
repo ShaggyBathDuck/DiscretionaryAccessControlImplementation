@@ -17,6 +17,7 @@
 <div class="container dashboard">
     <h2>Moduł zarządzania zawartością</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username} "/>
+    <h5 th:if="${userPrivileges.getTake()}" style="text-align: right;">Ma prawo przejmij</h5>
     <div class="row" style="text-align: right">
         <form method="get" th:action="@{/offering}" style="display: inline">
             <button type="submit" class="btn btn-md btn-primary">Przekaż uprawnienia</button>

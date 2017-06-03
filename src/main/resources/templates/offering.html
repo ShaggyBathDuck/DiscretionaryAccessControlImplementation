@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://rawgit.com/makeusabrew/bootbox/f3a04a57877cab071738de558581fbc91812dce9/bootbox.js"></script>
     <title>Przekazywanie uprawnień</title>
 </head>
 <body >
     <div class="container dashboard">
         <h2>Moduł przekazywania uprawnień</h2>
             <h4 th:text="'Aktywny użytkownik: '+${username}"/>
+        <h5 th:if="${userPrivileges.getTake()}" style="text-align: right;">Ma prawo przejmij</h5>
             <h4>
                 <form style="display: inline" action="/" method="get">
                     <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
@@ -40,20 +42,11 @@
                         <h4 style="color: green" th:if="${successfullyGift}">Oddano poprawnie uprawnienia</h4>
                         <h4 style="color: red" th:if="${failedGranted}">Nie można przekazać takiego uprawnienia</h4>
                         <h4 style="color: red" th:if="${noGrants}">Nie wybrano żadnych uprawnień</h4>
-                        <button style="display: inline" type="button" class="btn btn-sq btn-block btn-space"
-                                th:onclick="|changeGrantMode('grant')|"
-                                th:classappend="${grantMode == 'grant'}? btn-info: none"
-                                th:if="${grantMode}=='grant' or ${grantMode}=='give'" >Przekaż
-                        </button>
-                        <button style="display: inline" class="btn btn-sq btn-block btn-space"
-                                th:onclick="|changeGrantMode('give')|"
-                                th:classappend="${grantMode == 'give'}? btn-info: none"
-                                th:if="${grantMode}=='grant' or ${grantMode}=='give'">Oddaj
-                        </button>
+
                     </div>
                     <div class="col-md-4"></div>
                 </div>
-                <form th:action="@{'/privilege/'+${grantMode}}"
+                <form th:action="@{'/privilege/process'}"
                       th:object="${sentPrivilege}"
                       th:method="post"
                       th:id="createForm">
@@ -107,7 +100,8 @@
                         <div class="col-lg-1"></div>
                         <div class="col-md-3">
                             <h5>Wybierz użytkownika</h5>
-                            <select class=" list yellow rounded" th:field="*{receiverName}" required="required">
+                            <select id="userSelect" class=" list yellow rounded" th:field="*{receiverName}"
+                                    required="required">
                                 <option th:each="user : ${users}" th:value="${user}" th:text="${user}"></option>
                             </select>
                             <div th:if="${userPrivileges.getGrantPrivilegePK() != null and userPrivileges.getGrantPrivilegePK().isAdmin()}">
@@ -124,7 +118,7 @@
                     <div class="row space-for-div">
                         <div class="col-md-9"></div>
                         <div class="col-md-2">
-                            <button type="submit" th:form="createForm" id="sendPrivilege"
+                            <button id="sendPrivilegeButton" type="submit" th:form="createForm"
                                     class="btn btn-sq btn-block btn-space btn-info" th:text="Wyślij">
                             </button>
                         </div>
@@ -145,6 +139,46 @@
             }).done(function (data) {
                 $('body').html(data);
             });
+        }
+
+        $('#sendPrivilegeButton').click(function (event) {
+            event.preventDefault();
+            var user = $('#userSelect').find(":selected").text();
+            var token = $("meta[name='_csrf']").attr("content");
+            //$('body').load("/offering?grantMode=" + mode);
+            $.ajax({
+                url: "/privilege/checkTake?username=" + user,
+                headers: {'X-CSRF-TOKEN': token},
+                type: "GET",
+                async: false,
+                success: function (data) {
+                    if (data == true) {
+                        bootbox.confirm({
+                            message: "<p style='font-size: 22px'>Stracisz wszystkie swoje prawa - użytkownik ma prawo przejmij!</p>",
+                            size: "large",
+                            callback: function (result) {
+                                if (result) $("#createForm").submit();
+                            },
+                            buttons: {
+                                confirm: {
+                                    label: 'Potwierdź',
+                                    className: 'btn-success',
+                                },
+                                cancel: {
+                                    label: 'Rezygnuj',
+                                    className: 'btn-danger'
+                                }
+                            }
+                        });
+                    }
+                    else $("#createForm").submit();
+                },
+            }).done(function (data) {
+            });
+        });
+
+        function process() {
+            return true;
         }
         /*]]>*/
     </script>

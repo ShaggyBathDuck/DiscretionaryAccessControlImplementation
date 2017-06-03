@@ -10,8 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -51,6 +50,20 @@ public class GrantPrivilegesController {
         }
         attr.addFlashAttribute("failedGranted", true);
         return "redirect:/offering";
+    }
+
+    @PostMapping(value = "/process")
+    public String process(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()).getTake())
+            return give(grantPrivilegeDTO, bindingResult, model, attr);
+        else return grant(grantPrivilegeDTO, bindingResult, model, attr);
+    }
+
+    @GetMapping(value = "/checkTake")
+    @ResponseBody
+    public boolean checkIfUserHasTakeRight(@RequestParam String username) {
+        if (grantPrivilegeService.getUserPrivilege(username).getTake()) return true;
+        return false;
     }
 
     @PostMapping(value = "/give")

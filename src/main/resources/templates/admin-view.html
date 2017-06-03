@@ -13,6 +13,7 @@
 <div class="container dashboard">
     <h2>Zarządzanie uprawnieniami</h2>
     <h4 th:text="'Aktywny użytkownik: '+${username}"/>
+    <h5 th:if="${userPrivileges.getTake()}" style="text-align: right;">Ma prawo przejmij</h5>
         <ul id ="horizontal-list" >
             <li style="display: inline;">
                 <form style="display: inline" action="/" method="get">
