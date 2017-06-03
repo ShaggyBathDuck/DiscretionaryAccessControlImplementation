@@ -1,6 +1,7 @@
 package com.bsk.services;
 
 import com.bsk.domain.GrantPrivilege;
+import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,11 @@ public interface GrantPrivilegeService {
 
     void save(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername);
 
-    void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername);
+    void give(String receiverUsername, String giversUsername);
 
     GrantPrivilege getUserPrivilege(String username);
+
+    List<GrantPrivilege> getUserPrivilegeList(String username);
 
     List<GrantPrivilege> findAllWithTakePrivilege();
 
@@ -29,5 +32,9 @@ public interface GrantPrivilegeService {
 
     void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege);
     void update(GrantPrivilegeDTO newPrivilege, String giverUsername);
+
+    List<User> getChildren(String parentUsername);
+
+
 
 }

@@ -22,13 +22,21 @@ public class AdminViewService {
         this.userService = userService;
     }
 
-    public List<GrantPrivilege> read() {
-        List<User> userList = userService.read();
-        List<GrantPrivilege> usersPrivilegesList = new ArrayList<>(userList.size());
-        userList.stream().forEach(user ->
+    public List<GrantPrivilege> readChildren(String username) {
+        GrantPrivilege userPrivileges = grantPrivilegeService.getUserPrivilege(username);
+        List<User> usersList;
+        if (userPrivileges.isAdmin())
+            usersList =  userService.read();
+        else
+            usersList= grantPrivilegeService.getChildren(username);
+        List<GrantPrivilege> usersPrivilegesList = new ArrayList<>(usersList.size());
+        usersList.stream().forEach(user ->
                 usersPrivilegesList.add(grantPrivilegeService.getUserPrivilege(user.getLogin())));
+
         return usersPrivilegesList.stream().filter(grantPrivilege -> !grantPrivilege.isAdmin()).collect(Collectors.toList());
     }
+
+
 
     public void update(GrantPrivilege newPrivilege) {
         grantPrivilegeService.update(newPrivilege, this.grantPrivilegeService.getUserPrivilege(newPrivilege.getReceiver().getLogin()));

@@ -19,7 +19,7 @@
                 <form style="display: inline" action="/" method="get">
                     <button type="submit" class="btn btn-md btn-primary">Zarządzaj danymi</button>
                 </form>
-                <form method="get" th:action="@{/admin-view}" style="display: inline" th:if="${__${userPrivileges.isAdmin()}__}">
+                <form method="get" th:action="@{/admin-view}" style="display: inline" >
                     <button type="submit" class="btn btn-md btn-primary">Zarządzaj uprawnieniami</button>
                 </form>
                 <form method="post" th:action="@{/logout}">

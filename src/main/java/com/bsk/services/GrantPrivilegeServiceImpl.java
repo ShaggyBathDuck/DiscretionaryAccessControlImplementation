@@ -7,6 +7,7 @@ import com.bsk.domain.User;
 import com.bsk.dto.GrantPrivilegeDTO;
 import com.bsk.repositories.GrantPrivilegesRepository;
 import com.bsk.util.GrantPrivilegesUtilities;
+import com.bsk.util.PrivilegesUtilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
     }
 
     public void save(GrantPrivilege grantPrivilege) {
+
         repository.save(grantPrivilege);
     }
 
@@ -48,25 +50,30 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getSalePosition()),
                 privilegeService.findFirstByCRUD(grantPrivilegeDTO.getVendor()),
                 grantPrivilegeDTO.isTake());
-        this.updateChangesToChildren(grantPrivilege,this.getUserPrivilege(grantPrivilegeDTO.getReceiverName()) );
+        this.depthUpdate(grantPrivilege,this.getUserPrivilege(grantPrivilegeDTO.getReceiverName()) );
         repository.save(grantPrivilege);
     }
 
-    public void give(GrantPrivilegeDTO grantPrivilegeDTO, String giversUsername) {
+    public void give(String receiverUsername, String giversUsername) {
         boolean isAdmin = this.getUserPrivilege(giversUsername).isAdmin();
-        this.removeByReceiver(userService.findByLogin(giversUsername));
-        this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(giversUsername)), grantPrivilegeDTO.getReceiverName());
-        this.removeByReceiver(userService.findByLogin(grantPrivilegeDTO.getReceiverName()));
-        if (isAdmin)
-            giversUsername = grantPrivilegeDTO.getReceiverName();
-        this.save(grantPrivilegeDTO, giversUsername);
-
+        this.removeByReceiver(userService.findByLogin(receiverUsername));
+        this.removeByGiver(repository.findAllByGrantPrivilegePK_Giver(userService.findByLogin(giversUsername)));
+        List<GrantPrivilege> giverPrivilegeList = this.getUserPrivilegeList(giversUsername);
+        User receiver = userService.findByLogin(receiverUsername);
+        for(int i=0; i<giverPrivilegeList.size();i++){
+            delete(giverPrivilegeList.get(i));
+            if(isAdmin)
+                giverPrivilegeList.get(i).getGrantPrivilegePK().setGiver(receiver);
+            giverPrivilegeList.get(i).getGrantPrivilegePK().setReceiver(receiver);
+            save(giverPrivilegeList.get(i));
+        }
     }
 
-    private void removeByGiver(List<GrantPrivilege> list, String receiver) {
+
+    private void removeByGiver(List<GrantPrivilege> list) {
         for (GrantPrivilege privilege : list) {
-            if (!privilege.getGrantPrivilegePK().getReceiver().getLogin().equals(receiver)) {
-                removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()), receiver);
+            if (!privilege.getReceiver().equals(privilege.getGiver())) {
+                removeByGiver(repository.findAllByGrantPrivilegePK_Giver(privilege.getGrantPrivilegePK().getReceiver()));
                 repository.delete(privilege);
             }
         }
@@ -86,6 +93,10 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
             userPrivileges = GrantPrivilegesUtilities.connect(userPrivileges, grantPrivilege);
         }
         return userPrivileges;
+    }
+
+    public List<GrantPrivilege> getUserPrivilegeList(String username){
+        return repository.findAllByGrantPrivilegePK_Receiver(userService.findByLogin(username));
     }
 
     public List<GrantPrivilege> findAllWithTakePrivilege() {
@@ -127,18 +138,21 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
 
 
     public void delete(GrantPrivilege deletedPrivilege) {
-        this.depthUpdate(deletedPrivilege.getReceiver(), deletedPrivilege);
+        if(!deletedPrivilege.getReceiver().equals(deletedPrivilege.getGiver()))
+            this.depthDelete(deletedPrivilege.getReceiver(), deletedPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(deletedPrivilege.getReceiver());
     }
 
-    private void updateChangesToChildren(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege){
+    private void depthUpdate(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege){
         List<Integer> differences = new ArrayList<>(8);
-        GrantPrivilege diffPrivilege = GrantPrivilegesUtilities.difference(newPrivilege, oldPrivilege, differences);
+        GrantPrivilege diffPrivilege = this.difference(oldPrivilege, newPrivilege, differences);
+        depthDelete(newPrivilege.getReceiver(), changeAccessesToGrants(diffPrivilege));
         //Check if any privilege has been received, if yes need to update all children
+        /*
         if (differences.stream().filter(integer -> integer == -1).count()>0) {
             newPrivilege = GrantPrivilegesUtilities.removeAddedPrivileges(newPrivilege, differences);
-            this.depthUpdate(newPrivilege.getReceiver(), newPrivilege);
-        }
+            this.depthDelete(newPrivilege.getReceiver(), newPrivilege);
+        }*/
     }
 
     public void update(GrantPrivilege newPrivilege, GrantPrivilege oldPrivilege) {
@@ -152,7 +166,7 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
                 privilegeService.findFirstByCRUD(newPrivilege.getSalePosition()),
                 privilegeService.findFirstByCRUD(newPrivilege.getVendor()),
                 newPrivilege.getTake());
-        this.updateChangesToChildren(newPrivilege, oldPrivilege);
+        this.depthUpdate(newPrivilege, oldPrivilege);
         this.repository.deleteAllByGrantPrivilegePK_Receiver(oldPrivilege.getReceiver());
         this.save(savedPrivilege);
     }
@@ -171,17 +185,63 @@ public class GrantPrivilegeServiceImpl implements GrantPrivilegeService {
         this.update(newPrivilege, this.getUserPrivilege(newPrivilegeDTO.getReceiverName()));
     }
 
-    private void depthUpdate(User privilegeOwner, GrantPrivilege updatedPrivilege) {
+    private void depthDelete(User privilegeOwner, GrantPrivilege deletedPrivilege) {
         List<GrantPrivilege> givenPrivileges = this.repository.findAllByGrantPrivilegePK_Giver(privilegeOwner);
         Iterator<GrantPrivilege> iterator = givenPrivileges.iterator();
         while (iterator.hasNext()) {
             GrantPrivilege privilege = iterator.next();
-            depthUpdate(privilege.getReceiver(), updatedPrivilege);
-            privilege = GrantPrivilegesUtilities.difference(privilege, updatedPrivilege, new ArrayList<>());
+            depthDelete(privilege.getReceiver(), deletedPrivilege);
+            privilege = this.difference(privilege, deletedPrivilege, new ArrayList<>());
             if (GrantPrivilegesUtilities.isEmpty(privilege)) {
                 this.repository.delete(privilege);
             }else
                 this.repository.save(privilege);
         }
+    }
+
+    public GrantPrivilege difference(GrantPrivilege minuend, GrantPrivilege subtrahend, List<Integer> differences) {
+        List<Privilege> minuendList = GrantPrivilegesUtilities.getPrivilegesList(minuend);
+        List<Privilege> subtrahendList = GrantPrivilegesUtilities.getPrivilegesList(subtrahend);
+
+        for (int i = 0; i < minuendList.size(); i++) {
+            if ((!PrivilegesUtilities.isEmpty(minuendList.get(i)) && !PrivilegesUtilities.isEmpty(subtrahendList.get(i))) ||
+                    (PrivilegesUtilities.isEmpty(minuendList.get(i)) && PrivilegesUtilities.isEmpty(subtrahendList.get(i))))
+                differences.add(i, 0);
+            else if (!PrivilegesUtilities.isEmpty(minuendList.get(i)) && PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
+                differences.add(i, 1);
+            else if (PrivilegesUtilities.isEmpty(minuendList.get(i)) && !PrivilegesUtilities.isEmpty(subtrahendList.get(i)))
+                differences.add(i, -1);
+
+            minuendList.set(i, privilegeService.difference(minuendList.get(i), subtrahendList.get(i)));
+        }
+        return createFromList(minuend.getGrantPrivilegePK(), minuendList, (minuend.getTake()) && (!subtrahend.getTake()));
+    }
+    
+    public GrantPrivilege changeAccessesToGrants(GrantPrivilege grantPrivilege){
+        List<Privilege> privilegeList = GrantPrivilegesUtilities.getPrivilegesList(grantPrivilege);
+        Iterator<Privilege> iterator= privilegeList.iterator();
+        for (int i=0; i<privilegeList.size(); i++)
+             privilegeList.set(i,privilegeService.changeAccessesToGrants(privilegeList.get(i)));
+        return createFromList(grantPrivilege.getGrantPrivilegePK(), privilegeList, grantPrivilege.getTake());
+
+    }
+    public GrantPrivilege createFromList(GrantPrivilegePK grantPrivilegePK, List<Privilege> privileges, boolean takeLaw){
+        return new GrantPrivilege(grantPrivilegePK,
+                privileges.get(0),
+                privileges.get(1),
+                privileges.get(2),
+                privileges.get(3),
+                privileges.get(4),
+                privileges.get(5),
+                privileges.get(6),
+                privileges.get(7),
+                takeLaw);
+    }
+    public List<User> getChildren(String parentUsername){
+        return read().stream()
+                .filter(grantPrivilege -> grantPrivilege.getGiver().getLogin().equals(parentUsername))
+                .map(grantPrivilege -> grantPrivilege.getReceiver())
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
