@@ -55,7 +55,8 @@ input[type=text], [type=password], [type=email], [type=number], [type=date] {
 	font-size: 18px;
 	height: 30px;
 }
-label{
+
+.login-label {
 	color: #464646;
 	text-shadow: 0 1px 0 #fff;
 	font-size: 22px;
