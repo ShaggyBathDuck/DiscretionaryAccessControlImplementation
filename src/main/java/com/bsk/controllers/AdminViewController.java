@@ -8,10 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller()
-@RequestMapping("/admin-view")
+@RequestMapping("/adminview")
 public class AdminViewController {
     private AdminViewService adminViewService;
     private TableNamesService tableNamesService;
@@ -29,15 +32,13 @@ public class AdminViewController {
         model.addAttribute("userPrivileges", adminViewService.getUserPrivilege(authentication.getName()));
         model.addAttribute("entitiesInfo", tableNamesService.getDisplayableTableNames());
         model.addAttribute("templateprivilege", new GrantPrivilege());
-
-
-        return "/admin-view";
+        return "adminview";
     }
 
     @DeleteMapping("/delete/{deleted}")
     public String delete(@PathVariable String deleted, Model model){
         this.adminViewService.delete(deleted);
-        return "redirect:/admin-view";
+        return "redirect:adminview";
     }
 
 }
