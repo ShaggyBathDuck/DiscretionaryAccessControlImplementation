@@ -53,15 +53,17 @@ public class GrantPrivilegesController {
     }
 
     @PostMapping(value = "/process")
-    public String process(@Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
-        if (grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()).getTake())
+    public String process(String grantMode, @Valid GrantPrivilegeDTO grantPrivilegeDTO, BindingResult bindingResult, Model model, RedirectAttributes attr) {
+        if (grantMode != null && grantMode.equals("update"))
+            return update(grantPrivilegeDTO, bindingResult, model, attr);
+        else if (grantPrivilegeService.getUserPrivilege(grantPrivilegeDTO.getReceiverName()).getTake())
             return give(grantPrivilegeDTO, bindingResult, model, attr);
         else return grant(grantPrivilegeDTO, bindingResult, model, attr);
     }
 
     @GetMapping(value = "/checkTake")
     @ResponseBody
-    public boolean checkIfUserHasTakeRight(@RequestParam String username) {
+    public boolean checkIfUserHasTakeRight(Model model, @RequestParam String username) {
         if (grantPrivilegeService.getUserPrivilege(username).getTake()) return true;
         return false;
     }
