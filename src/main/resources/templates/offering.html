@@ -82,7 +82,12 @@
                                                         th:if="${__${getterName}__} == 'NONE' or ${__${getterName}__} == 'ACCESS'"
                                                         value="NONE">Brak praw
                                                 </option>
-                                                <option th:if="${__${getterName}__} == 'GRANT'" value="NONE">Nie
+                                                <option th:if="${grantMode} == 'update' or ${grantMode} == 'create' and ${__${getterName}__} == 'GRANT'"
+                                                        value="NONE">
+                                                    Nie nadawaj
+                                                </option>
+                                                <option th:if="${grantMode} != 'update' and ${grantMode} != 'create' and ${__${getterName}__} == 'GRANT'"
+                                                        value="NONE">Nie
                                                     przekazuj
                                                 </option>
                                                 <option th:if="${__${getterName}__} == 'GRANT'" value="ACCESS">Bez

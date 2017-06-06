@@ -38,7 +38,7 @@ public class AdminViewController {
     @DeleteMapping("/delete/{deleted}")
     public String delete(@PathVariable String deleted, Model model){
         this.adminViewService.delete(deleted);
-        return "redirect:adminview";
+        return "redirect:/adminview";
     }
 
 }
