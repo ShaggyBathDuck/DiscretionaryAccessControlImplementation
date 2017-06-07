@@ -33,7 +33,7 @@ public class GrantPrivilegeDTO {
     public GrantPrivilegeDTO() {
     }
 
-    public GrantPrivilegeDTO(String receiverName, Privilege customer, Privilege purchase, Privilege purchasePosition, Privilege ware, Privilege warehouseProduct, Privilege sale, Privilege salePosition, boolean take) {
+    public GrantPrivilegeDTO(String receiverName, Privilege customer, Privilege purchase, Privilege purchasePosition, Privilege ware, Privilege warehouseProduct, Privilege sale, Privilege salePosition, Privilege vendor, boolean take) {
         this.receiverName = receiverName;
         this.customer = customer;
         this.purchase = purchase;
@@ -42,6 +42,7 @@ public class GrantPrivilegeDTO {
         this.warehouseProduct = warehouseProduct;
         this.sale = sale;
         this.salePosition = salePosition;
+        this.vendor = vendor;
         this.take = take;
     }
 }

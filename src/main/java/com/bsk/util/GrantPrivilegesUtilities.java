@@ -97,6 +97,7 @@ public class GrantPrivilegesUtilities {
                 grantPrivilege.getWarehouseProduct(),
                 grantPrivilege.getSale(),
                 grantPrivilege.getSalePosition(),
+                grantPrivilege.getVendor(),
                 grantPrivilege.getTake());
     }
 
