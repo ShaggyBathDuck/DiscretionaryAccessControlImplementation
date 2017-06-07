@@ -11,7 +11,8 @@
 <div xmlns:th="http://www.thymeleaf.org"
      th:fragment="tableDiv"
      th:with="entitiesInfo=${data.getValue()},
-            activeTabName=${data.getKey()}">
+            activeTabName=${data.getKey()}"
+     id="divTable">
     <div th:with="columnNamesHb=${T(com.bsk.util.EntityInfo).capitalizeColumnNames(entitiesInfo.get('__${activeTabName}__').getColumnNamesInHb())},
          listName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()+'s'},
          entityName=${entitiesInfo.get('__${activeTabName}__').getTableNameInHb()}">

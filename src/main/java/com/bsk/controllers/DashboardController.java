@@ -71,10 +71,20 @@ public class DashboardController {
     @PostMapping("/table")
     public String table(Model model, String activeTabName) {
         SortedMap<String, EntityInfo> entitiesInfo = getTables();
+        if (activeTabName.equals("dostawcy")) activeTabName = getAvailableTable(entitiesInfo);
         Pair<String, SortedMap<String, EntityInfo>> data = new Pair<>(activeTabName, entitiesInfo);
         model.addAttribute("data", data);
         addEntitiesModelAttributes(model);
         return "fragments/table :: tableDiv";
+    }
+
+    private String getAvailableTable(SortedMap<String, EntityInfo> entitiesInfo) {
+        StringBuilder result;
+        for (EntityInfo entityInfo : entitiesInfo.values()) {
+            if (entityInfo.getPrivilege().hasEffectiveRights())
+                return entityInfo.getTableNameInDb();
+        }
+        return "dostawcy";
     }
 
     @RequestMapping("/modalEdit")
